@@ -1,16 +1,6 @@
 
 # head
 
-## Headline1
+nones is blog, nothing.
 
-* Introduction
-* Introduction
-* Introduction
-* Introduction
-
-## Headline2
-
-* Introduction
-* Introduction
-* Introduction
-* Introduction
+![nones](/_media/nones2.png)
