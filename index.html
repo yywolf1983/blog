@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>YY's blog</title>
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+  <meta name="description" content="Description">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0">
+  <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/docsify@4/lib/themes/vue.css">
+  <link rel="stylesheet" href="/_media/index.css">
+</head>
+<body>
+  <nav>
+  </nav>
+  <div id="app"></div>
+  <div data-app id="main">加载中</div>
+  <script>
+    window.$docsify = {
+      loadSidebar: true,  //打开边栏 _sidebar.md
+      subMaxLevel: 3,      //自动根据标题生成列表
+      loadNavbar: false,   //导航   _navbar.md 
+      coverpage: false,    //封面  _coverpage.md
+      name: 'YY\'s blog',
+      logo: '/_media/geth.bmp',
+    }
+  </script>
+  <!-- Docsify v4 -->
+  <script src="//cdn.jsdelivr.net/npm/docsify@4"></script>
+</body>
+</html>
