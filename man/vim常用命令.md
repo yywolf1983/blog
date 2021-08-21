@@ -5,7 +5,9 @@
 F4 文件列表
 shft+c 设置当前目录为工作目录
 
+C+F12 建立 tag
 F8 Tagbar
+F9 查看md 文件
 
 % 当前完整的文件名
 %:h 文件名的头部，即文件目录.例如../path/test.c就会为../path
@@ -32,7 +34,7 @@ Ctrl+ T返回查找或跳转
 
 mks! 保存sesion
 
-:vimgrep 随机 *****/*******.cpp ********/*.h
+:vimgrep 随机 **/**.cpp **/*.h
 :grep 
 :copen   :cw
 :ccolse  :ccl
