@@ -5,15 +5,16 @@
 F4 文件列表
 shft+c 设置当前目录为工作目录
 
+! 插入注释
+
 C+F12 建立 tag
 F8 Tagbar
+
 F9 查看md 文件
 
 % 当前完整的文件名
 %:h 文件名的头部，即文件目录.例如../path/test.c就会为../path
 %:t 文件名的尾部.例如../path/test.c就会为test.c
-
-cd %:h 进入当前路径
 
 :qall -- 关闭所有窗口，退出vim。
 
@@ -38,7 +39,6 @@ mks! 保存sesion
 :grep 
 :copen   :cw
 :ccolse  :ccl
-
 \ s 搜索
 ```
 
