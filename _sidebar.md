@@ -11,4 +11,4 @@
     * [linux](/man/linux.md)
     * [tcp-ip](/man/tcp-ip.md)
     * [hard](/man/hard.md)
-    * [vim](/man/vim常用命令.md)
+    * [vim](/man/vim_images.md)
