@@ -1,0 +1,7 @@
+.vscode
+.DS_Store
+.swp
+*.swp
+.hidden
+tags
+known_hosts

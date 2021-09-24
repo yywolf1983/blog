@@ -11,9 +11,6 @@
     * [linux](/man/linux.md)
     * [tcp-ip](/man/tcp-ip.md)
     * [hard](/man/hard.md)
-<<<<<<< Updated upstream
-    * [vim](/man/vim常用命令.md)
-=======
     * [vim](/man/vim_images.md)
 
 * xlxs
@@ -21,4 +18,3 @@
     * [杏林学事](/dao/xinglin.md)
 
 * [autome](/dao/me.md)
->>>>>>> Stashed changes
