@@ -14,7 +14,6 @@
 ## 入门经典
 
  [道德经](/dao/jing/道德经.md)  
- [易经](/dao/jing/周易.pdf)  
  [黄帝内经](/dao/jing/黄帝内经素问.md)  
  [阴符经](/dao/jing/阴符经.md)  
  [南华经](/dao/jing/南华经.md)  
