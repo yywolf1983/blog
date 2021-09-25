@@ -1,7 +1,7 @@
 
 ## 古琴指法表
 
-<img src="./img/古琴指法表.jpg" />
+<img src="/dao/images/古琴指法表.jpg" />
 
 
 ```
