@@ -4,12 +4,13 @@
     * [nones](README.md)
 
 * doc
-    * [test1](/docs/index.md)
+    
     * [Markdown](/docs/Markdown.md)
 
 * man
     * [linux](/man/linux.md)
-    * [vim](/man/vim_images.md)
+    * [vim](/man/vim.md)
+    * [electron](/man/electron.md)
 
 * xlxs
     * [Taoist](/dao/taoist.md)
@@ -21,5 +22,6 @@
 * other
     * [陕西景点](/other/陕西旅游景点顺口溜.md)
     * [中国区域划分](/other/中国区域划分.md)
+    * [test1](/docs/index.md)
 
 * [autome](/dao/me.md)
