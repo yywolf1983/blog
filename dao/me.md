@@ -1,5 +1,5 @@
 
-# 〇 无极 〇
+## 〇 无极 〇
 
 * 未名 世玄
 * 鹤隐岐黄
@@ -38,7 +38,8 @@ void main()
 {
       printf("Hello, world\n");
 }
-
+```
+```
 底层爱好者 
 看过三页 minix 
 知道 linux source 源码结构
@@ -64,3 +65,6 @@ KISS = Keep It Simple and Stupid
 --2014.12.11
 
 [遗嘱](/dao/遗嘱.md) 
+
+## 鹤
+![鹤隐](../res/鹤隐.jpg)
