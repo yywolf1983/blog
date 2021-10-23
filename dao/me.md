@@ -9,6 +9,7 @@
 ## 我的环境
 
 * system 
+
 ```
     debian
     i3+tint2
@@ -20,18 +21,22 @@
 ```
 
 *  Hardware 
+
 ```
 LFS用户
 走到哪里用到哪里把linux传染到哪里
 想拥有一台工业设计比得上macbook的linux本本。
 
 Phone
-huawei P20 + termux + firefox
+huawei P20 
+termux 
+firefox
 
 希望啥时候能舍得弄一个 HHKB
 ```
 
 *  My-project 
+
 ```
 #include <stdio.h>
 void main() 
