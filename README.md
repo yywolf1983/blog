@@ -1,6 +1,9 @@
 
 # head
 
+<span id = "head"></span>
+
+
 nones is blog, nothing.
 
 ![nones](/_media/nones2.png)
