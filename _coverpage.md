@@ -1,4 +1,4 @@
-[![logo](http://localhost:3000/_media/nones2.png)][head]
+[![logo](/_media/nones2.png)][head]
 
 # [nones is blog](#head)
 
