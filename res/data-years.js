@@ -164,6 +164,8 @@ function jieqi_d(year){
     for (var j=0;j<jieqi24.length;j++){
         lichun = parseInt(yd_num*D+year2[j])-parseInt((yd_num-1)/4)
         jieqi_list[jieqi24[j]]=year+"-"+month_1[j]+"-"+lichun
+        if (j==21)
+            year=Number(year)+1
     }
 
     return jieqi_list;
