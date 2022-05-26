@@ -331,4 +331,21 @@ to_times = time_day(start_time,end_time+" 08:00:00")
 // console.log("从",start_time,"到",end_time,"相距",to_times/1000/60/60/24,"天")
 // console.log(parseInt(((to_times/1000/60/60/24)-run_num)/365),"年 零",((to_times/1000/60/60/24)-run_num)%365,"天")
 
+function getQueryString() {
+  var qs = location.search.substr(1), // 获取url中"?"符后的字串
+    args = {}, // 保存参数数据的对象
+    items = qs.length ? qs.split("&") : [], // 取得每一个参数项,
+    item = null,
+    len = items.length;
+
+  for(var i = 0; i < len; i++) {
+    item = items[i].split("=");
+    var name = decodeURIComponent(item[0]),
+      value = decodeURIComponent(item[1]);
+    if(name) {
+      args[name] = value;
+    }
+  }
+  return args;
+}
 
