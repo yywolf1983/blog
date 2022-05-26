@@ -10,11 +10,13 @@
 </head>
 <body>
 
-    <div id="jieqi"></div>
+    <div id="jieqi" style="color:azure;"></div>
 
 </body>
 <script type="text/javascript">
-    var z_dic = { 1:"一", 2:"丁", 3:"上", 4:"止", 5:"正" }
+    // var qs = getQueryString();
+    // var year = qs["year"]; 
+    var z_dic = { 1:"一", 2:"丁", 3:"上", 4:"止", 5:"正" };
     var all_str = ""
     var today = to_day()
     var str = jieqi_d(year);
@@ -23,7 +25,6 @@
 
        var run_nums = time_day(Object.values(str)[j])
        run_num = run_nums/1000/60/60/24
-       console.log(run_num)
        if (run_num >= 15)
        {
           z_dics = " 正 正 正 "
