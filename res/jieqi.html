@@ -1,0 +1,56 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="UTF-8"> <!-- 名字空间 -->
+<head>
+<title>节气显示</title>
+
+  <meta name="viewport" content="width=1280, initial-scale=1"> <!-- 针对手机显示像素点 -->
+  <link rel="icon" href="animated_favicon.gif" type="image/gif" >   
+  <base target="_blank" />
+  <script type="text/javascript" src="data-years.js" ></script>
+</head>
+<body>
+
+    <div id="jieqi"></div>
+
+</body>
+<script type="text/javascript">
+    var z_dic = { 1:"一", 2:"丁", 3:"上", 4:"止", 5:"正" }
+    var all_str = ""
+    var today = to_day()
+    var str = jieqi_d(year);
+    var ztime = true;
+    for(var j=0;j<=23;j++){
+
+       var run_nums = time_day(Object.values(str)[j])
+       run_num = run_nums/1000/60/60/24
+       console.log(run_num)
+       if (run_num >= 15)
+       {
+          z_dics = " 正 正 正 "
+       }
+       if (run_num < 15 || run_num >= 0)
+       {
+          u = parseInt(run_num/5)
+          u1 = run_num%5
+          u2 = Object.values(z_dic)[u1]
+          if (u == 0)
+             z_dics=" "+u2+" 〇 〇 "
+
+          if (u == 1)
+             z_dics=" 正 "+u2+" 〇 "
+
+          if (u == 2)
+             z_dics=" 正 正 "+u2+" "
+       }
+       if (run_num < 0)
+       {
+          z_dics = " 〇 〇 〇 "
+       }
+       all_str=all_str+Object.keys(str)[j]+z_dics+Object.values(str)[j]+"<br/>"
+    }
+    document.getElementById("jieqi").innerHTML = all_str
+
+    console.log("从",start_time,"到",end_time,"相距",to_times/1000/60/60/24,"天")
+    console.log(parseInt(((to_times/1000/60/60/24)-run_num)/365),"年 零",((to_times/1000/60/60/24)-run_num)%365,"天")
+</script>
+</html>
