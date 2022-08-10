@@ -10,6 +10,7 @@
 * man
     * [linux](/man/linux.md)
     * [vim](/man/vim.md)
+    * [vim_base](/docs/vim.md)
     * [electron](/man/electron.md)
 
 * xlxs
