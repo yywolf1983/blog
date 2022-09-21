@@ -9,13 +9,13 @@ function leap_year(years){
     }
 }
 
-jz60 = [                                                                                                                             
-    '甲子', '乙丑', '丙寅', '丁卯', '戊辰',                                                                                     
-    '己巳', '庚午', '辛未', '壬申', '癸酉',                                                                                     
-    '甲戌', '乙亥', '丙子', '丁丑', '戊寅',                                                                                     
-    '己卯', '庚辰', '辛巳', '壬午', '癸未',                                                                                     
-    '甲申', '乙酉', '丙戌', '丁亥', '戊子',                                                                                     
-    '己丑', '庚寅', '辛卯', '壬辰', '癸巳',                                                                                     
+jz60 = [
+    '甲子', '乙丑', '丙寅', '丁卯', '戊辰',
+    '己巳', '庚午', '辛未', '壬申', '癸酉',
+    '甲戌', '乙亥', '丙子', '丁丑', '戊寅',
+    '己卯', '庚辰', '辛巳', '壬午', '癸未',
+    '甲申', '乙酉', '丙戌', '丁亥', '戊子',
+    '己丑', '庚寅', '辛卯', '壬辰', '癸巳',
     '甲午', '乙未', '丙申', '丁酉', '戊戌',
     '己亥', '庚子', '辛丑', '壬寅', '癸卯',
     '甲辰', '乙巳', '丙午', '丁未', '戊申',
@@ -72,7 +72,7 @@ function jaz_year(years){
     var tnum=sy.split("")[sy.length-1]
 
     var tgnum = tg_num.indexOf(Number(tnum));
-   
+
     return tg_list[tgnum]+dz_list[dnum]
 }
 
@@ -83,7 +83,7 @@ function jz_month(year){
                    '己':'丙寅','庚':'戊寅','辛':'庚寅','壬':'壬寅','癸':'甲寅'}
 
     dingyue = tg_list[tian]
-    
+
     return dingyue
 
 }
@@ -96,7 +96,7 @@ function time_day(start_time,end_time = today){
 }
 
 // 计算两个年份间有多少个闰年
-function run_jisun(start_time,end_time){    
+function run_jisun(start_time,end_time){
     var num = 0;
     start = Number(start_time.split("-")[0])
     end = Number(end_time.split("-")[0])
@@ -111,21 +111,21 @@ function run_jisun(start_time,end_time){
 // 12 节气 和 12 中气
 jieqi =   ['立春', '惊蛰', '清明', '立夏', '芒种', '小暑',
            '立秋', '白露', '寒露', '立冬', '大雪', '小寒']
-zhongqi = ['雨水', '春分', '谷雨', '小满', '夏至', '大暑', 
-           '处暑', '秋分', '霜降', '小雪', '冬至', '大寒'] 
+zhongqi = ['雨水', '春分', '谷雨', '小满', '夏至', '大暑',
+           '处暑', '秋分', '霜降', '小雪', '冬至', '大寒']
 
-jieqi24 = [                                                                                                                
-            '正 	立春 	东风解 	蛰虫始 	鱼陟冰', '正 	雨水 	獭祭鱼 	候雁北 	草木萌', 
-            '二 	惊蛰 	桃始华 	仓庚鸣 	鹰化鸠', '二 	春分 	玄鸟至 	雷发声 	电始至', 
-            '三 	清明 	桐始华 	牡丹华 	虹始见', '三 	谷雨 	萍始生 	鸣鸠拂 	戴胜桑',                                                                                        
+jieqi24 = [
+            '正 	立春 	东风解 	蛰虫始 	鱼陟冰', '正 	雨水 	獭祭鱼 	候雁北 	草木萌',
+            '二 	惊蛰 	桃始华 	仓庚鸣 	鹰化鸠', '二 	春分 	玄鸟至 	雷发声 	电始至',
+            '三 	清明 	桐始华 	牡丹华 	虹始见', '三 	谷雨 	萍始生 	鸣鸠拂 	戴胜桑',
             '四 	立夏 	蝼蝈鸣 	蚯蚓出 	王瓜生', '四 	小满 	苦菜秀 	靡草死 	麦秋至',
-            '五 	芒种 	螳螂生 	鹃始鸣 	反舌无', '五 	夏至 	鹿角解 	蜩始鸣 	半夏生', 
-            '六 	小暑 	温风至 	蟋蜂居 	鹰始挚', '六 	大暑 	腐草萤 	土润暑 	大雨行',                                                                                        
-            '七 	立秋 	凉风至 	白露降 	寒蝉鸣', '七 	处暑 	鹰祭鸟 	天地肃 	禾乃登', 
+            '五 	芒种 	螳螂生 	鹃始鸣 	反舌无', '五 	夏至 	鹿角解 	蜩始鸣 	半夏生',
+            '六 	小暑 	温风至 	蟋蜂居 	鹰始挚', '六 	大暑 	腐草萤 	土润暑 	大雨行',
+            '七 	立秋 	凉风至 	白露降 	寒蝉鸣', '七 	处暑 	鹰祭鸟 	天地肃 	禾乃登',
             '八 	白露 	鸿雁南 	玄鸟归 	群鸟羞', '八 	秋分 	雷始收 	蛰虫坯 	水始涸',
             '九 	寒露 	鸿雁宾 	雀入水 	菊花黄', '九 	霜降 	豺祭兽 	草黄落 	蛰虫俯',
-            '十 	立冬 	水始冻 	地始冻 	雉入水', '十 	小雪 	虹藏末 	天气升 	塞成冬', 
-            '冬 	大雪 	鹖鴠不 	虎始交 	荔挺出', '冬 	冬至 	蚯蚓结 	麇角解 	水泉动', 
+            '十 	立冬 	水始冻 	地始冻 	雉入水', '十 	小雪 	虹藏末 	天气升 	塞成冬',
+            '冬 	大雪 	鹖鴠不 	虎始交 	荔挺出', '冬 	冬至 	蚯蚓结 	麇角解 	水泉动',
             '腊 	小寒 	雁北乡 	鹊始巢 	雉雊声', '腊 	大寒 	鸡乳卵 	征鸟厉 	泽腹坚'
           ]
 
@@ -154,7 +154,7 @@ function jieqi_d(year){
               7.5,23.13,7.646,23.042,8.318,23.438,7.438,22.36,7.18,21.94,5.4055,20.12]
 
     const D = 0.2422
-    
+
     month_1 = [2,2,3,3,4,4,5,5,6,6,7,7,8,8,9,9,10,10,11,11,12,12,1,1]
 
     if ((Number(yd[0]+yd[1])+1)===20){
@@ -173,24 +173,24 @@ function jieqi_d(year){
     }
 
     return jieqi_list;
-    
+
 }
 
 function to_day(){
     var myDate = new Date();
     var y = myDate.getFullYear();
-    var m = myDate.getMonth()+1; 
+    var m = myDate.getMonth()+1;
     var d = myDate.getDate();
 
     today = y+"-"+m+"-"+d //格林威治时间是从 1970-1-1 08:00:00 开始计算的
-    
+
     return today
 }
 
 // 日柱计算计算
 function rizhu(date=null){
-    
-    today = to_day()+" 08:00:00" 
+
+    today = to_day()+" 08:00:00"
 
     var start_time = '1970-04-14'
     var s_end_time = end_time = date
@@ -200,36 +200,36 @@ function rizhu(date=null){
     }
 
     var str_h;
-    var week = new Date().getDay();  
-    switch (week) {  
-        case 0 :  
-                str_h = "日";  
-                break;  
-        case 1 :  
-                str_h = "一";  
-                break;  
-        case 2 :  
-                str_h = "二";  
-                break;  
-        case 3 :  
-                str_h = "三";  
-                break;  
-        case 4 :  
-                str_h = "四";  
-                break;  
-        case 5 :  
-                str_h = "五";  
-                break;  
-        case 6 :  
-                str_h = "六";  
-                break;  
-    }  
+    var week = new Date().getDay();
+    switch (week) {
+        case 0 :
+                str_h = "日";
+                break;
+        case 1 :
+                str_h = "一";
+                break;
+        case 2 :
+                str_h = "二";
+                break;
+        case 3 :
+                str_h = "三";
+                break;
+        case 4 :
+                str_h = "四";
+                break;
+        case 5 :
+                str_h = "五";
+                break;
+        case 6 :
+                str_h = "六";
+                break;
+    }
 
     year = end_time.split('-')[0]
     month = end_time.split('-')[1]
 
     var jm = jz_month(year)  //计算第一个月
-    
+
     //获取第一个月在干支中的位置
     var jz = jaz_list()
     var m_one = jz.indexOf(jm)
@@ -265,7 +265,7 @@ function rizhu(date=null){
     }
 
     var to_times = time_day(start_time,end_time)
-    
+
     var day = to_times/1000/60/60/24
 
     // 暴力计算当天干支
@@ -299,7 +299,7 @@ function shichen(h,m=0){
        hh++;
 
     }
-    ke = ['1k','2k','3k','4k']
+    ke = ['1','2','3','4']
     var mm = 0;
        if(Number(m)>30){
             sk = ke[mm+k1+1]
@@ -307,7 +307,7 @@ function shichen(h,m=0){
             sk = ke[mm+k1]
        }
 
-    console.log(sh,sk)
+    console.log(sh,"时",sk,"刻")
 }
 
 
@@ -334,7 +334,7 @@ to_times = time_day(start_time,end_time+" 08:00:00")
 // console.log(start_time/1000/60)       //分钟
 // console.log(start_time/1000/60/60)    //小时
 
-// console.log("从",start_time,"到",end_time,"相距",to_times/1000/60/60/24,"天")
+console.log("从",start_time,"到",end_time,"相距",to_times/1000/60/60/24,"天")
 // console.log(parseInt(((to_times/1000/60/60/24)-run_num)/365),"年 零",((to_times/1000/60/60/24)-run_num)%365,"天")
 
 function getQueryString() {
