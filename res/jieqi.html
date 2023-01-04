@@ -18,10 +18,27 @@
     // var year = qs["year"]; 
     var z_dic = { 1:"一", 2:"丁", 3:"上", 4:"止", 5:"正" };
     var all_str = ""
-    var today = to_day()
-    var str = jieqi_d(year);
     var ztime = true;
+
+    year = today.split('-')[0]
+    var jieqi_list = jieqi_d(year);
+    var today = to_day()+" 08:00:00"
+    var jieqi_time = new Date(jieqi_list["正  立春  东风解  蛰虫始  鱼陟冰"]).getTime()
+    var now_time = new Date(today).getTime()
+
+   console.log(jieqi_time,now_time)
+
+    // 阳历年过后 日期跳过处理
+    if (jieqi_time > now_time) 
+    {
+      year = year - 1
+    }
+    console.log(year)
+    var str = jieqi_d(year);
+
+
     for(var j=0;j<=23;j++){
+      
 
        var run_nums = time_day(Object.values(str)[j])
        run_num = run_nums/1000/60/60/24
