@@ -312,7 +312,7 @@ function shichen(h,m=0){
 
 
 //打印节气列表
-var jieqi_list = jieqi_d(2022);
+var jieqi_list = jieqi_d(2023);
 // console.log(jieqi_list)
 
 console.log(rizhu())
