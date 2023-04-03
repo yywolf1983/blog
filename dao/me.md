@@ -27,9 +27,9 @@ LFS用户
 想拥有一台工业设计比得上macbook的linux本本。
 
 Phone
-huawei P20 
-termux 
-firefox
+    huawei P20 
+        termux 
+        firefox
 
 希望啥时候能舍得弄一个 HHKB
 ```
@@ -60,7 +60,7 @@ KISS = Keep It Simple and Stupid
 
 ## 鹤
 
-![鹤隐](../res/鹤隐.jpg)
+<img src="../res/鹤隐.jpg"  width="150px" ></img>
 
 ## mail
 
