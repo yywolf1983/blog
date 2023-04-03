@@ -9,7 +9,7 @@
 
 * system 
 
-```
+``` text
     debian
     i3+tint2
     rofi
@@ -19,9 +19,9 @@
     firefox
 ```
 
-*  Hardware 
+* Hardware 
 
-```
+``` text
 LFS用户
 走到哪里用到哪里把linux传染到哪里
 想拥有一台工业设计比得上macbook的linux本本。
@@ -34,21 +34,23 @@ firefox
 希望啥时候能舍得弄一个 HHKB
 ```
 
-*  My-project 
+* My-project
 
-```
+``` c
 #include <stdio.h>
 void main() 
 {
       printf("Hello, world\n");
 }
 ```
-```
+
+``` text
 底层爱好者 
 看过三页 minix 
 知道 linux source 源码结构
 gnu 窃贼
 ```
+
 KISS = Keep It Simple and Stupid
 
 无形无相 有形有相 执念而成
@@ -57,4 +59,9 @@ KISS = Keep It Simple and Stupid
 [遗嘱](/dao/遗嘱.md) 
 
 ## 鹤
+
 ![鹤隐](../res/鹤隐.jpg)
+
+## mail
+
+yy(#)nones.top
