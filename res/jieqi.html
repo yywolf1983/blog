@@ -36,35 +36,32 @@
     console.log(year)
     var str = jieqi_d(year);
 
+    var all_str = "";
 
-    for(var j=0;j<=23;j++){
-      
+    for (var j = 0; j <= 23; j++) {
+        var run_nums = time_day(Object.values(str)[j]);
+        var run_num = run_nums / 1000 / 60 / 60 / 24;
+        var z_dics = "";
 
-       var run_nums = time_day(Object.values(str)[j])
-       run_num = run_nums/1000/60/60/24
-       if (run_num >= 15)
-       {
-          z_dics = " 正 正 正 "
-       }
-       if (run_num < 15 || run_num >= 0)
-       {
-          u = parseInt(run_num/5)
-          u1 = run_num%5
-          u2 = Object.values(z_dic)[u1]
-          if (u == 0)
-             z_dics=" "+u2+" 〇 〇 "
+        if (run_num >= 15) {
+            z_dics = " 正 正 正 ";
+        } else if (run_num >= 0) {
+            var u = parseInt(run_num / 5);
+            var u1 = run_num % 5;
+            var u2 = Object.values(z_dic)[u1] || "〇"; // 确保 u2 不为 undefined
 
-          if (u == 1)
-             z_dics=" 正 "+u2+" 〇 "
+            if (u == 0) {
+                z_dics = " " + u2 + " 〇 〇 ";
+            } else if (u == 1) {
+                z_dics = " 正 " + u2 + " 〇 ";
+            } else if (u == 2) {
+                z_dics = " 正 正 " + u2 + " ";
+            }
+        } else {
+            z_dics = " 〇 〇 〇 ";
+        }
 
-          if (u == 2)
-             z_dics=" 正 正 "+u2+" "
-       }
-       if (run_num < 0)
-       {
-          z_dics = " 〇 〇 〇 "
-       }
-       all_str=all_str+Object.keys(str)[j]+z_dics+Object.values(str)[j]+"<br/>"
+        all_str += Object.keys(str)[j] + z_dics + Object.values(str)[j] + "<br/>";
     }
     document.getElementById("jieqi").innerHTML = all_str
 
