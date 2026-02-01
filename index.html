@@ -4,6 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>YY's Blog</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   <style>
     * {
       margin: 0;
@@ -12,60 +13,134 @@
     }
     
     body {
-      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "PingFang SC", "Microsoft YaHei", sans-serif;
       line-height: 1.6;
-      color: #333;
-      max-width: 1200px;
-      margin: 0 auto;
+      color: #e0e0e0;
+      background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%);
+      min-height: 100vh;
       padding: 20px;
-      background-color: #f5f5f5;
+    }
+    
+    .main-container {
+      max-width: 1400px;
+      margin: 0 auto;
     }
     
     header {
       text-align: center;
-      margin-bottom: 40px;
-      padding: 40px 20px;
-      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-      color: white;
-      border-radius: 10px;
-      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+      margin-bottom: 50px;
+      padding: 60px 20px;
+      background: rgba(26, 26, 46, 0.95);
+      border-radius: 20px;
+      box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
+      backdrop-filter: blur(10px);
+      animation: fadeInDown 0.8s ease-out;
+      border: 1px solid rgba(102, 126, 234, 0.3);
+    }
+    
+    @keyframes fadeInDown {
+      from {
+        opacity: 0;
+        transform: translateY(-30px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
     }
     
     h1 {
-      font-size: 2.5em;
-      margin-bottom: 10px;
+      font-size: 3em;
+      margin-bottom: 15px;
+      background: linear-gradient(135deg, #00d9ff 0%, #a855f7 50%, #f472b6 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      font-weight: 700;
     }
     
     .subtitle {
-      font-size: 1.2em;
-      opacity: 0.9;
+      font-size: 1.3em;
+      color: #a0a0a0;
+      font-weight: 300;
+      letter-spacing: 2px;
     }
     
     .container {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-      gap: 20px;
+      grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+      gap: 25px;
       margin-top: 30px;
     }
     
     .category {
-      background: white;
-      padding: 25px;
-      border-radius: 8px;
-      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-      transition: transform 0.3s, box-shadow 0.3s;
+      background: rgba(30, 30, 50, 0.95);
+      padding: 35px 30px;
+      border-radius: 16px;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+      transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+      animation: fadeInUp 0.6s ease-out;
+      animation-fill-mode: both;
+      position: relative;
+      overflow: hidden;
+      border: 1px solid rgba(102, 126, 234, 0.2);
+    }
+    
+    .category::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 4px;
+      background: linear-gradient(90deg, #00d9ff, #a855f7, #f472b6);
+      transform: scaleX(0);
+      transition: transform 0.4s ease;
+    }
+    
+    .category:hover::before {
+      transform: scaleX(1);
     }
     
     .category:hover {
-      transform: translateY(-5px);
-      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+      transform: translateY(-10px) scale(1.02);
+      box-shadow: 0 20px 40px rgba(0, 212, 255, 0.2);
     }
     
+    @keyframes fadeInUp {
+      from {
+        opacity: 0;
+        transform: translateY(30px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+    
+    .category:nth-child(1) { animation-delay: 0.1s; }
+    .category:nth-child(2) { animation-delay: 0.2s; }
+    .category:nth-child(3) { animation-delay: 0.3s; }
+    .category:nth-child(4) { animation-delay: 0.4s; }
+    .category:nth-child(5) { animation-delay: 0.5s; }
+    .category:nth-child(6) { animation-delay: 0.6s; }
+    
     .category h2 {
-      color: #667eea;
-      margin-bottom: 15px;
-      border-bottom: 2px solid #667eea;
-      padding-bottom: 10px;
+      color: #00d9ff;
+      margin-bottom: 20px;
+      font-size: 1.6em;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      font-weight: 600;
+    }
+    
+    .category h2 i {
+      font-size: 1.2em;
+      background: linear-gradient(135deg, #00d9ff 0%, #a855f7 50%, #f472b6 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
     }
     
     .category ul {
@@ -73,29 +148,85 @@
     }
     
     .category li {
-      margin-bottom: 10px;
+      margin-bottom: 12px;
     }
     
     .category a {
-      color: #555;
+      color: #c0c0c0;
       text-decoration: none;
-      display: block;
-      padding: 8px 12px;
-      border-radius: 4px;
-      transition: background-color 0.3s;
+      display: flex;
+      align-items: center;
+      padding: 12px 16px;
+      border-radius: 8px;
+      transition: all 0.3s ease;
+      font-weight: 500;
+      position: relative;
+      overflow: hidden;
+    }
+    
+    .category a::before {
+      content: '';
+      position: absolute;
+      left: 0;
+      top: 0;
+      height: 100%;
+      width: 3px;
+      background: linear-gradient(180deg, #00d9ff, #a855f7, #f472b6);
+      transform: scaleY(0);
+      transition: transform 0.3s ease;
     }
     
     .category a:hover {
-      background-color: #f0f0f0;
-      color: #667eea;
+      background: linear-gradient(135deg, rgba(0, 212, 255, 0.15) 0%, rgba(168, 85, 247, 0.15) 100%);
+      color: #00d9ff;
+      transform: translateX(5px);
+    }
+    
+    .category a:hover::before {
+      transform: scaleY(1);
+    }
+    
+    .category a i {
+      margin-right: 10px;
+      opacity: 0.6;
+      transition: opacity 0.3s;
+    }
+    
+    .category a:hover i {
+      opacity: 1;
     }
     
     .footer {
       text-align: center;
-      margin-top: 40px;
-      padding: 20px;
-      color: #666;
-      border-top: 1px solid #ddd;
+      margin-top: 50px;
+      padding: 30px;
+      color: rgba(224, 224, 224, 0.7);
+      font-size: 0.95em;
+    }
+    
+    .footer a {
+      color: rgba(224, 224, 224, 0.9);
+      text-decoration: none;
+      transition: color 0.3s;
+    }
+    
+    .footer a:hover {
+      color: #00d9ff;
+    }
+    
+    .social-links {
+      margin-top: 15px;
+    }
+    
+    .social-links a {
+      display: inline-block;
+      margin: 0 10px;
+      font-size: 1.5em;
+      transition: transform 0.3s;
+    }
+    
+    .social-links a:hover {
+      transform: scale(1.2);
     }
     
     @media (max-width: 768px) {
@@ -104,80 +235,163 @@
       }
       
       h1 {
-        font-size: 1.8em;
+        font-size: 2em;
+      }
+      
+      .subtitle {
+        font-size: 1.1em;
+      }
+      
+      header {
+        padding: 40px 20px;
       }
       
       .container {
         grid-template-columns: 1fr;
+        gap: 20px;
       }
+      
+      .category {
+        padding: 25px 20px;
+      }
+    }
+    
+    .search-box {
+      max-width: 500px;
+      margin: 30px auto 0;
+      position: relative;
+    }
+    
+    .search-box input {
+      width: 100%;
+      padding: 15px 50px 15px 20px;
+      border: 2px solid rgba(102, 126, 234, 0.3);
+      border-radius: 25px;
+      font-size: 1em;
+      transition: all 0.3s;
+      outline: none;
+      background: rgba(30, 30, 50, 0.8);
+      color: #e0e0e0;
+    }
+    
+    .search-box input::placeholder {
+      color: #808080;
+    }
+    
+    .search-box input:focus {
+      border-color: #00d9ff;
+      box-shadow: 0 0 0 3px rgba(0, 212, 255, 0.2);
+      background: rgba(30, 30, 50, 0.95);
+    }
+    
+    .search-box i {
+      position: absolute;
+      right: 20px;
+      top: 50%;
+      transform: translateY(-50%);
+      color: #808080;
     }
   </style>
 </head>
 <body>
-  <header>
-    <h1>YY's Blog</h1>
-    <p class="subtitle">技术笔记 · 文化记录 · 个人成长</p>
-  </header>
-  
-  <div class="container">
-    <div class="category">
-      <h2>技术</h2>
-      <ul>
-        <li><a href="tech/README.md">技术总览</a></li>
-        <li><a href="tech/operation/README.md">运维相关</a></li>
-        <li><a href="tech/optimization/README.md">性能优化</a></li>
-        <li><a href="tech/development/README.md">开发相关</a></li>
-      </ul>
+  <div class="main-container">
+    <header>
+      <h1>YY's Blog</h1>
+      <p class="subtitle">技术笔记 · 文化记录 · 个人成长</p>
+      <div class="search-box">
+        <input type="text" placeholder="搜索内容..." id="searchInput">
+        <i class="fas fa-search"></i>
+      </div>
+    </header>
+    
+    <div class="container">
+      <div class="category">
+        <h2><i class="fas fa-code"></i>技术</h2>
+        <ul>
+          <li><a href="viewer.html?file=tech/README.md"><i class="fas fa-folder"></i>技术总览</a></li>
+          <li><a href="viewer.html?file=tech/operation/README.md"><i class="fas fa-server"></i>运维相关</a></li>
+          <li><a href="viewer.html?file=tech/optimization/README.md"><i class="fas fa-tachometer-alt"></i>性能优化</a></li>
+          <li><a href="viewer.html?file=tech/development/README.md"><i class="fas fa-laptop-code"></i>开发相关</a></li>
+        </ul>
+      </div>
+      
+      <div class="category">
+        <h2><i class="fas fa-palette"></i>文化</h2>
+        <ul>
+          <li><a href="viewer.html?file=culture/README.md"><i class="fas fa-book-open"></i>文化总览</a></li>
+          <li><a href="viewer.html?file=culture/chess/README.md"><i class="fas fa-chess"></i>棋类文化</a></li>
+          <li><a href="viewer.html?file=culture/chess/go/README.md"><i class="fas fa-circle"></i>围棋</a></li>
+          <li><a href="viewer.html?file=culture/chess/go/象棋/README.md"><i class="fas fa-chess-king"></i>象棋</a></li>
+        </ul>
+      </div>
+      
+      <div class="category">
+        <h2><i class="fas fa-database"></i>资源</h2>
+        <ul>
+          <li><a href="viewer.html?file=resources/README.md"><i class="fas fa-folder-open"></i>资源总览</a></li>
+          <li><a href="viewer.html?file=resources/imgs/README.md"><i class="fas fa-images"></i>图片资源</a></li>
+          <li><a href="viewer.html?file=resources/man/README.md"><i class="fas fa-file-alt"></i>手册资源</a></li>
+        </ul>
+      </div>
+      
+      <div class="category">
+        <h2><i class="fas fa-ellipsis-h"></i>其他</h2>
+        <ul>
+          <li><a href="viewer.html?file=other/README.md"><i class="fas fa-archive"></i>其他内容</a></li>
+          <li><a href="viewer.html?file=notes/README.md"><i class="fas fa-sticky-note"></i>笔记</a></li>
+          <li><a href="viewer.html?file=docs/README.md"><i class="fas fa-file-pdf"></i>文档</a></li>
+        </ul>
+      </div>
+      
+      <div class="category">
+        <h2><i class="fas fa-tools"></i>工具</h2>
+        <ul>
+          <li><a href="viewer.html?file=tools/README.md"><i class="fas fa-wrench"></i>工具总览</a></li>
+          <li><a href="viewer.html?file=dockerobj/README.md"><i class="fab fa-docker"></i>Docker相关</a></li>
+        </ul>
+      </div>
+      
+      <div class="category">
+        <h2><i class="fas fa-user"></i>个人</h2>
+        <ul>
+          <li><a href="viewer.html?file=personal/README.md"><i class="fas fa-id-card"></i>个人记录</a></li>
+          <li><a href="viewer.html?file=book/README.md"><i class="fas fa-book"></i>书籍</a></li>
+          <li><a href="viewer.html?file=dao/README.md"><i class="fas fa-yin-yang"></i>道学</a></li>
+        </ul>
+      </div>
     </div>
     
-    <div class="category">
-      <h2>文化</h2>
-      <ul>
-        <li><a href="culture/README.md">文化总览</a></li>
-        <li><a href="culture/chess/README.md">棋类文化</a></li>
-        <li><a href="culture/chess/go/README.md">围棋</a></li>
-        <li><a href="culture/chess/go/象棋/README.md">象棋</a></li>
-      </ul>
-    </div>
-    
-    <div class="category">
-      <h2>资源</h2>
-      <ul>
-        <li><a href="resources/README.md">资源总览</a></li>
-        <li><a href="resources/imgs/README.md">图片资源</a></li>
-        <li><a href="resources/man/README.md">手册资源</a></li>
-      </ul>
-    </div>
-    
-    <div class="category">
-      <h2>其他</h2>
-      <ul>
-        <li><a href="other/README.md">其他内容</a></li>
-        <li><a href="notes/README.md">笔记</a></li>
-        <li><a href="docs/README.md">文档</a></li>
-      </ul>
-    </div>
-    
-    <div class="category">
-      <h2>工具</h2>
-      <ul>
-        <li><a href="tools/README.md">工具总览</a></li>
-        <li><a href="dockerobj/README.md">Docker相关</a></li>
-      </ul>
-    </div>
-    
-    <div class="category">
-      <h2>个人</h2>
-      <ul>
-        <li><a href="personal/README.md">个人记录</a></li>
-        <li><a href="book/README.md">书籍</a></li>
-        <li><a href="dao/README.md">道学</a></li>
-      </ul>
+    <div class="footer">
+      <p>&copy; 2024 YY's Blog. All rights reserved.</p>
+      <div class="social-links">
+        <a href="https://github.com/yywolf1983" target="_blank"><i class="fab fa-github"></i></a>
+        <a href="mailto:your-email@example.com"><i class="fas fa-envelope"></i></a>
+      </div>
     </div>
   </div>
   
-  <div class="footer">
-    <p>&copy; 2024 YY's Blog. All rights reserved.</p>
-  </div>
+  <script>
+    document.getElementById('searchInput').addEventListener('keyup', function(e) {
+      const searchTerm = e.target.value.toLowerCase();
+      const categories = document.querySelectorAll('.category');
+      
+      categories.forEach(category => {
+        const links = category.querySelectorAll('a');
+        let hasMatch = false;
+        
+        links.forEach(link => {
+          const text = link.textContent.toLowerCase();
+          if (text.includes(searchTerm)) {
+            link.style.display = 'flex';
+            hasMatch = true;
+          } else {
+            link.style.display = searchTerm ? 'none' : 'flex';
+          }
+        });
+        
+        category.style.display = hasMatch || !searchTerm ? 'block' : 'none';
+      });
+    });
+  </script>
 </body>
 </html>
