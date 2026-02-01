@@ -1,8 +1,7 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml" lang="UTF-8"> <!-- 名字空间 -->
 <head>
 <title>节气显示</title>
-
   <meta name="viewport" content="width=1280, initial-scale=1"> <!-- 针对手机显示像素点 -->
   <link rel="icon" href="animated_favicon.gif" type="image/gif" >   
   <base target="_blank" />
@@ -20,9 +19,9 @@
     var all_str = ""
     var ztime = true;
 
-    year = today.split('-')[0]
-    var jieqi_list = jieqi_d(year);
     var today = to_day()+" 08:00:00"
+    var year = today.split('-')[0]
+    var jieqi_list = jieqi_d(year);
     var jieqi_time = new Date(jieqi_list["正  立春  东风解  蛰虫始  鱼陟冰"]).getTime()
     var now_time = new Date(today).getTime()
 
@@ -35,6 +34,58 @@
     }
     console.log(year)
     var str = jieqi_d(year);
+    
+    // 检查当前日期是否已经超过大寒节气，并且已经到了立春
+    var 大寒日期 = str["腊  大寒  鸡乳卵  征鸟厉  泽腹坚"];
+    var 大寒时间 = new Date(大寒日期).getTime();
+    var 下一年立春 = jieqi_d(year + 1)["正  立春  东风解  蛰虫始  鱼陟冰"];
+    var 下一年立春时间 = new Date(下一年立春).getTime();
+    
+    if (now_time > 大寒时间 && now_time >= 下一年立春时间) {
+      // 如果已经超过大寒，并且已经到了立春，显示下一年的节气循环
+      year = year + 1;
+      console.log('已过大寒和立春，显示下一年节气:', year);
+      str = jieqi_d(year);
+    } else if (now_time > 大寒时间) {
+      // 如果已经超过大寒，但还没到立春，保持显示当前年份的节气循环（包含大寒）
+      console.log('已过大寒但未到立春，保持显示当前年份节气');
+    }
+    
+    // 计算当前日期对应的节气
+    function getCurrentJieqi() {
+      var currentDate = new Date(today);
+      var currentTime = currentDate.getTime();
+      
+      // 检查是否在大寒到立春之间
+      if (currentTime > 大寒时间 && currentTime < 下一年立春时间) {
+        return "大寒";
+      }
+      
+      // 检查当前年份的节气
+      for (var i = 0; i < 24; i++) {
+        var jieqiName = Object.keys(str)[i];
+        var jieqiDate = Object.values(str)[i];
+        var jieqiTime = new Date(jieqiDate).getTime();
+        
+        var nextJieqiTime;
+        if (i === 23) {
+          // 最后一个节气（大寒）的下一个节气是下一年的立春
+          nextJieqiTime = 下一年立春时间;
+        } else {
+          var nextJieqiDate = Object.values(str)[i + 1];
+          nextJieqiTime = new Date(nextJieqiDate).getTime();
+        }
+        
+        if (currentTime >= jieqiTime && currentTime < nextJieqiTime) {
+          return jieqiName.split('  ')[1]; // 提取节气名称
+        }
+      }
+      
+      return "未知";
+    }
+    
+    var currentJieqi = getCurrentJieqi();
+    console.log('当前日期对应的节气:', currentJieqi);
 
 
     for(var j=0;j<=23;j++){
@@ -42,15 +93,23 @@
 
        var run_nums = time_day(Object.values(str)[j])
        run_num = run_nums/1000/60/60/24
+       
+       // 确保z_dics有默认值
+       var z_dics = " 〇 〇 〇 ";
+       
        if (run_num >= 15)
        {
           z_dics = " 正 正 正 "
        }
-       if (run_num < 15 || run_num >= 0)
+       else if (run_num >= 0)
        {
           u = parseInt(run_num/5)
-          u1 = run_num%5
-          u2 = Object.values(z_dic)[u1]
+          u1 = Math.floor(run_num%5)
+          // 确保u1在有效范围内
+          u1 = Math.max(0, Math.min(4, u1));
+          // 处理z_dic键从1开始的情况
+          var z_dic_values = ['', '一', '丁', '上', '止', '正'];
+          u2 = z_dic_values[u1 + 1] || "正";
           if (u == 0)
              z_dics=" "+u2+" 〇 〇 "
 
@@ -60,11 +119,20 @@
           if (u == 2)
              z_dics=" 正 正 "+u2+" "
        }
-       if (run_num < 0)
-       {
-          z_dics = " 〇 〇 〇 "
+       // 显示下一个节气的日期
+       var nextIndex = (j + 1) % 24;
+       var nextJieqiDate;
+       var nextJieqiName;
+       if (nextIndex === 0) {
+         // 最后一个节气（大寒）的下一个节气是下一年的立春
+         var nextYearStr = jieqi_d(year + 1);
+         nextJieqiDate = Object.values(nextYearStr)[0];
+         nextJieqiName = Object.keys(nextYearStr)[0].split('  ')[1];
+       } else {
+         nextJieqiDate = Object.values(str)[nextIndex];
+         nextJieqiName = Object.keys(str)[nextIndex].split('  ')[1];
        }
-       all_str=all_str+Object.keys(str)[j]+z_dics+Object.values(str)[j]+"<br/>"
+       all_str=all_str+Object.keys(str)[j]+z_dics+nextJieqiDate+" (" + nextJieqiName + ")<br/>"
     }
     document.getElementById("jieqi").innerHTML = all_str
 
