@@ -1,21 +1,21 @@
 php
 
 
-ĞŞ¸Ä·½·¨Îª£º
-²»¸Ä±ä/usr/local/nginx/conf/fastcgi.confÅäÖÃÎÄ¼şÀïµÄÔ­ÅäÖÃ£¬¶øÔÚ
+ä¿®æ”¹æ–¹æ³•ä¸ºï¼š
+ä¸æ”¹å˜/usr/local/nginx/conf/fastcgi.confé…ç½®æ–‡ä»¶é‡Œçš„åŸé…ç½®ï¼Œè€Œåœ¨
 
  fastcgi_param PHP_ADMIN_VALUE "open_basedir=$document_root/:/tmp/:/proc/";
 
-Ö®ºóÌí¼Ó
+ä¹‹åæ·»åŠ 
 
- fastcgi_param PHP_ADMIN_VALUE $basedir if_not_empty;#×¢ÒânginxÒªÔÚ1.1.11°æ±¾Ö®ºó
+ fastcgi_param PHP_ADMIN_VALUE $basedir if_not_empty;#æ³¨æ„nginxè¦åœ¨1.1.11ç‰ˆæœ¬ä¹‹å
 
-$basedir±äÁ¿¾Í¿ÉÒÔÔÚ/usr/local/nginx/conf/vhost/xxx.com.confÅäÖÃÎÄ¼şÀïµÄinclude enable-php.confÇ°¸³Öµ£º
+$basedirå˜é‡å°±å¯ä»¥åœ¨/usr/local/nginx/conf/vhost/xxx.com.confé…ç½®æ–‡ä»¶é‡Œçš„include enable-php.confå‰èµ‹å€¼ï¼š
 
  set $basedir "open_basedir=/home/wwwroot/tboy.com.cn/:/tmp/:/proc/";
 
-ÓÅµã£ºÕâÑù¼ÈÂú×ãÁËthinkphp5µÄ²¿ÊğÒªÇó£¬ÓÖ²»Ó°ÏìÆäËûÒ»°ãÕ¾µãµÄÊ¹ÓÃ¡£
-È±µã£ºÈç¹û$basedirÃ»ÓĞ¸³Öµ£¨ÖÁÉÙÒ»¸ö×¨ÊôÅäÖÃÓĞ¸³Öµ£©£¬nginx -tÎŞ·¨Í¨¹ı¡£
+ä¼˜ç‚¹ï¼šè¿™æ ·æ—¢æ»¡è¶³äº†thinkphp5çš„éƒ¨ç½²è¦æ±‚ï¼Œåˆä¸å½±å“å…¶ä»–ä¸€èˆ¬ç«™ç‚¹çš„ä½¿ç”¨ã€‚
+ç¼ºç‚¹ï¼šå¦‚æœ$basediræ²¡æœ‰èµ‹å€¼ï¼ˆè‡³å°‘ä¸€ä¸ªä¸“å±é…ç½®æœ‰èµ‹å€¼ï¼‰ï¼Œnginx -tæ— æ³•é€šè¿‡ã€‚
 
 
  location / {            
@@ -25,5 +25,5 @@ $basedir±äÁ¿¾Í¿ÉÒÔÔÚ/usr/local/nginx/conf/vhost/xxx.com.confÅäÖÃÎÄ¼şÀïµÄinclude 
      }
      
      
- php ÅäÖÃÎÄ¼ş
+ php é…ç½®æ–‡ä»¶
  vi /usr/local/php/etc/php.ini
