@@ -1,0 +1,7 @@
+(;CA[UTF-8]AB[ps][pr][pq][or][nr][qp][rp][rn][qm]AW[qn][pn][pp][op][mq][mr][qq][rq][qr][qs]
+
+C[参考“云起成霞”图，这个问题会很简单吧。]AP[MultiGo:4.2.4]SZ[19]GN[猛虎投林]RE[白先劫]
+US[桥本宇太郎解说]SO[《玄玄棋经》]MULTIGOGM[1]
+;W[sp]C[懂得“云起成霞”之手筋再作本题就简单了，白1扳二子之头为序曲。]N[正解]
+(;B[so];W[qo];B[ro];W[rm];B[sq];W[sr];B[rs];W[sp]C[劫是正解])
+(;B[ro]N[参考];W[rs];B[sr];W[nq]TR[qs][qr][qq][rq]C[正解图之黑2若在本图1应，则白2占据四白△子所成棋形之急所，攻杀可胜，这是“云起成霞”图中已经学过的。]))

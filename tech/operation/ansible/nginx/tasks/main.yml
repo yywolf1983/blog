@@ -1,0 +1,51 @@
+- name: yum install base
+  apt:
+        name: "{{ item }}"
+        state: present
+  loop:
+        - gcc 
+        - zlib1g-dev 
+        - libpcre3-dev 
+        - openssl
+        - libssl-dev
+        - make
+
+- name: add dir
+  shell: mkdir -p /data/soft
+
+- name: get nginx
+  shell: |
+     curl -L http://13.214.254.61:8095/api/public/dl/upJUwueZ \
+     -o /data/soft/nginx-1.20.2.tar.gz 
+
+
+- name: tar nginx
+  shell: chdir=/data/soft tar -zxf {{ nginx_obj  }}
+
+- name: install nginx
+  shell: chdir=/data/soft/{{ nginx_ver  }} ./configure --prefix=/data/nginx --with-http_stub_status_module --with-http_ssl_module --with-stream;make && make install
+
+- name: add systemd service
+  template: src=nginx.service.j2 dest=/lib/systemd/system/nginx.service
+
+- name: reload systemd
+  shell: systemctl daemon-reload
+
+- name: auto start nginx
+  shell: systemctl enable nginx
+
+- name: copy nginx.conf
+  template: src=nginx.conf.j2 dest={{ nginx_path  }}/conf/nginx.conf
+
+- name: mkdir vhost
+  file: 
+     path: '{{ nginx_path  }}/conf/vhost/'
+     state: directory
+
+- name: copy base.conf
+  template: src=base.conf.j2 dest={{ nginx_path  }}/conf/vhost/base.conf
+
+- name: check conf
+  command: '{{ nginx_path }}/sbin/nginx -t'
+  notify: start nginx
+

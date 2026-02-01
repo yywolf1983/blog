@@ -1,0 +1,41 @@
+kube-apiserver
+etcd
+kube-scheduler            调度决策
+kube-controller-manager   运行控制器
+
+OCI (Open Container Initial)
+Role-Based Access Control(RBAC)
+
+Masters
+  API
+  CLI
+  UI
+
+NODE
+  kubelet      节点控制
+  kube-proxy   网络代理
+  pod
+  Runtime
+     Docker、 containerd、CRI-O
+  DNS
+  Dashboard    仪表盘
+  
+  抽象资源
+      pod       抽象资源
+        pod controller  资源控制器
+        app     实际容器
+        pod-ip
+      namepace
+      Service   用户访问层 cluster-ip
+      
+   网络
+      Flannel      all
+      kubelet      node
+      kube-proxy   node
+
+kubelet
+kubeadm 集群初始化
+
+kubectl 集群管理工具
+
+systemctl restart kubelet

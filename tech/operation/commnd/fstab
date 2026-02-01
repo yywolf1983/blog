@@ -1,0 +1,37 @@
+1. fstab文件的作用
+文件/etc/fstab存放的是系统中的文件系统信息。当正确的设置了该文件，则可以通过"mount /directoryname"命令来加载一个文件系统，每种文件系统都对应一个独立的行，每行中的字段都有空格或tab键分开。同时fsck、 mount、umount的等命令都利用该程序。
+
+2. fstab文件格式
+下面是/etc/fatab文件的一个示例行：
+fs_spec fs_file fs_type fs_options fs_dump fs_pass
+/dev/hda1 / ext2 defaults 1 1
+fs_spec - 该字段定义希望加载的文件系统所在的设备或远程文件系统，对于一般的本地块设备情况来
+说：IDE设备一般描述为/dev/hdaXN，X是IDE设备通道(a, b, or c)，N代表分区号；SCSI设备一描述
+为/dev/sdaXN。对于NFS情况，格式一般为:
+,例如：`knuth.aeb.nl:/。对于procfs，使用`proc来定义。
+fs_file - 该字段描述希望的文件系统加载的目录点，对于swap设备，该字段为none；对于加载目录名包含空格的情况，用40来表示空格。
+fs_type - 定义了该设备上的文件系统
+fs_options - 指定加载该设备的文件系统是需要使用的特定参数选项，多个参数是由逗号分隔开来。
+对于大多数系统使用"defaults"就可以满足需要。其他常见的选项包括：
+
+选项 含义
+ro 以只读模式加载该文件系统
+sync 不对该设备的写操作进行缓冲处理，这可以防止在非正常关机时情况下破坏文件系统，但是却降低了
+计算机速度
+user 允许普通用户加载该文件系统
+quota 强制在该文件系统上进行磁盘定额限制
+noauto 不再使用mount －a命令（例如系统启动时）加载该文件系统
+
+fs_dump - 该选项被"dump"命令使用来检查一个文件系统应该以多快频率进行转储，若不需要转储就设
+置该字段为0
+
+fs_pass - 该字段被fsck命令用来决定在启动时需要被扫描的文件系统的顺序，根文件系统"/"对应该字
+段的值应该为1，其他文件系统应该为2。若该文件系统无需在启动时扫描则设置该字段为0
+
+3. 示例文件
+# /etc/fstab
+/dev/hda9 swap swap defaults 0 0
+/dev/hda1 / ext2 defaults 1 1
+/dev/hdb /cdrom iso9660 noauto,user 0 0
+none /proc proc defaults 0 0
+none /dev/pts devpts gid=5,mode=620 0 0

@@ -1,0 +1,59 @@
+version: '3.3'
+services:
+  prometheus:
+    image: prom/prometheus
+    user: "1000:1000"
+    container_name: prometheus
+    restart: always
+    extra_hosts:
+      - 'prometheus: 13.214.254.61'
+    ports:
+      - "9090:9090"
+    volumes:
+      - /data/docker/prometheus/prometheus:/etc/prometheus
+      - /data/docker/prometheus/prometheus_data:/prometheus
+      - '/data/docker/prometheus/ssl:/ssl'
+    command:
+      - '--config.file=/etc/prometheus/prometheus_config.yml'
+      - '--storage.tsdb.path=/prometheus'
+      - '--storage.tsdb.retention=30d'
+      - '--web.config.file=/ssl/web.config.yml'
+
+  # 添加告警模块
+  alertmanager:
+    image: prom/alertmanager:latest
+    container_name: Myalertmanager
+    hostname: alertmanager
+    restart: always
+    ports:
+      - '9093:9093'
+    volumes:
+      - '/data/docker/prometheus/alertmanager:/config'
+      - '/data/docker/prometheus/alertmanager_data:/alertmanager/data'
+      - '/data/docker/prometheus/ssl:/ssl'
+    command:
+      - '--config.file=/config/alertmanager_config.yml'
+      - '--web.config.file=/ssl/web.config.yml'
+
+  black-exporter:
+    image: prom/blackbox-exporter
+    hostname: dev
+    volumes:
+      - /data/docker/blackbox/config.yml:/etc/blackbox_exporter/config.yml
+    ports:
+      - '9115:9115'
+    logging:
+      driver: json-file
+      options:
+        max-file: '3'
+        max-size: 200m
+
+  grafana:
+    image: grafana/grafana
+    user: "1000:1000"
+    container_name: grafana
+    restart: always
+    ports:
+      - "3000:3000"
+    volumes:
+      - /data/docker/prometheus/grafana_data:/var/lib/grafana

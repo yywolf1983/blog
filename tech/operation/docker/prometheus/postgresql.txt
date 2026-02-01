@@ -1,0 +1,4 @@
+docker run -p 9111:9178 \
+  -e DATA_SOURCE_NAME="postgresql://postgres:password@localhost:5432/postgres?sslmode=disable" \
+  -d quay.io/prometheuscommunity/postgres-exporter
+ 

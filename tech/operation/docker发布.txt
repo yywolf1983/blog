@@ -1,0 +1,15 @@
+cd $model/target
+ls
+docker login 47.108.235.230:8090 -u admin -p Harbor1234567890
+docker build -t ccex-$model:$version .
+docker tag ccex-$model:$version 47.108.235.230:8090/ccex/ccex-$model:$version
+docker push 47.108.235.230:8090/ccex/ccex-$model:$version
+
+
+# docker-compose
+echo "VERSION=${version}" > .env
+ssh ccex-01 "mkdir -p /data/docker/ccex-compose"
+scp docker-compose.yml ccex-01:/data/docker/ccex-compose/docker-compose.yml
+scp .env ccex-01:/data/docker/ccex-compose/.env
+ssh ccex-01 "docker login 47.108.235.230:8090 -u admin -p Harbor1234567890"
+ssh ccex-01 "cd /data/docker/ccex-compose;docker-compose up -d"

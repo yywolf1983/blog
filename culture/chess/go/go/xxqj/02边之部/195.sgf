@@ -1,0 +1,17 @@
+(;CA[UTF-8]AB[gr][gq][gp][go][hn][in][lp][np][mr][oq][pr][qq][iq][kn][ln][kp][op][nn]AW[hp]
+[hq][hr][rr][jp][jq][kq][lq][nq]TR[rr]C[海的对岸有白△子，怎么做才能抵达此一离岛呢？]
+
+AP[MultiGo:4.2.4]SZ[19]GN[八仙过海]RE[白先活]US[桥本宇太郎解说]SO[《玄玄棋经》]
+MULTIGOGM[1]
+
+(;W[nr]N[正解1];B[mq];W[lr]C[白棋从1位动手、3位挡下。];B[ir];W[is]C[黑4时5扳，乍看好像单在此处即可做活。]
+;B[ls]C[但黑有6扳，仅仅在此处是做不活的。];W[ms]C[不过，此时7位之扑绝妙。];B[ns]
+;W[ks]C[叫8提然后9位挡，此一交换很有作用。];B[ip];W[ms];B[jr];W[mp];B[mq];W[or]
+;B[os];W[ps];B[os];W[qs]C[以下至19活了])
+(;W[lr]N[正解2];B[ir];W[is];B[ls]
+(;W[nr];B[mq];W[ms]C[白5夹、7扑是关键];B[ns];W[ks];B[ip];W[ms];B[jr];W[mp];B[mq]
+;W[or];B[os];W[ps];B[os];W[qs]C[恢复成正解1])
+(;W[ks]MN[5]N[失败];B[ip];W[io];B[jr];W[ms];B[jo];W[nr];B[mq];W[mp];B[mq];W[os]
+;B[or]C[如果不做（正解图2主分支中）5夹、7扑的交换而直接在5位挡的话，至黑16止没有眼位。
+
+这是有点令人啼笑皆非的问题。])))

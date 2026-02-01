@@ -1,0 +1,17 @@
+version: '3.3'
+services:
+    nginx:
+        container_name: mynginx
+        image: 47.251.5.232:8089/base/mynginx:latest
+        restart: always
+        environment:
+           - TZ=Asia/Shanghai
+        ports:
+           - 8078:80
+        volumes:
+           - /data/docker/nginx/html:/data/nginx/html
+           - /data/docker/nginx/logs:/data/nginx/logs
+           - /data/docker/nginx/nginx.conf:/data/nginx/conf/nginx.conf
+           - /data/docker/nginx/vhost:/data/nginx/conf/vhost/
+        command:
+           /data/nginx/sbin/nginx -g "daemon off;"

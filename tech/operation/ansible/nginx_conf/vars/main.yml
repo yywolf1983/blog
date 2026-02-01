@@ -1,0 +1,42 @@
+
+nginx_ver: 'nginx-1.18.0'
+nginx_obj: '{{ nginx_ver  }}.tar.gz'
+nginx_path: '/data/nginx'
+
+web:
+  #thg2 test
+  - { host: "thg2" , web_name: "www.test.com", web_path: "/data/www", ssl: no }
+  - { host: "thg2" , web_name: "www.test.com", web_path: "/data/www", ssl: no }
+
+  #thg3 test
+  - { host: "thg3" , web_name: "www.sdcloudtest.site", web_path: "/home/web/xbl/Door", ssl: no }
+  - { host: "thg3" , web_name: "pc.sdcloudtest.site", web_path: "/home/web/xbl/www", ssl: no }
+  - { host: "thg3" , web_name: "pc2.sdcloudtest.site", web_path: "/home/web/xbl/www2", ssl: no }
+  - { host: "thg3" , web_name: "wap.sdcloudtest.site", web_path: "/home/web/xbl/www/GameWap", ssl: no }
+  - { host: "thg3" , web_name: "tgame.lnqukuai.com", web_path: "/home/web/xbl/game/", ssl: no }
+  - { host: "thg3" , web_name: "agent.sdcloudtest.site", web_path: "/home/web/xbl/CTMagent", ssl: no }
+  - { host: "thg3" , web_name: "ctm.sdcloudtest.site", web_path: "/home/web/xbl/CTM", ssl: no }
+  - { host: "thg3" , web_name: "ctm2.sdcloudtest.site", web_path: "/home/web/xbl/CTM2", ssl: no }
+  - { host: "thg3" , web_name: "client.sdcloudtest.site", web_path: "/home/web/xbl/Client", ssl: no }
+  - { host: "thg3" , web_name: "Card.sdcloudtest.site", web_path: "/home/web/xbl/CardMerchant", ssl: no }
+  - { host: "thg3" , web_name: "tOpenGame.lnqukuai.com", web_path: "/home/web/OpenGame", ssl: no }
+  - { host: "thg3" , web_name: "tOpenGame.lnqukuai.com", web_path: "/home/web/OpenGame", ssl: no }
+  - { host: "thg3" , web_name: "tboardbuilder.lnqukuai.com", web_path: "/home/web/BoardBuilder", ssl: no }
+  - { host: "thg3" , web_name: "tcloud.lnqukuai.com", web_path: "/home/web/xbl/tcloud/", ssl: no }
+  - { host: "thg3" , web_name: "tagog.lnqukuai.com", web_path: "/home/web/xbl/agog/", ssl: no }
+
+up:
+  - { host: "thg3" , obj: "tgapi", web_name: "tgapi.lnqukuai.com", ip: "172.31.8.226", port: 8501, w_port: 80, ssl: no }
+  - { host: "thg3" , obj: "twsctm", web_name: "twsctm.lnqukuai.com", ip: "172.31.8.226", port: 8003, w_port: 80, ssl: no }
+  - { host: "thg3" , obj: "twsapi", web_name: "twsapi.lnqukuai.com", ip: "172.31.8.226", port: 8116, w_port: 80, ssl: no }
+  - { host: "thg3" , obj: "twscard", web_name: "twscard.lnqukuai.com", ip: "172.31.8.226", port: 8605, w_port: 80, ssl: no }
+  - { host: "thg3" , obj: "twsagent", web_name: "twsagent.lnqukuai.com", ip: "172.31.8.226", port: 8601, w_port: 80, ssl: no }
+  - { host: "thg3" , obj: "twscloud", web_name: "twscloud.lnqukuai.com", ip: "172.31.8.226", port: 8001, w_port: 80, ssl: no }
+
+  - { host: "thg2" , obj: "twsapi2", web_name: "twsapi2.lnqukuai.com", ip: "172.31.8.225", port: 8116, w_port: 80, ssl: no }
+  
+  - { host: "thg1" , obj: "tgameapi", web_name: "tgameapi.lnqukuai.com", ip: "172.31.8.224", port: 8996, w_port: 80, ssl: no }
+  - { host: "thg1" , obj: "twsagog", web_name: "twsagog.lnqukuai.com", ip: "172.31.8.224", port: 8608, w_port: 80, ssl: no }
+
+  - { host: "nginx1" , obj: "hpmerchant", web_name: "localhost", ip: "192.168.15.228", port: 8003, w_port: 8003, ssl: no }
+  - { host: "nginx1" , obj: "app1", web_name: "localhost", ip: "192.168.15.221", port: 8222, w_port: 2822, ssl: no }

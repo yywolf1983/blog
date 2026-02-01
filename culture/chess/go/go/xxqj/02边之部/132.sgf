@@ -1,0 +1,13 @@
+(;CA[UTF-8]AB[lr][mr][nr][nq][oq][pq][qq][qp][po][oo]AW[rr][rq][rp][qo][qn][pn][on][no][np]
+
+[mq][lq][kq][kr][or]C[因中间有后手一眼，白棋的工作是让边上黑棋成为后手一眼。]AP[MultiGo:4.2.4]
+SZ[19]GN[鹤唳奔师]RE[白先黑死]US[桥本宇太郎解说]SO[《玄玄棋经》]MULTIGOGM[1]
+
+(;W[ps]N[正解];B[qs];W[op];B[pr];W[os];B[ls];W[ns]C[白1尖，大事底定。
+
+对黑2，白棋不理于3位破眼。对黑4、6，白7止成为丁四。
+
+黑2若3，则白2到此为止。])
+(;W[os]N[失败];B[ns]LB[op:A][ls:B]C[白若1立，不但被黑2吃到二子，而且A、B成为见合。
+
+又，白单A，则黑1打有眼。]))

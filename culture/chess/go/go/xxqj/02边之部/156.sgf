@@ -1,0 +1,16 @@
+(;CA[UTF-8]AB[jr][pq][mq][lq][np][mo][nn][kn][jn][in][fn][go][fp][gq][hq][dq]AW[iq][jq][kq]
+[hp][gp][ip][kp][lp][mp]C[是把白子比拟作黄河吧。虽然左右同形，但此场合似乎没有中央有棋的道理。
+
+使用手筋在下边先手作出一眼就成功。
+
+注：本题手筋类似“死中得活”势。]
+
+AP[MultiGo:4.2.4]SZ[19]GN[黄河九曲]RE[白先活]US[桥本宇太郎解说]SO[《玄玄棋经》]
+MULTIGOGM[1]
+;W[mr]N[正解]
+(;B[nq];W[ir];B[lr];W[kr];B[jo];W[gr];B[fr];W[hr]LB[gs:A][fq:B]C[白1之碰为妙手。黑若2粘则白3阻渡。由于白1发生作用，贴在下边的黑一子动弹不得。
+
+黑4、白5止，黑棋若去6位破眼，则白7碰作活。
+
+白9之后，黑若A扳则白B提作活。])
+(;B[ir]N[参考];W[nq];B[oq];W[nr];B[kr];W[lr];B[jo];W[or];B[pr];W[os]C[黑若1位抵抗，则白2断不会死。]))

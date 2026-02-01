@@ -1,0 +1,166 @@
+ansible all -m apt -a "name=glusterfs-server state=absent"
+ansible all -m apt -a "name=glusterfs-client state=absent"
+
+ansible k8s -uroot -m systemd -a "name=glusterd state=reloaded"
+ansible k8s -uroot -m systemd -a "name=glusterd state=restarted"
+
+sudo gluster peer probe m1
+sudo gluster peer status
+
+
+ sudo wget http://47.108.235.230:8899/soft/heketi-v10.4.0-release-10.linux.amd64.tar.gz
+ sudo tar -xvf heketi-v10.4.0-release-10.linux.amd64.tar.gz
+ 
+ sudo cp heketi /usr/bin
+ sudo cp heketi-cli /usr/bin
+
+sudo vi /lib/systemd/system/heketi.service
+
+[Unit]
+Description=Heketi Server
+[Service]
+Type=simple
+WorkingDirectory=/var/lib/heketi
+ExecStart=/usr/bin/heketi --config=/etc/heketi/heketi.json
+Restart=on-failure
+StandardOutput=syslog
+StandardError=syslog
+[Install]
+WantedBy=multi-user.target
+
+sudo mkdir -p /etc/heketi
+sudo mkdir -p /var/lib/heketi
+
+sudo cp heketi.json /etc/heketi/
+
+sudo vi /etc/heketi/heketi.json
+
+sudo systemctl enable heketi
+sudo systemctl start heketi
+sudo systemctl status heketi
+
+
+vi /etc/heketi/topology.json
+
+ {
+    "clusters": [
+       {
+         "nodes": [
+           {
+             "node": {
+               "hostnames": {
+                 "manage": [
+                   "m1" 
+                ],
+                "storage": [
+                  "192.168.3.93" 
+                ]
+              },
+              "zone": 1
+            },
+            "devices": [
+              "/data/kv" 
+            ]
+          },
+          {
+            "node": {
+              "hostnames": {
+                "manage": [
+                  "m2" 
+                ],
+                "storage": [
+                  "192.168.3.94"
+                ]
+              },
+              "zone": 1
+            },
+            "devices": [
+              "/data/kv" 
+            ]
+          },
+          {
+             "node": {
+               "hostnames": {
+                 "manage": [
+                   "m3"
+                ],
+                "storage": [
+                  "192.168.3.95"  
+                ]
+              },
+              "zone": 1
+            },
+            "devices": [
+              "/data/kv"
+            ]
+          },
+          {
+            "node": {
+              "hostnames": {
+                "manage": [
+                  "m4" 
+                ],
+                "storage": [
+                  "192.168.3.96"
+                ]
+              },
+              "zone": 1
+            },
+            "devices": [
+              "/data/kv" 
+            ]
+          },
+          {
+            "node": {
+              "hostnames": {
+                "manage": [
+                  "m5" 
+                ],
+                "storage": [
+                  "192.168.3.97"
+                ]
+              },
+              "zone": 1
+            },
+            "devices": [
+              "/data/kv" 
+            ]
+          }
+          
+        ]
+      }
+    ]
+  }
+  
+  
+  
+export HEKETI_CLI_SERVER=http://localhost:8080
+export HEKETI_CLI_USER=admin
+export HEKETI_CLI_KEY=123456
+
+heketi-cli -s $HEKETI_CLI_SERVER --user admin topology load --json=/etc/heketi/topology.json 
+
+heketi-cli  volume delete 56bdb70e767d15269478adec12c29e17
+
+heketi-cli --user admin topology info
+
+查看集群
+heketi-cli cluster list
+heketi-cli node list
+查看集群状态
+heketi-cli cluster info id
+
+临时挂载
+mount -t glusterfs 192.168.1.110:/vol_17cfce78ddf6b2382167e0cff4a37d41 /mnt
+
+先停止后删除
+# gluster volume start <VOLNAME>
+# gluster volume stop <VOLNAME>
+# gluster volume delete <VOLNAME>
+
+剔除节点
+sudo gluster peer detach m3
+
+sudo gluster peer probe m1
+
+sudo gluster peer status

@@ -1,0 +1,64 @@
+
+curl https://baltocdn.com/helm/signing.asc | sudo apt-key add -
+sudo apt-get install apt-transport-https --yes
+echo "deb https://baltocdn.com/helm/stable/debian/ all main" | sudo tee /etc/apt/sources.list.d/helm-stable-debian.list
+sudo apt-get update
+sudo apt-get install helm
+
+
+# redis cluster
+helm repo add bitnami https://charts.bitnami.com/bitnami
+helm search repo redis
+
+helm pull bitnami/redis
+
+helm install redis redis
+
+sudo helm uninstall redis
+
+sudo helm upgrade redis redis
+
+apt-get -y install socat
+kubectl port-forward --namespace default svc/redis2-master 6379:6379 &
+
+cat <<EOF> redis_values.yaml 
+global:
+  storageClass: csi-cinder-sc-delete
+
+auth:
+  password: "f8NNf16Yiqw9RDZ"
+
+architecture: replication
+EOF
+
+helm -n default install redis bitnami/redis --version 16.8.9 -f redis_values.yaml
+
+helm uninstall redis
+
+
+
+
+helm repo add bitnami https://charts.bitnami.com/bitnami
+helm install my-redis bitnami/redis
+
+  export REDIS_PASSWORD=$(kubectl get secret --namespace default my-redis -o jsonpath="{.data.redis-password}" | base64 --decode)
+
+To connect to your Redis&trade; server:
+
+1. Run a Redis&trade; pod that you can use as a client:
+
+   kubectl run --namespace default redis-client --restart='Never'  --env REDIS_PASSWORD=$REDIS_PASSWORD  --image docker.io/bitnami/redis:6.2.6-debian-10-r158 --command -- sleep infinity
+
+   Use the following command to attach to the pod:
+
+   kubectl exec --tty -i redis-client \
+   --namespace default -- bash
+
+2. Connect using the Redis&trade; CLI:
+   REDISCLI_AUTH="$REDIS_PASSWORD" redis-cli -h my-redis-master
+   REDISCLI_AUTH="$REDIS_PASSWORD" redis-cli -h my-redis-replicas
+
+To connect to your database from outside the cluster execute the following commands:
+
+    kubectl port-forward --namespace default svc/my-redis-master : &
+    REDISCLI_AUTH="$REDIS_PASSWORD" redis-cli -h 127.0.0.1 -p

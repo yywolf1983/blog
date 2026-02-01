@@ -1,0 +1,12 @@
+.vscode
+.DS_Store
+.swp
+*.swp
+.hidden
+tags
+known_hosts
+.VSCodeCounter
+node/build
+node_modules
+ops_base/ssh/.ssh/known_hosts.old
+.DS_Store

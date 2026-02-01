@@ -1,0 +1,10 @@
+(;CA[UTF-8]AB[rr][rq][qq][pq][po][on][nn][mn][lo][lq][kq][iq][jr][nr]AW[kr][lr][mq][mp][no]
+[op][oq][pr][qr][rs]C[乍看之下，白棋好像因有两断而不行的样子，但由3之好手可以做活。
+
+这是围棋的玄妙性吧。]
+
+AP[MultiGo:4.2.4]SZ[19]GN[通玄势]RE[白先活]US[桥本宇太郎解说]SO[《玄玄棋经》]MULTIGOGM[1]
+;W[mr]N[正解];B[or];W[os]C[白1当然，黑2时，白于3位扳为好棋。];B[qs];W[ps]C[对黑4，白于5位提，为倒脱靴作准备。]
+;B[ns];W[nq]C[黑6时，白7叫吃做出一眼。];B[qs];W[ms]LB[pr:A][ks:B]C[黑8提四子之后，白9挡狙袭倒脱靴。
+
+因有A之断，白B处有眼。])

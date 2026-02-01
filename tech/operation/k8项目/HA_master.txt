@@ -1,0 +1,44 @@
+HAProxy:  192.168.199.200
+
+cat <<EOF > /etc/haproxy/haproxy.cfg
+frontend k8s_apiserver *:6443
+  mode tcp
+  default_backend k8s
+backend k8s
+  mode tcp
+  balance    roundrobin
+  server     node-01 192.168.199.201:6443 check
+  server     node-02 192.168.199.202:6443 check
+  server     node-03 192.168.199.203:6443 check
+EOF
+  
+systemctl reload haproxy
+
+
+cat <<EOF > kubeadm-config.yaml
+apiVersion: kubeadm.k8s.io/v1beta2
+kind: ClusterConfiguration
+kubernetesVersion: v1.15.1
+controlPlaneEndpoint: "192.168.199.200:6443"
+imageRepository: "registry.aliyuncs.com/google_containers"
+networking:
+  podSubnet: "10.244.0.0/16"
+apiServer:
+  certSANs:
+  - "k8s.mytest.com"
+EOF
+
+初始化集群
+kubeadm init --config=kubeadm-config.yaml --upload-certs
+
+添加另外两个节点
+kubeadm join 192.168.199.200:6443 --token .....
+
+
+查看etcd
+docker run --rm -it --net host -v /etc/kubernetes:/etc/kubernetes \
+registry.aliyuncs.com/google_containers/etcd:3.3.10 etcdctl \
+ --cert-file /etc/kubernetes/pki/etcd/peer.crt \
+ --key-file /etc/kubernetes/pki/etcd/peer.key \
+ --ca-file /etc/kubernetes/pki/etcd/ca.crt \
+ --endpoints https://192.168.199.201:2379 cluster-health

@@ -1,0 +1,103 @@
+version: '3'
+
+services:
+  # 部署 Monitor 模块
+  ceph-mon:
+    # 镜像已经下载到harbor私服
+    image: ceph/daemon:latest
+    network_mode: host
+    container_name: ceph-mon
+    restart: always
+    volumes:
+      - /etc/localtime:/etc/localtime
+      - /data/cephfs/etc:/etc/ceph
+      - /data/cephfs:/var/lib/ceph
+    environment:
+      # 当前服务器的IP, 在不同的服务器部署不要忘记改IP
+      MON_IP: ceph-mon
+      CEPH_PUBLIC_NETWORK: 10.4.0.1/24
+    command: mon
+
+  # 部署 Manager daemon 模块
+  ceph-mgr:
+    image: ceph/daemon:latest
+    network_mode: host
+    container_name: ceph-mgr
+    restart: always
+    depends_on:
+        - ceph-mon
+    volumes:
+      - /etc/localtime:/etc/localtime
+      - /data/cephfs/etc:/etc/ceph
+      - /data/cephfs:/var/lib/ceph
+    command: mgr
+
+  # 部署 OSD 模块
+  ceph-osd:
+    image: ceph/daemon:latest
+    network_mode: host
+    container_name: ceph-osd
+    restart: always
+    privileged: true
+    # 跟主机系统共享进程命名空间。打开该选项的容器可以相互通过进程 ID 来访问和操作。
+    pid: host
+    environment:
+      #- OSD_DEVICE=/dev/nvme3n1
+      #- OSD_TYPE=disk
+      - OSD_BLUESTORE=1
+    depends_on:
+      - ceph-mgr
+    volumes:
+      - /etc/localtime:/etc/localtime
+      - /data/cephfs/etc:/etc/ceph
+      - /data/cephfs:/var/lib/ceph
+      - /dev/:/dev/
+    command: osd
+
+  # 部署 MDS 模块 (用来支持 CephFS文件系统存储, 根据实际情况选用，非必须)
+  ceph-mds:
+    image: ceph/daemon:latest
+    network_mode: host
+    container_name: ceph-mds
+    restart: always
+    depends_on:
+        - ceph-osd
+    volumes:
+      - /etc/localtime:/etc/localtime
+      - /data/cephfs/etc:/etc/ceph
+      - /data/cephfs:/var/lib/ceph
+    environment:
+      # 0表示不自动创建文件系统（推荐），1表示动创建
+      CEPHFS_CREATE: 1
+    command: mds
+
+#  # 部署 Rados Gateway 模块 (用来支持 对象存储, 根据实际情况选用，非必须)
+#  ceph-rgw:
+#    image: ceph/daemon:latest
+#    network_mode: host
+#    container_name: ceph-rgw
+#    restart: always
+#    depends_on:
+#        - ceph-osd
+#    volumes:
+#      - /etc/localtime:/etc/localtime
+#      - /etc/ceph:/etc/ceph
+#      - /mnt/ceph_data/:/var/lib/ceph
+#    command: rgw
+
+
+#  # 部署 RBD mirror 模块 (用来支持 块存储, 根据实际情况选用，非必须)
+#  ceph-rbd:
+#    image: ceph/daemon:latest
+#    network_mode: host
+#    container_name: ceph-rbd
+#    restart: always
+#    volumes:
+#      - /etc/localtime:/etc/localtime
+#      - /etc/ceph:/etc/ceph
+#      - /mnt/ceph_data/:/var/lib/ceph
+#    depends_on:
+#        - ceph-osd
+#    command: rbd_mirror
+
+

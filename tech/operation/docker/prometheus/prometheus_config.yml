@@ -1,0 +1,167 @@
+global:
+  scrape_interval: 5s
+  external_labels:
+    monitor: 'Prometheus Monitoramento'
+
+rule_files:
+  - 'alert.rules'
+
+alerting: 
+  alertmanagers: 
+    - scheme: https
+      static_configs:
+      - targets: 
+        - prometheus:9095
+      basic_auth:
+        username: prometheus
+        password: prometheus9700
+      tls_config:
+        cert_file: /ssl/prometheus.crt
+        key_file: /ssl/prometheus.key
+        insecure_skip_verify: true
+
+scrape_configs:
+  - job_name: 'alertmanagers'
+    scheme: https
+    static_configs:
+      - targets: 
+          - prometheus:9095
+    basic_auth:
+      username: prometheus
+      password: prometheus9700
+    tls_config:
+      cert_file: /ssl/prometheus.crt
+      key_file: /ssl/prometheus.key
+      insecure_skip_verify: true
+  - job_name: 'prometheus'
+    scheme: https
+    static_configs:
+      - targets: 
+          - prometheus:9090
+    basic_auth:
+      username: prometheus
+      password: prometheus9700
+    tls_config:
+      cert_file: /ssl/prometheus.crt
+      key_file: /ssl/prometheus.key
+      insecure_skip_verify: true
+  - job_name: 'linux-exporter'
+    scheme: https
+    basic_auth:
+      username: prometheus
+      password: prometheus9700
+    tls_config:
+      cert_file: /ssl/prometheus.crt
+      key_file: /ssl/prometheus.key
+      insecure_skip_verify: true
+    metrics_path: /metrics
+    static_configs:
+        - targets: 
+            - 18.140.1.67:9101           # arche_v1
+            - 13.214.254.61:9101      # arche-test1
+            - 52.221.199.173:9101     # arche-prod-front-01
+            - 13.229.240.82:9101      # arche-gray-front-01
+            - 54.169.81.249:9101      # arche-prod-end-02
+            - 54.255.209.0:9101        # arche-prod-end-01
+            - 18.141.178.100:9101     # arche-gray-end-01
+            - 18.136.124.5:9101         # front-mfi-1
+            - 52.74.15.122:9101        # front-mfi-2
+            - 18.136.206.184:9101     # metates
+            - 54.254.194.155:9101     # metafinance_front
+            - 13.213.31.138:9101      # mfi_metapoolfinance
+            - 18.142.48.231:9101       # arche.network
+            - 13.228.6.118:9101       #firefi
+
+
+#  - job_name: 'postgres'
+#    static_configs:
+#        - targets:
+#            - 13.214.254.61:9111
+  - job_name: 'cadvisor'
+    scrape_interval: 5s
+    static_configs:
+      - targets: 
+            - 18.140.1.67:9102           # arche_v1
+            - 13.214.254.61:9102      # arche-test1
+            - 52.221.199.173:9102     # arche-prod-front-01
+            - 13.229.240.82:9102      # arche-gray-front-01
+            - 54.169.81.249:9102      # arche-prod-end-02
+            - 54.255.209.0:9102        # arche-prod-end-01
+            - 18.141.178.100:9102     # arche-gray-end-01
+            - 18.136.124.5:9102         # front-mfi-1
+            - 52.74.15.122:9102        # front-mfi-2
+            - 18.136.206.184:9102     # metates
+            - 54.254.194.155:9102     # metafinance_front
+            - 13.213.31.138:9102      # mfi_metapoolfinance
+            - 18.142.48.231:9102       # arche.network
+            - 13.228.6.118:9102       #firefi
+  - job_name: 'http_get_all'
+    scrape_interval: 30s
+    metrics_path: /probe
+    params:
+      module: [http_2xx]
+    static_configs:
+      - targets:
+        - https://aga.games/
+        - https://aga.arche.network/
+        - https://app.metafinance.com/
+        - https://app.arche.network/
+        - https://arche.network/
+        - https://admin.pastestar.com/
+        - https://metadex.xyz/
+        - https://metafinance.com/
+        - https://firefi.org/
+        - https://firefi.org/veth/user/sum-price
+    relabel_configs:
+      - source_labels: [__address__]
+        target_label: __param_target
+      - source_labels: [__param_target]
+        target_label: instance
+      - target_label: __address__
+        replacement: 13.214.254.61:9115
+  - job_name: 'baseservice_tcp'
+    metrics_path: /probe
+    params:
+      module: [tcp_connect]
+    static_configs:
+      - targets:
+            - 18.140.1.67:8100            # arche_v1
+            - 18.140.1.67:8000           # arche_v1
+            - 18.140.1.67:8400          # arche_v1
+            - 18.136.206.184:4000          # arche_v1
+            - 54.255.209.0:3305         #file uo
+    relabel_configs:
+      - source_labels: [__address__]
+        target_label: __param_target
+      - source_labels: [__param_target]
+        target_label: instance
+      - target_label: __address__
+        replacement: 13.214.254.61:9115
+  - job_name: 'blackbox_tcp'
+    metrics_path: /probe
+    params:
+      module: [tcp_connect]
+    static_configs:
+      - targets:
+            - 18.140.1.67:22           # arche_v1
+            - 13.214.254.61:22      # arche-test1
+            - 52.221.199.173:22     # arche-prod-front-01
+            - 13.229.240.82:22      # arche-gray-front-01
+            - 54.169.81.249:22      # arche-prod-end-02
+            - 54.255.209.0:22        # arche-prod-end-01
+            - 18.141.178.100:22     # arche-gray-end-01
+            - 18.136.124.5:22         # front-mfi-1
+            - 52.74.15.122:22        # front-mfi-2
+            - 18.136.206.184:22     # metates
+            - 54.254.194.155:33888     # metafinance_front
+            - 13.213.31.138:22      # mfi_metapoolfinance
+            - 18.142.48.231:22       # arche.network
+            - 13.228.6.118:22       #firefi
+    relabel_configs:
+      - source_labels: [__address__]
+        target_label: __param_target
+      - source_labels: [__param_target]
+        target_label: instance
+      - target_label: __address__
+        replacement: 13.214.254.61:9115
+

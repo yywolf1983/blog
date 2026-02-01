@@ -1,0 +1,31 @@
+server {
+        listen       80;
+        
+        {% if item.ssl == 'yes' %}  
+        listen       443 ssl;
+        {% endif %}
+        
+        server_name {{ item.web_name }};
+       
+        error_log  logs/w_{{ item.web_name }}_error.log;
+        access_log  logs/w_{{ item.web_name }}_access.log  main;
+        
+        client_max_body_size 100m; 
+          
+        {% if item.ssl == 'yes' %}
+        
+        #ssl_certificate nginx/.crt; #(证书公钥)
+        #ssl_certificate_key nginx/.key; #(证书私钥)
+
+        #ssl_session_timeout 5m;
+        #ssl_protocols  SSLv2 SSLv3 TLSv1.2;
+        #ssl_ciphers  HIGH:!aNULL:!MD5;
+        #ssl_prefer_server_ciphers on;
+        
+        {% endif %}
+
+        location / {
+            root  {{ item.web_path }};
+            index  index.html index.htm;
+        }
+     }

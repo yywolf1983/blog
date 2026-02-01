@@ -1,0 +1,12 @@
+(;CA[UTF-8]AB[pq][oq][mr][lr][kq][jq][iq][io][ko][mm][gm][dq][eq][gr][hr]AW[kr][is][ir][jr]
+[ks][hq][hp][ho][ep][fp][lq][lp][lo][np][op][jl]C[下边白棋和中央黑五子之攻杀。
+
+中央有白一子和黑二子，但这三子会有什么作用呢？既有“对面千里”的命名，想来不发挥子之效果不克为功。]
+
+AP[MultiGo:4.2.4]SZ[19]GN[对面千里]RE[白先活]US[桥本宇太郎解说]SO[《玄玄棋经》]
+MULTIGOGM[1]
+
+(;W[nr]N[正解];B[nq];W[fr];B[fq];W[jo]C[白1、3和黑2、4交换为必须的前题条件，次5挖为致命一击。]
+;B[jn]C[之后是一本道];W[jp];B[kp];W[kn];B[ip];W[in];B[im];W[hn];B[km];W[ln];B[jm]
+;W[jo]C[龟不出头])
+(;W[jo]N[失败];B[ls];W[nr];B[hs]C[虽然特别注意到白1之手筋，但不做准备工作的话，被黑2、4抢先紧气，攻杀就输了。]))

@@ -1,0 +1,11 @@
+(;CA[UTF-8]AB[jp][lq][mq][nr][ir][kp][jo][jn][lm][mn][no][np][pn][qo][rn][so]AW[rr][rp][ro]
+[pq][oq][nq][op][mp][lp][lo][ko][kq]C[中央白四子和下边黑三子之攻杀能赢吗？
+
+白棋只有三气，手顺虽长但有单行道的意味。]
+
+AP[MultiGo:4.2.4]SZ[19]GN[莫识势]RE[白先胜]US[桥本宇太郎解说]SO[《玄玄棋经》]MULTIGOGM[1]
+;W[mr]N[正解];B[lr];W[kr];B[ms];W[ks];B[ls];W[os]C[白1断再3、5下完后，7点为手筋。]
+;B[or];W[ps];B[pr];W[qs];B[qr];W[rs];B[qq];W[ns]C[黑8以下，白棋着手松懈不得。要一直下到15位掐进去。]
+;B[rq]
+(;W[sr]C[角虽然被破光，但达成吃黑五子之目的。])
+(;W[mr]N[失败];B[sr];W[qp];B[sq]C[要提醒以下各位，正解图之白17要紧。此棋如于本图1位提取五子，被黑2扳会全部死光。]))

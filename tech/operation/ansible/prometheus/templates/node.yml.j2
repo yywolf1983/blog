@@ -1,0 +1,29 @@
+version: '3'
+services:
+  node:
+    image: 47.108.235.230:8090/base/centos7:base
+    hostname: dev
+    container_name: checknode
+    restart: always
+    ports:
+      - "9101:9100"
+    volumes:
+      - /proc:/host/proc:ro
+      - /sys:/host/sys:ro
+      - /:/rootfs:ro
+      - /data/docker/prometheus/node_exporter:/root/node_exporter
+    command: /root/node_exporter --path.procfs=/host/proc --path.rootfs=/rootfs --path.sysfs=/host/sys --collector.filesystem.ignored-mount-points=^/(sys|proc|dev|host|etc)($$|/)
+  cadvisor:
+    image: google/cadvisor:latest
+    hostname: dev
+    container_name: cadvisor
+    restart: unless-stopped
+    ports:
+      - '9102:8080'
+    volumes:
+      - /:/rootfs:ro
+      - /var/run:/var/run:rw
+      - /sys:/sys:ro
+      - /var/lib/docker/:/var/lib/docker:ro
+
+#wget https://github.com/prometheus/node_exporter/releases/download/v1.2.0/node_exporter-1.2.0.linux-amd64.tar.g

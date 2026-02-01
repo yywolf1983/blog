@@ -1,0 +1,22 @@
+auth:
+  database: dev_db
+  username: dev_user
+  password: passworddev
+  rootPassword: rootpass
+image:
+  debug: true
+  repository: bitnami/mysql
+primary:
+  persistence:
+    existingClaim: mysql-pvc
+  #extraVolumeMounts: |
+  #    - name: init
+  #      mountPath: /docker-entrypoint-initdb.d
+  #extraVolumes: |
+  #    - name: init
+  #      hostPath:
+  #        path: /data/dev/init_db_scripts/
+  #        type: Directory
+volumePermissions:
+  enabled: true
+

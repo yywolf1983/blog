@@ -1,0 +1,23 @@
+diff 源 目标
+-r 递归
+-N 确保正确处理
+-u 统一格式
+
+patch
+
+-p0 从当前目录查找
+-p1 忽略补丁中第一层目录
+
+-E 删除空文件
+-R 给新文件打补丁 让气变为旧文件
+
+# 生成补丁
+diff -uN a1 a2 > a.patch
+diff -uNr dir1 dir2 > dir.patch
+
+# 使用补丁
+patch -p0 < a.patch
+
+# 还原版本
+patch -RE -p0 < a.patch
+diffstat -p1 my-patch

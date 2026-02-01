@@ -1,0 +1,16 @@
+#page-ctn {
+    margin: 0 auto;
+    max-width: 1000px;
+    color: var(--foreground-color);
+}
+
+img {
+    margin: 0 auto;
+    display: block;
+    width: 80%;
+}
+
+.hljs{
+    white-space: pre-line;
+}
+

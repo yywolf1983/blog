@@ -1,0 +1,5 @@
+- name: restart docker
+  shell: systemctl restart docker
+
+- name: start docker
+  shell: systemctl start docker

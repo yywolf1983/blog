@@ -1,0 +1,13 @@
+(;CA[UTF-8]AB[mq][pq][pp][po][pn][rn][nq][gr][lq][kq][kr][jr][hq][gq][qj][ho][hn][in][lo]
+[mo][jl][kl][ll][ml][nl][ol][pk][rk]AW[rl][rm][qm][pm][om][nm][mm][mn][on][oo][no]
+[np][oq][kn][km][jo][io][jq][iq][ir][hr]C[图形较大，但焦点仅限于上边。
+
+只有一眼的白棋，只好想办法冲击黑之缺陷。]
+
+AP[MultiGo:4.2.4]SZ[19]GN[清丘势]RE[白先活]US[桥本宇太郎解说]SO[《玄玄棋经》]MULTIGOGM[1]
+;W[qn]C[白1以下一路冲过去即可。]N[正解];B[ro];W[qo]
+(;B[rp];W[qp];B[qq];W[rq];B[rr];W[qr]C[黑6时白于7位断。黑8抱吃时，白9断是很漂亮的妙着。予人旧情复燃之感。]
+;B[or];W[pr]C[黑若10则11切断成功。又，黑10若11则白于10位遮断。因气紧黑棋无法分断白子。])
+(;B[qp]N[参考];W[rp];B[rq];W[pr]C[正解图黑4下在本图1位会变成怎么样？
+
+白2断一手再4扳切断，黑棋同样无法分断白子。]))

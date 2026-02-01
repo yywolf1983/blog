@@ -1,0 +1,14 @@
+(;CA[UTF-8]AB[no][nn][ro][rn][pn][pr][oq][nq][mp][lp][lq][kq][jq]AW[rr][rp][qp][pp][op][np]
+
+[mq][mo][lo][ko][kp]AP[MultiGo:4.2.4]SZ[19]GN[势均力敌]RE[白先活]US[桥本宇太郎解说]
+SO[《玄玄棋经》]MULTIGOGM[1]
+
+(;W[nr]C[绝妙之扳]N[正解]
+(;B[mr];W[pq]C[黑2提时白3挤];B[qr];W[or]C[黑4长则白5断]
+(;B[mq];W[qq];B[ns];W[qs]C[白7、9先手利];B[os];W[sq]C[白棋若单在角上3位挤则黑4长；白若单4撞则黑3拳，白棋无眼。有了白1的弃子才下得出味道。])
+(;B[os]MN[6]N[渡过];W[mq];B[ns];W[nq]C[先手一只眼];B[lr];W[rs]C[角上做出第二只眼]))
+(;B[or]MN[2]N[参考1];W[qr]C[现在白3的撞正是时机];B[qs];W[mr]C[弃子延气];B[lr];W[pq]
+C[收气];B[ms];W[rs]C[刚好做活])
+(;B[qr]MN[2]C[想做成白棋的失败图]N[参考2];W[or]LB[pq:A][mr:B]C[以下A、B见合，黑棋不行。])
+(;B[pq]MN[2]N[参考3];W[mr]C[之后白棋将通过收气在角上做出两眼，和正解图大同小异。]))
+(;W[pq]N[失败];B[qr];W[nr]C[现在扳已经晚了];B[or];W[mr];B[lr];W[qq];B[sp]C[左边白棋2气，黑棋3气，黑棋得以脱先在8位扳死白棋。]))

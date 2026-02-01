@@ -1,0 +1,36 @@
+
+- name: apt install base
+  yum:
+     name: "{{ item }}"
+     state: present
+     update_cache: true
+  with_items:
+    - yum-utils
+    - device-mapper-persistent-data
+    - curl
+    - rsync
+
+- name: up node.yml
+  template: src=node.yml.j2 dest=node.yml
+
+- name: mkdir prometheus
+  shell: mkdir -p /data/docker/prometheus/
+
+- name: up node_exporter
+  synchronize: src=../templates/node_exporter dest=/data/docker/prometheus/node_exporter
+
+- name: chmod node_exporter
+  shell: chmod 755 /data/docker/prometheus/node_exporter
+
+- name: up hotsname.sh
+  template: src=hostname.sh.j2 dest=hostname.sh
+
+#- name: modify hostname
+#  shell: hostnamectl set-hostname {{ hosts }}
+
+- name: modify node hostname
+  shell: bash hostname.sh
+
+- name: up node
+  shell: docker-compose -f node.yml up -d
+

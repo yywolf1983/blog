@@ -1,0 +1,9 @@
+(;CA[UTF-8]AB[mr][mp][np][op][pq][lo][ln][po][pn]AW[qq][pp][qp][rp][oo][no][mo][lp][lq][lr]
+
+[jp]C[白棋只有三气，松气的手法是不行的。]AP[MultiGo:4.2.4]SZ[19]GN[鉴台势]RE[白先黑死]
+US[桥本宇太郎解说]SO[《玄玄棋经》]MULTIGOGM[1]
+
+(;W[mq]N[正解];B[oq];W[nq]C[白1冲，黑2时白3紧气。];B[qr]
+(;W[ps]C[对黑4，5点为手筋。];B[nr];W[os]C[黑6时，7之并止，对杀快一气。白4若下在6位，则7之点为手筋。])
+(;W[or]N[参考];B[pr];W[rr];B[nr];W[os]C[正解图的白5于本图1打也可以，最后成金鸡独立。]))
+(;W[nq]N[失败];B[mq];W[nr];B[oq];W[ms];B[os];W[ns];B[pr]C[本图白1、3好像对杀也胜，但黑2、4后，6为妙手，黑8止变成白棋慢一气。]))

@@ -1,0 +1,3 @@
+update mysql.user set Host='%' where user='root';
+ALTER USER 'root'@'%' IDENTIFIED WITH mysql_native_password BY 'AnvcTMagdLarwNV3CKaC' PASSWORD EXPIRE NEVER ;
+flush privileges;

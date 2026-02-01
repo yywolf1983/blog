@@ -1,0 +1,36 @@
+## expect
+send：用于向进程发送字符串
+expect：从进程接收字符串
+spawn：启动新的进程
+interact：允许用户交互#!
+/usr/bin/expect -f
+set user root
+set host 192.168.100.18
+set password shining369
+set timeout -1
+spawn ssh $user@$host
+expect "assword:"
+send "$password\r"
+expect "]#"
+send "su - steve\r"
+send "cd /ebs_data/opt/typhoonae/deploy/fab_tool\r"
+send "export FB_RUN_ENV="
+interact #iterm2#
+expect ~/mysrc/ssh/192.168.100.18
+
+expect eof 
+exp_contiune
+
+expect xx.exp ip user password
+set ipadd [lindex $argv n]  获取参数
+
+#!/usr/bin/expect    -f
+set ip [lindex $argv 0]
+set timeout 1200
+spawn    /usr/bin/scp -r 192.168.10.10:/data/www/  /data/
+expect {
+    "(yes/no)?" {send "yes\r"}
+    "*password:" {send "www.aqzt.com\r"}
+    ¦ }
+expect "password:"
+send "123456\r"

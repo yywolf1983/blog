@@ -1,0 +1,17 @@
+(;CA[UTF-8]AB[mq][rr][pr][qq][rp][sp][so][oq][nq][fn][lp][lo][ln][km][jm][il][hm][gm][rk]
+[fo][fp][fq][fr][fs][ho][hq][jk][kk][lk][mk][nl][nm][pm][qm][rm]AW[pn][jp][kn][ik]
+[hk][gl][fl][fm][en][eo][ep][eq][er][es][jl][kl][ll][lm][mm][mn][mo][mp][np][op]
+[pp][pq][qp][ro][rn][sn][qn]C[这也是“地中有棋”的一种。棋逢断处生是很明显的事，但会有什么样的变化呢？
+
+看角上的情况下手。]
+
+AP[MultiGo:4.2.4]SZ[19]GN[刘阮入桃源]RE[白先劫]US[桥本宇太郎解说]SO[《玄玄棋经》]
+MULTIGOGM[1]
+;W[jn]N[正解];B[im];W[lq];B[kq];W[lr];B[kp];W[or];B[nr];W[os]C[白1至黑6止是当然的应接吧，此时白7断、9立为好棋。]
+(;B[ps];W[rq];B[sq];W[rs]LB[qr:A]C[黑若10应则角上出棋。也就是说，白有11再13之手法。
+
+因黑棋气紧次有A之扑。]
+;B[ns];W[sr]C[黑若14则白15扑，成为劫争。])
+(;B[ns]N[参考];W[jq];B[kr];W[ks];B[js];W[ls];B[jr];W[ir]C[正解图之黑10若在本图1位叫吃，则白2再4扳可吃到中央六子。
+
+这是类似“王乔求仙”势和“二将突围”势之手筋。]))

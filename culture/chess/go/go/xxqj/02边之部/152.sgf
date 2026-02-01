@@ -1,0 +1,15 @@
+(;CA[UTF-8]AB[po][pn][qp][hr][gr][rp][fq][jn][fp][fo][fn][hm][jm][kn][kp][jp][lq][lr][ls]
+[ms][nr][nq][pq][fr][pp][sp]AW[qq][rq][ro][qo][qn][qm][om][nn][ln][lm][km][lp][mp]
+[np][mq][mr][kq][jq][iq][hq][gq][ir][go][ho][io][kr][pm]C[白棋看得到的地方只有一只眼。但黑形也有坏味道，棋在和角有关联的地方。
+
+果真如此，那怎么动手呢？]
+
+AP[MultiGo:4.2.4]SZ[19]GN[群珠势]RE[白先活]US[桥本宇太郎解说]SO[《玄玄棋经》]MULTIGOGM[1]
+
+(;W[oq]N[正解];B[or]
+(;W[pr]C[白棋于1位挖，黑2时白3断进去这一手为好棋。]
+(;B[op];W[ps]LB[rs:A][ns:B]C[对黑4，白于5位立，把白A做活和B扑之接不归当作相对点。])
+(;B[qr]MN[4]N[参考];W[ks]C[接不归]))
+(;W[ns]N[失败2];B[os];W[ks];B[ns];W[pr];B[op];W[ps];B[oq]LB[rr:A][rs:B]C[次白A则黑B，白死。]
+;W[rs];B[qr];W[qs];B[sq];W[rr];B[sr];W[oo];B[ss]C[黑棋快一气胜]))
+(;W[pr]N[失败1];B[oq];W[rr];B[qs];W[os];B[or]C[白棋若下在1位，被黑棋于2位棒粘，单在角上是下不出棋的。白若3，则黑6止结束。]))

@@ -1,0 +1,11 @@
+(;CA[UTF-8]AB[pr][pq][op][no][mo][lp][lq][mq][nr]AW[ls][kr][kq][kp][lo][mn][nn][oo][po][qp]
+
+[qq][qr][ko]C[很自然地取解消眼位即可将白棋杀掉]AP[MultiGo:4.2.4]SZ[19]GN[水落石出]
+RE[白先黑死]US[桥本宇太郎解说]SO[《玄玄棋经》]MULTIGOGM[1]
+;W[np]LB[ms:A][oq:B]C[黑2若下在A位，则白棋会注意到B这手棋。]N[正解];B[mp]
+(;W[os];B[or];W[nq];B[ps]
+(;W[ns];B[ms];W[mr]C[这问题有趣之处在于有白7、9。如果手顺颠倒，先下9再下7就会接不归。
+
+这是围棋的妙味，一定要保留味道的地方。])
+(;W[mr]MN[7]N[失败2];B[oq];W[ns];B[lr]C[接不归]))
+(;W[nq]MN[3]N[失败1];B[os]C[白若1、3，则黑4有眼。]))

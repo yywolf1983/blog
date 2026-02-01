@@ -1,0 +1,30 @@
+- name: yum install base
+  yum:
+    name: "{{ item }}"
+    state: present
+  loop:
+    - gcc
+    - zlib-devel
+    - openssl-devel
+    - bison 
+    - automake 
+    - autoconf 
+    - make 
+    - flex 
+    - libtool
+    - libffi-devel
+    - bzip2-devel 
+    - sqlite-devel
+
+- name: download python3
+  get_url:
+    url: "{{ download_url }}{{ python3_ver }}"
+    dest: /data/soft
+
+- name: tar python3
+  shell: chdir=/data/soft tar -zxf {{ python3_ver }}
+
+- name: install python3
+  shell: chdir=/data/soft/{{ python3 }} ./configure --prefix=/data/python3 ;make && make install
+
+- include: mypy.yml

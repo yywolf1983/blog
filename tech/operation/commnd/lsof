@@ -1,0 +1,40 @@
+# To list all IPv4 network files:
+sudo lsof -i4
+
+# To list all IPv6 network files:
+sudo lsof -i6
+
+# To list all open sockets:
+lsof -i
+
+# To list all listening ports:
+lsof -Pnl +M -i4
+
+# To find which program is using the port 80:
+lsof -i TCP:80
+
+# To list all connections to a specific host:
+lsof -i@192.168.1.5
+
+# To list all processes accessing a particular file/directory:
+lsof <path>
+
+# To list all files open for a particular user:
+lsof -u <username>
+
+# To list all files open mounted at /mount/point:
+# (Particularly useful for finding which process(es) are using a mounted USB stick or CD/DVD.)
+lsof +f -- <mount-point>
+
+lsof -c vim  查看vim使用的文件
+lsof -u 0   查看root用户打开的进程
+lsof +d  查看目录下被进程开启的文件
+lsof -p 查看进程打开的文件
+lsof | grep vim  查看vim正在使用的文件
+lsof filename 显示打开指定文件的所有进程
+lsof -a 表示两个参数都必须满足时才显示结果
+lsof -g gid 显示归属gid的进程情况
+lsof +D /DIR/ 同上，但是会搜索目录下的所有目录，时间相对较长
+lsof -n 不将IP转换为hostname，缺省是不加上-n参数
+
+lsof -n|awk '{print $2}'|sort|uniq -c|sort -nr|more

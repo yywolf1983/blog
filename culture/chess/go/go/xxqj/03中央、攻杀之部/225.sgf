@@ -1,0 +1,12 @@
+(;CA[UTF-8]AB[mq][nq][oq][mr][lp][kp][ip][ir][hq][qp][qo]AW[rq][qq][qn][pn][pp][op][np][mp]
+[lq][lr][kr]C[同“玄妙势”的情形相似，“小巧势”之命题也有两个。不知道哪一个是后来加上去的。]
+
+AP[MultiGo:4.2.4]SZ[19]GN[小巧势]RE[白先黑死]US[桥本宇太郎解说]SO[《玄玄棋经》]
+MULTIGOGM[1]
+
+(;W[ns]N[正解];B[or];W[ms];B[os];W[pr]LB[ks:A][pq:B]C[白棋从1位点为好棋，是延气的手筋。
+
+黑若2则白3渡，黑4时白5止，快一气。
+
+黑2若3则白2、黑A、白B，紧气胜。])
+(;W[pq]N[失败];B[or];W[ns];B[ms];W[pr];B[jr];W[os];B[kq]C[白棋如于1位紧气，则黑2应。白3点时，被黑4从这边挡，攻杀变成输掉。]))
