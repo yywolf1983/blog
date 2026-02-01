@@ -38,6 +38,32 @@
       border: 1px solid rgba(102, 126, 234, 0.3);
     }
     
+    .logo {
+      width: 350px;
+      height: 150px;
+      margin: 0 auto 20px;
+      border-radius: 20%;
+      overflow: hidden;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    
+    .logo img {
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+    }
+    
+    @keyframes fadeIn {
+      from {
+        opacity: 0;
+      }
+      to {
+        opacity: 1;
+      }
+    }
+    
     @keyframes fadeInDown {
       from {
         opacity: 0;
@@ -50,7 +76,7 @@
     }
     
     h1 {
-      font-size: 3em;
+      font-size: 2em;
       margin-bottom: 15px;
       background: linear-gradient(135deg, #00d9ff 0%, #a855f7 50%, #f472b6 100%);
       -webkit-background-clip: text;
@@ -197,28 +223,6 @@
       opacity: 1;
     }
     
-    .jieqi-container {
-      margin-top: 15px;
-      border-radius: 8px;
-      overflow: hidden;
-      border: 1px solid rgba(102, 126, 234, 0.3);
-      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      min-height: 400px;
-    }
-    
-    .jieqi-container iframe {
-      border: none;
-      background: rgba(30, 30, 50, 0.95);
-      overflow: hidden;
-    }
-    
-    .category-full {
-      grid-column: 1 / -1;
-    }
-    
     .footer {
       text-align: center;
       margin-top: 50px;
@@ -319,6 +323,9 @@
 <body>
   <div class="main-container">
     <header>
+      <div class="logo">
+        <img src="assets/images/nones2.png" alt="Logo">
+      </div>
       <h1>YY's Blog</h1>
       <p class="subtitle">技术笔记 · 文化记录 · 个人成长</p>
       <div class="search-box">
@@ -328,13 +335,6 @@
     </header>
     
     <div class="container">
-      <div class="category category-full">
-        <h2><i class="fas fa-cloud-sun"></i>节气</h2>
-        <div class="jieqi-container">
-          <iframe src="assets/jieqi.html" width="100%" height="600" frameborder="0" scrolling="no" style="margin: 0 auto; display: block;"></iframe>
-        </div>
-      </div>
-      
       <div class="category">
         <h2><i class="fas fa-code"></i>技术</h2>
         <ul>
@@ -394,6 +394,8 @@
       <div class="category">
         <h2><i class="fas fa-user"></i>个人</h2>
         <ul>
+          <li><a href="jieqi.html"><i class="fas fa-cloud-sun"></i>二十四节气</a></li>
+          <li><a href="viewer.html?file=assets/README.md"><i class="fas fa-folder"></i>资源文件</a></li>
           <li><a href="viewer.html?file=md/README.md"><i class="fas fa-file-code"></i>Markdown文档</a></li>
           <li><a href="viewer.html?file=tech/programming/code/README.md"><i class="fas fa-code-branch"></i>代码示例</a></li>
           <li><a href="viewer.html?file=notes/README.md"><i class="fas fa-code-branch"></i>杂记</a></li>
