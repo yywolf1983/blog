@@ -141,8 +141,8 @@ function jieqi_d(year){
         month_day[1]=29
     }
 
-    var yd = year+"".split()
-    yd_num = Number(yd[2]+yd[3])
+    var yd = (year+"").split('')
+    yd_num = Number(yd.slice(-2).join(''))
 
     // TODO 不知道这里怎么计算出C值的
     // 计算公式 [Y×D+C]-L
@@ -159,15 +159,19 @@ function jieqi_d(year){
 
     if ((Number(yd[0]+yd[1])+1)===20){
         year2 = year20
-    }
-
-    if ((Number(yd[0]+yd[1])+1)===21){
+    }else if ((Number(yd[0]+yd[1])+1)===21){
+        year2 = year21
+    }else{
+        // 默认使用2021年的C值数组作为 fallback
         year2 = year21
     }
 
     for (var j=0;j<jieqi24.length;j++){
         lichun = parseInt(yd_num*D+year2[j])-parseInt((yd_num-1)/4)
-        jieqi_list[jieqi24[j]]=year+"-"+month_1[j]+"-"+lichun
+        // 确保月份和日期为两位数
+        var mm = month_1[j] < 10 ? '0' + month_1[j] : month_1[j];
+        var dd = lichun < 10 ? '0' + lichun : lichun;
+        jieqi_list[jieqi24[j]]=year+"-"+mm+"-"+dd
         if (j==21)
             year=Number(year)+1
     }
@@ -182,7 +186,10 @@ function to_day(){
     var m = myDate.getMonth()+1;
     var d = myDate.getDate();
 
-    today = y+"-"+m+"-"+d //格林威治时间是从 1970-1-1 08:00:00 开始计算的
+    // 确保月份和日期为两位数
+    var mm = m < 10 ? '0' + m : m;
+    var dd = d < 10 ? '0' + d : d;
+    today = y+"-"+mm+"-"+dd //格林威治时间是从 1970-1-1 08:00:00 开始计算的
 
     return today
 }
