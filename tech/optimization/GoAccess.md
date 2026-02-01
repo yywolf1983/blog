@@ -3,10 +3,10 @@ yum -y install GeoIP-update
 yum install goaccess
 
 
-#ÐÞ¸ÄÎÄ¼þ/etc/goaccess.conf¸Ä³Égoaccess¸ñÊ½±ê×¼¶ÔÓ¦Îª
+#ä¿®æ”¹æ–‡ä»¶/etc/goaccess.confæ”¹æˆgoaccessæ ¼å¼æ ‡å‡†å¯¹åº”ä¸º
 time-format %T
 date-format %d/%b/%Y
 log_format %h - %^ [%d:%t %^] "%r" %s %b "%R" "%u" "%^" %^ %^ %^ %T
 
-#²âÊÔÉú³ÉÒ³Ãæ
+#æµ‹è¯•ç”Ÿæˆé¡µé¢
 LANG="zh_CN.UTF-8";goaccess -f /data/docker/nginx/logs/app.access.log -c -a > /data/docker/nginx/html/download/go.html
