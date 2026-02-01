@@ -1,8 +1,6 @@
 
 # head
 
-<span id = "head"></span>
-
 nones is blog, nothing.
 
 ![nones](/assets/images/nones2.png)

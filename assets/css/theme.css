@@ -1,0 +1,519 @@
+/* 网站主题配色方案 - 深色版 */
+
+/* 颜色变量定义 */
+:root {
+  /* 主色调系统 - 活泼沉稳（深色版） */
+  --color-primary: #4ecdc4; /* 薄荷青 - 主色（清新） */
+  --color-secondary: #ff6b6b; /* 珊瑚粉 - 辅助色（活泼） */
+  --color-accent: #4a6fa5; /* 靛青蓝 - 强调色（沉稳） */
+  --color-neutral: #adb5bd; /* 中性灰 - 中性色 */
+  --color-text: #e9ecef; /* 浅灰 - 正文色（确保在深色背景上可读） */
+  
+  /* 功能区域颜色 - 深色版 */
+  --color-bg: #1a1a1a; /* 深灰黑 - 页面背景 */
+  --color-nav: #2d2d2d; /* 深灰 - 导航栏 */
+  --color-sidebar: #252525; /* 深灰 - 侧边栏 */
+  --color-heading: #4ecdc4; /* 薄荷青 - 标题（清新） */
+  --color-link: #ff6b6b; /* 珊瑚粉 - 链接（活泼） */
+  --color-border: #3d3d3d; /* 中灰 - 边框 */
+  --color-code: #2d2d2d; /* 深灰 - 代码块 */
+  --color-quote: #2a3a4a; /* 深蓝灰 - 引用块 */
+  
+  /* 板块专属颜色 - 深色版 */
+  --color-tech: #6b46c1; /* 深紫 - 技术板块 */
+  --color-culture: #d97706; /* 琥珀色 - 文化板块 */
+  --color-medicine: #059669; /* 深绿 - 医学板块 */
+  --color-chess: #7c3aed; /* 深薰衣草紫 - 棋类板块 */
+  --color-music: #b45309; /* 深姜黄 - 音乐板块 */
+}
+
+/* 全局样式 */
+body {
+  background-color: var(--color-sidebar);
+  color: var(--color-text);
+  font-family: "Helvetica Neue", Arial, "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", sans-serif;
+  line-height: 1.6;
+}
+
+/* 导航栏样式 */
+.app-nav {
+  background-color: var(--color-nav);
+  padding: 10px 20px;
+  border-bottom: 1px solid var(--color-border);
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+}
+
+.app-nav a {
+  color: var(--color-text);
+  text-decoration: none;
+  margin-right: 20px;
+  font-weight: 500;
+  transition: all 0.3s ease;
+  padding: 5px 10px;
+  border-radius: 4px;
+}
+
+.app-nav a:hover {
+  color: var(--color-primary);
+  background-color: rgba(78, 205, 196, 0.1);
+}
+
+/* 侧边栏样式 */
+.sidebar {
+  background-color: var(--color-sidebar);
+  border-right: 1px solid var(--color-border);
+  box-shadow: 1px 0 5px rgba(0, 0, 0, 0.2);
+}
+
+.sidebar-nav {
+  padding: 20px 0;
+}
+
+.sidebar-nav a {
+  color: var(--color-text);
+  text-decoration: none;
+  display: block;
+  padding: 8px 20px;
+  transition: all 0.3s ease;
+  border-radius: 0 4px 4px 0;
+  margin-right: 10px;
+}
+
+.sidebar-nav a:hover {
+  color: var(--color-link);
+  background-color: rgba(255, 107, 107, 0.1);
+  transform: translateX(5px);
+}
+
+.sidebar-nav a.active {
+  color: var(--color-primary);
+  font-weight: 600;
+  background-color: rgba(78, 205, 196, 0.1);
+  border-left: 3px solid var(--color-primary);
+}
+
+/* 主内容区样式 */
+.content {
+  padding: 40px;
+  background-color: var(--color-sidebar);
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.2);
+  border-radius: 8px;
+}
+
+/* 标题样式 */
+h1, h2, h3, h4, h5, h6 {
+  color: var(--color-heading);
+  margin-top: 30px;
+  margin-bottom: 20px;
+  font-weight: 600;
+  position: relative;
+}
+
+h1 {
+  font-size: 2.5em;
+  padding-bottom: 15px;
+  margin-bottom: 30px;
+}
+
+h1::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100px;
+  height: 4px;
+  background: linear-gradient(90deg, var(--color-primary), var(--color-accent));
+  border-radius: 2px;
+}
+
+h2 {
+  font-size: 2em;
+  padding-bottom: 10px;
+  margin-bottom: 25px;
+}
+
+h2::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 80px;
+  height: 3px;
+  background: linear-gradient(90deg, var(--color-secondary), var(--color-primary));
+  border-radius: 2px;
+}
+
+h3 {
+  font-size: 1.5em;
+  color: var(--color-secondary);
+}
+
+/* 段落样式 */
+p {
+  margin-bottom: 20px;
+  text-align: justify;
+  line-height: 1.7;
+}
+
+/* 链接样式 */
+a {
+  color: var(--color-link);
+  text-decoration: none;
+  transition: all 0.3s ease;
+  position: relative;
+  padding-bottom: 2px;
+}
+
+a::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 0;
+  height: 2px;
+  background-color: var(--color-primary);
+  transition: width 0.3s ease;
+}
+
+a:hover {
+  color: var(--color-primary);
+}
+
+a:hover::after {
+  width: 100%;
+}
+
+/* 代码块样式 */
+pre {
+  background-color: var(--color-code);
+  border: 1px solid var(--color-border);
+  border-radius: 8px;
+  padding: 20px;
+  overflow-x: auto;
+  margin-bottom: 25px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+}
+
+code {
+  font-family: "SFMono-Regular", Consolas, "Liberation Mono", Menlo, monospace;
+  font-size: 0.9em;
+  background-color: var(--color-code);
+  padding: 3px 6px;
+  border-radius: 4px;
+  color: var(--color-secondary);
+}
+
+pre code {
+  background-color: transparent;
+  padding: 0;
+  color: var(--color-text);
+}
+
+/* 引用块样式 */
+blockquote {
+  border-left: 4px solid var(--color-primary);
+  background-color: var(--color-quote);
+  padding: 20px 25px;
+  margin: 25px 0;
+  border-radius: 0 8px 8px 0;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+}
+
+blockquote p {
+  margin-bottom: 0;
+  color: var(--color-primary);
+  font-style: italic;
+}
+
+/* 列表样式 */
+ul, ol {
+  margin-bottom: 25px;
+  padding-left: 30px;
+}
+
+li {
+  margin-bottom: 10px;
+  position: relative;
+}
+
+ul li {
+  position: relative;
+  padding-left: 1.2em;
+  line-height: 1.6;
+}
+
+ul li::before {
+  color: var(--color-secondary);
+  font-weight: bold;
+  position: absolute;
+  left: 0;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 0.8em;
+  text-align: center;
+  font-size: 1.2em;
+  line-height: 1;
+}
+
+ol li {
+  counter-increment: step-counter;
+}
+
+ol li::before {
+  content: counter(step-counter);
+  color: var(--color-primary);
+  font-weight: bold;
+  display: inline-block;
+  width: 1.5em;
+  margin-left: -1.5em;
+  background-color: rgba(78, 205, 196, 0.1);
+  padding: 2px 6px;
+  border-radius: 4px;
+  text-align: center;
+  font-size: 0.8em;
+  border: 1px solid var(--color-border);
+}
+
+/* 表格样式 */
+table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-bottom: 25px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+  border-radius: 8px;
+  overflow: hidden;
+  border: 1px solid var(--color-border);
+}
+
+table, th, td {
+  border: 1px solid var(--color-border);
+}
+
+th {
+  background-color: var(--color-accent);
+  color: var(--color-text);
+  padding: 15px;
+  text-align: left;
+  font-weight: 600;
+}
+
+td {
+  padding: 12px 15px;
+  background-color: var(--color-sidebar);
+  border-top: 1px solid var(--color-border);
+}
+
+tr:nth-child(even) td {
+  background-color: rgba(255, 255, 255, 0.05);
+}
+
+tr:hover td {
+  background-color: rgba(78, 205, 196, 0.1);
+}
+
+/* 图片样式 */
+img {
+  max-width: 100%;
+  height: auto;
+  border-radius: 8px;
+  margin: 25px 0;
+  box-shadow: 0 5px 20px rgba(0, 0, 0, 0.3);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  border: 1px solid var(--color-border);
+}
+
+img:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.4);
+}
+
+/* 分隔线样式 */
+hr {
+  border: none;
+  border-top: 2px solid var(--color-border);
+  margin: 40px 0;
+  position: relative;
+}
+
+hr::after {
+  content: '✦';
+  position: absolute;
+  top: -10px;
+  left: 50%;
+  transform: translateX(-50%);
+  background-color: var(--color-sidebar);
+  color: var(--color-primary);
+  padding: 0 20px;
+  font-size: 16px;
+}
+
+/* 响应式设计 */
+@media (max-width: 768px) {
+  .content {
+    padding: 25px;
+    margin: 10px;
+  }
+  
+  h1 {
+    font-size: 2em;
+  }
+  
+  h2 {
+    font-size: 1.5em;
+  }
+  
+  h3 {
+    font-size: 1.2em;
+  }
+  
+  .sidebar-nav a:hover {
+    transform: none;
+  }
+}
+
+/* 板块专属样式 - 深色版 */
+.tech-section {
+  border-left: 4px solid var(--color-tech);
+  padding-left: 20px;
+  background-color: rgba(107, 70, 193, 0.1);
+  padding: 20px;
+  border-radius: 0 8px 8px 0;
+  margin-bottom: 25px;
+  border: 1px solid var(--color-border);
+}
+
+.culture-section {
+  border-left: 4px solid var(--color-culture);
+  padding-left: 20px;
+  background-color: rgba(217, 119, 6, 0.1);
+  padding: 20px;
+  border-radius: 0 8px 8px 0;
+  margin-bottom: 25px;
+  border: 1px solid var(--color-border);
+}
+
+.medicine-section {
+  border-left: 4px solid var(--color-medicine);
+  padding-left: 20px;
+  background-color: rgba(5, 150, 105, 0.1);
+  padding: 20px;
+  border-radius: 0 8px 8px 0;
+  margin-bottom: 25px;
+  border: 1px solid var(--color-border);
+}
+
+.chess-section {
+  border-left: 4px solid var(--color-chess);
+  padding-left: 20px;
+  background-color: rgba(124, 58, 237, 0.1);
+  padding: 20px;
+  border-radius: 0 8px 8px 0;
+  margin-bottom: 25px;
+  border: 1px solid var(--color-border);
+}
+
+.music-section {
+  border-left: 4px solid var(--color-music);
+  padding-left: 20px;
+  background-color: rgba(180, 83, 9, 0.1);
+  padding: 20px;
+  border-radius: 0 8px 8px 0;
+  margin-bottom: 25px;
+  border: 1px solid var(--color-border);
+}
+
+/* 自定义滚动条 - 深色版 */
+::-webkit-scrollbar {
+  width: 10px;
+  height: 10px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--color-bg);
+  border-radius: 5px;
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--color-neutral);
+  border-radius: 5px;
+  transition: background 0.3s ease;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--color-primary);
+}
+
+/* 动画效果 */
+.fade-in {
+  animation: fadeIn 0.6s ease-in-out;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* 卡片效果 - 深色版 */
+.card {
+  background-color: var(--color-sidebar);
+  border-radius: 8px;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+  padding: 25px;
+  margin-bottom: 25px;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  border: 1px solid var(--color-border);
+}
+
+.card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.4);
+}
+
+/* 打印样式 */
+@media print {
+  body {
+    background-color: white;
+    color: black;
+  }
+  
+  .sidebar, .app-nav {
+    display: none;
+  }
+  
+  .content {
+    max-width: 100%;
+    padding: 0;
+    margin: 0;
+    box-shadow: none;
+    border-radius: 0;
+    background-color: white;
+    border: none;
+  }
+  
+  h1, h2, h3, h4, h5, h6 {
+    color: #333333;
+  }
+  
+  p, li {
+    color: #333333;
+  }
+  
+  hr::after {
+    display: none;
+  }
+  
+  blockquote {
+    background-color: #f8f9fa;
+    color: #333333;
+  }
+  
+  pre {
+    background-color: #f8f9fa;
+    color: #333333;
+  }
+  
+  code {
+    background-color: #f8f9fa;
+    color: #333333;
+  }
+}
