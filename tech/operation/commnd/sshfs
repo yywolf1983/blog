@@ -1,0 +1,7 @@
+
+'''
+sshfs -o IdentityFile=~/.ssh/id_rsa root@192.16.4.100:/data/www/nones ~/nones100
+
+sshfs#tecmint@x.x.x.x:/home/tecmint/ /mnt/tecmint fuse.sshfs IdentityFile=~/.ssh/id_rsa defaults 0 0
+
+'''

@@ -1,0 +1,14 @@
+(;CA[UTF-8]AB[eq][ar][br][cs][cq][dq][qk][er][fs][gr][gq][jq][pn][rq][rp][po][pp][qq][om]
+[ol][pl][ki][rk][rl]AW[fp][fr][aq][bq][bo][cp][cr][fq][dp][ep][pk][pj][nj][on][oo]
+[pm][ql][qm][qn][qo][qp]C[左下角的棋形和“两扑势”有些类似，暗示了双倒扑之筋。]
+
+AP[MultiGo:4.2.4]SZ[19]GN[猛虎奔林]RE[白先胜]US[桥本宇太郎解说]SO[《玄玄棋经》]
+MULTIGOGM[1]
+;W[no]LB[pq:A][nl:B]C[两睨之筋，次有A之征和B之碰。]N[正解];B[mo]C[黑2亦为兼顾之着，但白棋仍然有手段。]
+;W[nl];B[nm];W[mm];B[ml];W[nn];B[nk];W[ok];B[nl];W[ll];B[mk];W[lj];B[lm];W[mn];B[lk]
+;W[ln]
+(;B[oq];W[kk];B[kl];W[mj];B[ll];W[jl];B[km];W[kn];B[jm];W[im];B[jn];W[jo];B[in]
+;W[hn];B[io];W[ip];B[ho];W[go];B[hp];W[hq];B[gp];W[hr];B[gs];W[es];B[ds];W[hs];B[es]
+;W[bs]C[双倒扑])
+(;B[kl]N[参考];W[pq];B[op];W[oq];B[np];W[mp];B[nq];W[nr];B[mq];W[lq];B[mr];W[lr]
+;B[ms];W[ns];B[lp];W[ls];B[mp];W[kp]C[回旋征]))

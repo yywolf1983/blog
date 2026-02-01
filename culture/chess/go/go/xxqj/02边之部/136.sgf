@@ -1,0 +1,10 @@
+(;CA[UTF-8]AB[pr][or][nr][mr][lr][jr][ir][jp][kp][lp]AW[jo][hs][hr][iq][ip][io][ko][lo][mp]
+[mq][nq][oq][pq][rq][qr]C[有“七死八活”这句话，意为在边上摆上八个子可以活。但此形空出一个洞。这个洞有三黑子庇护，所以问题就是怎么样使它发挥不了作用将之攻下。]
+
+AP[MultiGo:4.2.4]SZ[19]GN[十王飞骑]RE[白先黑死]US[桥本宇太郎解说]SO[《玄玄棋经》]
+MULTIGOGM[1]
+;W[ps]C[死于扳手]N[正解]
+(;B[os];W[is];B[js];W[ms];B[ls];W[kr];B[kq];W[lq]C[白1扳、3爬进去。这仅是先缩小黑棋空间，然后白5一刀砍中要害。
+
+对黑6，白7挖止，工作完毕。])
+(;B[kq]N[参考];W[is];B[js];W[lq]LB[os:A][ms:B]C[次黑若A则白B，到此为止。]))

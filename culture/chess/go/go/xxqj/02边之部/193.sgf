@@ -1,0 +1,16 @@
+(;CA[UTF-8]AB[eo][br][cr][cp][co][do][iq][go][gn][hp][hq][hr][pr][jq][kq][mq][mr][np][op]
+[oq]AW[dr][nr][nq][qp][po][oo][no][mp][lp][kp][jp][ip][in][ho][gp][gq][gr][ep][fp]
+[dp][dq]C[问题系想作活左边之箱形白棋，请先考虑需要取得什么样的先手利，然后再对黑棋用手段。
+
+左下的棋形，怎么下都不会活的。但此形任何一边若有扳手则可活。若懂得这个基本条件，本题将意外得简单。
+
+另，参看“子房归山”图。]
+
+AP[MultiGo:4.2.4]SZ[19]GN[长蛇势]RE[白先活]US[桥本宇太郎解说]SO[《玄玄棋经》]MULTIGOGM[1]
+;W[lq]N[正解];B[lr];W[kr]LB[ks:A][hs:B]C[次黑若A位抱吃，则白B扳打成为先手就活了。]
+;B[jr]C[白1、3在此处找麻烦，黑4只此一手。];W[ks]
+(;B[or];W[is];B[js];W[hs];B[ls];W[fr]C[黑若6应，则白7、9成为先手。次白11弯，是活棋的要点。]
+;B[gs];W[eq];B[es];W[ds]C[白15止，活得很清楚。])
+(;B[js]N[参考];W[fr]
+(;B[gs];W[eq];B[es];W[ds];B[fs];W[hs];B[is];W[er]C[一口干])
+(;B[eq]N[点];W[gs];B[es];W[ds];B[er]C[白先手双活])))

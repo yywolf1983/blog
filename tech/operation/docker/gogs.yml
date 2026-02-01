@@ -1,0 +1,13 @@
+version: '3.3'
+services:
+    gogsgit:
+        container_name: gogs
+        image: gogs/gogs
+        restart: always
+        ports:
+           - "10022:22"
+           - 10080:3000
+        volumes:
+           - /mnt/d/gogs:/data
+        command:
+           /app/gogs/docker/start.sh

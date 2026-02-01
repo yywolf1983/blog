@@ -1,0 +1,10 @@
+(;CA[UTF-8]AB[jo][jn][km][lm][ln][lo][ko][lp][lq][lr][nq][oq]AW[ir][qp][pp][op][np][pq][mo]
+
+[mn][mm][ll][kl][jm][im][in][io][jp][kp][kq][kr]C[要巧妙地去冲黑棋气紧的问题]AP[MultiGo:4.2.4]
+SZ[19]GN[喜鹊啭枝]RE[白先黑死]US[桥本宇太郎解说]SO[《玄玄棋经》]MULTIGOGM[1]
+;W[pr]C[白棋不动声色地于1位立下为好棋，黑棋找不到做活的手法。]N[正解]
+(;B[ns];W[ls]
+(;B[or];W[mr];B[ms];W[mq]C[黑2虽是形，但白3之扳佳，黑若4则白5、黑6则白7，是黑棋气紧不入子之形。])
+(;B[mp]N[参考1];W[mr];B[ms];W[nr]C[黑棋不行])
+(;B[ms]N[参考2];W[mq];B[mp];W[nr]C[到此为止]))
+(;B[or]N[挡];W[os];B[ns];W[mq];B[ps];W[mr];B[ms];W[mp];B[qr];W[rq]C[黑做不出两眼]))

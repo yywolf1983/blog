@@ -1,0 +1,34 @@
+
+# sar
+sar -A  > /tmp/sar.data.txt
+
+## 查看cpu
+sar -u 1 10 
+
+## 查看 load
+sar -q 1 10 
+
+## 查看中断
+sar -I SUM 1 2
+
+## 上下文切换
+sar -w  1 10 
+
+## 内存
+sar -r 1 1
+
+## 内核 slab区 
+sar -v  1
+
+## 交换分区
+sar -W 1 10
+
+## 内存分页
+sar -B 1
+
+## io
+sar -b 1 2
+sar -d 1
+
+## 网络 
+sar -n 

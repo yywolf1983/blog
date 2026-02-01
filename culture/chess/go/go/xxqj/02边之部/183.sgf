@@ -1,0 +1,16 @@
+(;CA[UTF-8]AB[os][fq][fr][rs][qr][pr][ms][nr][nq][mq][lq][lr][fo][ks][jr][jq][ip][hp][gp]
+[fp]AW[qq][rq][rr][iq][hq][er][cr][dq][do][en][fn][gn][go][ho][io][jp][kp][kq][kr]
+
+[lp][mp][np][oq][or][pq]C[是怎么样才能救出白二子的问题]AP[MultiGo:4.2.4]GN[二士桃源]
+RE[白先劫]US[桥本宇太郎解说]SO[《玄玄棋经》]MULTIGOGM[1]
+
+(;W[fs]C[白棋单于1位扳为妙手]N[正解]
+(;B[is]C[此时黑于2位应为最佳应手]
+(;W[gr]C[只此一手];B[hr];W[gq];B[gs]C[成为劫争])
+(;W[ir]MN[3]C[自撞一气，危险。]N[失败];B[js]C[白三子呈愚形三角，黑棋可用类似“偷营势”之手筋将其留下。]
+(;W[gr];B[hs];W[gs];B[gq]C[白棋接不归])
+(;W[hs]MN[5]N[打];B[ls]LB[gr:A][gq:B]C[接下来白A显然不行，黑B则成接不归。];W[gs]
+;B[hr];W[gr];B[gq]C[还是接不归])))
+(;B[gr]MN[2]N[参考1];W[gs]C[白3冷静地长进去是好棋];B[hs];W[is]C[黑棋净死])
+(;B[gs]MN[2]N[参考2];W[hs];B[es];W[js];B[is];W[ir]C[白3、5、7是连贯的好手，黑棋接不归。]))
+(;W[hs]N[失败];B[js];W[fs];B[gr]C[白棋二子救不回去]))

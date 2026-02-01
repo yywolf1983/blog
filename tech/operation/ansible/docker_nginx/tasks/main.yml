@@ -1,0 +1,30 @@
+
+- name: mkdir docker base dir
+  file:
+    path: /data/docker
+    state: directory
+
+- name: mkdir base dir
+  file:
+    path: "{{ nginx_path }}{{ item }}"
+    state: directory
+    owner: 1000
+    group: 1000
+    mode: 0775
+    #when: output_folder.stat.exists == false
+  with_items:
+    - html
+    - logs
+    - vhost
+  
+- name: add nginx.conf
+  template: src=nginx.conf.j2 dest={{ nginx_path }}nginx.conf
+
+- name: add default.conf
+  template: src=default.conf.j2 dest={{ nginx_path }}/vhost/default.conf
+
+- name: add mynginx.yml
+  template: src=mynginx.yml.j2 dest=~/docker/mynginx.yml
+
+- name: up docker nginx
+  shell: /usr/local/bin/docker-compose -f ~/docker/mynginx.yml up -d

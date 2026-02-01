@@ -1,0 +1,20 @@
+    - name: add web
+      command: rabbitmq-plugins enable rabbitmq_management
+      failed_when: false
+    
+    - name: add user
+      command: rabbitmqctl add_user admin admin00901  
+      failed_when: false
+
+    - name: add admin
+      command: rabbitmqctl set_user_tags admin administrator
+      failed_when: false
+    
+    - name: add user
+      command: rabbitmqctl  list_users
+      register: result
+      failed_when: false
+    
+    - name: check 
+      debug:
+        msg: '{{ result }}'

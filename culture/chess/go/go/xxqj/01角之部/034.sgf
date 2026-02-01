@@ -1,0 +1,13 @@
+﻿(;CA[UTF-8]AB[pp][qp][qo][pr][or][nr][nq][lq][lr][jq][ko][ln][mm][ol][ql][qm][rl][rn]AW[ro]
+[qn][pn][po][op][oq][np][mp][nn][mq][mr][ns]C[因为白棋只有一个眼的关系，请冲黑棋角上之缺陷。]
+
+AP[MultiGo:4.2.4]SZ[19]GN[寸心千里]RE[白先劫]US[桥本宇太郎解说]SO[《玄玄棋经》]
+MULTIGOGM[1]
+;W[pq]N[正解];B[qq];W[qr]C[白棋除了1、3在此处冲断找手段以外，没有其他的路可走。]
+;B[rr]
+(;W[qs]C[白5立舍弃二子为手筋，意欲作成大头鬼。];B[rs];W[rq];B[ps];W[qr]C[9位扑绞封，大头鬼初露端倪。]
+;B[qs];W[rp];B[qr];W[sn];B[rm];W[sr]LB[sm:A][sq:B][ms:C]C[白13扳打时，黑若14粘则白15扳，变成“两扳长一气”，对杀白胜。以后黑若B扑，则白不理而于C粘根为要领。
+
+黑14若A则成劫。])
+(;W[rq]C[如果不按“走成二子而弃之”之格言行事，白1直接绞封，会失败。]N[失败];B[qs]
+;W[rp];B[qr];W[sn];B[rm];W[sr];B[os];W[ms];B[rs]C[黑10冷静地解消劫争之手段后，成有眼杀瞎。]))

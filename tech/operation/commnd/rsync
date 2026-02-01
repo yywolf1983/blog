@@ -1,0 +1,152 @@
+rsync -rvau --delete ds_statics/ -e  "ssh -p 10022" 123.138.182.6:/opt/typhoonae/var
+
+Inotify  监控文件同步
+
+rsync -Rr 文件夹名 ip::目标模块
+选项说明
+
+-v, --verbose 详细模式输出
+-q, --quiet 精简输出模式
+-c, --checksum 打开校验开关，强制对文件传输进行校验
+-a, --archive 归档模式，表示以递归方式传输文件，并保持所有文件属性，等于-rlptgoD
+-r, --recursive 对子目录以递归模式处理
+-R, --relative 使用相对路径信息
+
+rsync foo/bar/foo.c remote:/tmp/
+
+则在/tmp目录下创建foo.c文件，而如果使用-R参数：
+
+rsync -R foo/bar/foo.c remote:/tmp/
+
+则会创建文件/tmp/foo/bar/foo.c，也就是会保持完全路径信息。
+
+http://rsync.samba.org/
+
+
+yum  -y  install  rsync inotify-tools
+
+inotify 文件效验工具 配合同步
+
+
+# 配置文件每台服务器都要
+rsyncd.conf的样本:
+#pid file = /var/run/rsyncd.pid
+port = 873
+uid = root
+gid = root
+use chroot = yes
+read only = no
+#hosts allow = 192.168.128.133  允许ip
+#hosts deny =192.168.128.0/24   拒绝ip
+max connections = 50  最大连接数
+#This will give you a separate log file
+#log file = /var/log/rsync.log
+log format = %t %a %m %f %b
+syslog facility = local3
+timeout = 300
+[test]
+path = /data/rsync
+list=yes
+ignore errors
+auth users = root, nemo
+secrets file = /etc/rsync.passwd
+comment = linuxsir home
+exclude = tmp/
+各个参数具体含义参见man rsyncd.conf
+
+欢迎词
+vi /etc/rsyncd.motd
+
+密码文件 将rsyncd.secrets这个密码文件的文件属性设为root拥有, 且权限要设为600, 否则无法备份成功!
+vi /etc/rsyncd.secrets
+test:test
+
+chmod 600 /etc/rsyncd.secrets
+
+服务器端启动:
+
+usr/bin/rsync --daemon --config=/etc/rsyncd/rsyncd.conf
+可能需要root权限运行.
+/etc/rsyncd/rsyncd.conf 是你刚才编辑的rsyncd.conf的位置.
+也可以在/etc/rc.d/rc.local里加入让系统自动启动等.
+iptables -i INPUT -p tcp --dport 873 -j ACCEPT
+
+echo "rsync --daemon" >>/etc/rc.local
+
+客户端同步:
+
+rsync -参数 用户名@同步服务器的IP::rsyncd.conf中那个方括号里的内容 本地存放路径 如:
+rsync -avzP nemo@192.168.10.1::nemo /backup  向下拉
+
+rsync -avzP  /backup nemo@192.168.10.1::nemo 向上推
+
+向服务器上用ssh推送
+/usr/bin/rsync -vzrtopg  /backup -e ssh root@127.0.0.1:/root/
+rsync -vzrtopg –progress –delete –password-file=/etc/rsync.pas postfix@192.168.100.1::postfix /home/mail/
+
+注意 这里路径末尾加不加斜杠是有区别的
+rsync -e "ssh -p 27336" -avz  /data/htdocs/  root@125.76.226.181:/data/htdocs/
+
+rsync -artuz -R  --timeout=100 "/data/htdocs/66153.jpg" rsync@125.76.226.181::redu --password-file=/etc/rsync.passwd
+inotify-tools
+
+
+wget -O /etc/yum.repos.d/epel.repo http://mirrors.aliyun.com/repo/epel-6.repo
+
+yum install rsync  inotify-tools -y
+
+检查inotify 支持
+ll  /proc/sys/fs/inotify
+
+/usr/local/bin/inotifywait -mrq -e modify,delete,create,attrib ${src}
+-m 是保持一直监听
+-r 是递归查看目录
+-q 是打印出事件
+-t 时间  和 -m 冲突
+
+服务端 用户必须和 rsync 执行用户相同
+echo -e "root:sdwl1746" > /etc/rsync.passwd
+
+客户端可以不加用户名
+echo -e "sdwl1746" > /etc/rsync.passwd
+
+chmod 600 /etc/rsync.passwd
+
+
+cat > /data/rsync_check.sh << EOF
+#/usr/bin/sh
+id=1
+autosshpid=\`ps -ef | grep -v grep | grep inotifywait | wc -l\`
+if [ "\$autosshpid" -ne "\$id" ]
+then
+    echo -e "\nstart rsync"
+    /usr/bin/sh /data/rsync_file.sh > /dev/null 2>&1 &
+fi
+echo \`date\` "check"
+
+autosshpid=\`ps -ef | grep -v grep | grep "rsync --daemon" | wc -l\`
+if [ "\$autosshpid" -ne "\$id" ]
+then
+    echo -e "\nstart rsync --daemon"
+    /usr/bin/rsync --daemon > /dev/null 2>&1 &
+fi
+EOF
+
+cat >> /var/spool/cron/root << EOF
+\*/1 * * * * /usr/bin/sh /data/rsync_check.sh >> /data/rsync.log 2>&1
+EOF
+
+
+src=/data/rsync/
+des=app11
+ip=47.56.154.59
+cat > /data/rsync_file1.sh << EOF
+#!/bin/bash
+/usr/local/bin/inotifywait -mrq --timefmt '%d/%m/%y %H:%M' --format  '%T %w%f'  -e modify,delete,create,attrib ${src} | while read  file
+do
+    INO_EVENT=\$(echo \$file | awk '{print \$1}')
+    echo $INO_EVENT >> /data/rsync.log  2>&1 &
+    rsync -avzP --delete ${src}  root@${ip}::${des} --password-file=/etc/rsync.passwd 
+    echo "------" \`date\` "rsync file to " ${ip}:${des} >> /data/rsync.log  2>&1 &
+done
+EOF

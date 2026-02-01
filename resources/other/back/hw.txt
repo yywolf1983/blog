@@ -1,0 +1,127 @@
+adb shell pm list packages
+adb shell pm list packages -s -e >enabled.txt
+
+## 手机备忘
+
+- DP1.2 DP Alt Mode
+- NFC
+
+
+分辨率
+adb  shell wm size 1080x2244
+显示密度
+adb  shell wm density 460
+
+adb logcat|grep START
+
+adb shell pm uninstall --user 0  com.android.mediacenter #音乐
+adb shell pm uninstall --user 0  com.huawei.wallet       #钱包
+adb shell pm uninstall --user 0  com.huawei.android.findmyphone  #查找手机
+adb shell pm uninstall --user 0  com.huawei.vassistant          #语音助手
+adb shell pm uninstall --user 0  com.huawei.appmarket          #市场
+adb shell pm uninstall --user 0  com.baidu.input_huawei       #百度输入法
+adb shell pm uninstall --user 0 com.android.stk             #SIM卡应用
+adb shell pm uninstall --user 0 com.android.calendar       #日历
+adb shell pm uninstall --user 0 com.huawei.android.thememanager   #主题 
+adb shell pm uninstall --user 0 com.huawei.himovie      #视频
+adb shell pm uninstall --user 0 com.huawei.search     #垃圾智慧
+com.android.browser 浏览器
+
+package:com.huawei.hifolder //华为精品应用文件夹，   
+package:com.android.mediacenter //华为音乐，一堆广告，还要登录华为ID...
+package:com.huawei.hidisk //文件管理,功能挺全，但是竟然强行绑定云空间...
+package:com.huawei.android.thememanager //主题，里面一堆巨丑&要付费的主题
+package:com.huawei.intelligent //手机桌面滑到最左侧的智能情景模式...全是广告，唉
+package:com.huawei.appmarket //华为应用市场，连skype、google都搜不出来的市场有鸟用？
+package:com.huawei.wallet //华为钱包，用不着，刷卡有云闪付，公交卡有大都会。
+package:com.huawei.android.findmyphone //查找手机，1000块的手机查找什么手机？
+package:com.huawei.phoneservice //会员服务，不好意思，不是会员
+package:com.android.browser //（华为）浏览器，看到我的文章上方推送的新闻了吧    
+package:com.android.soundrecorder //录音机，卸载防止系统悄咪咪的监听我
+package:com.baidu.input_huawei //百度输入法-华为版，起到1+1>2的效果，笑死我了
+package:com.android.contacts //联系人，注意EMUI系统的拨号是属于联系人的子功能，
+因此你会发现最终手机主页上的拨号+联系人都不见了
+package:com.android.stk //SIM卡应用，已经过了2G时代，永别了
+package:com.huawei.trustspace //支付保护中心，类似360沙箱，太麻烦不需要
+package:com.android.calendar //日历，土味太浓，删了
+package:com.huawei.vassistant //语音助手，防窃听，不多说
+package:com.android.gallery3d //图库（系统相册），功能挺好，强绑华为云空间令人不爽，卸了
+package:com.huawei.himovie //华为视频，本文一开头的罪魁祸首出现了，干掉你！
+
+adb shell pm uninstall --user 10  隐私模式
+
+miui
+游戏.bat:adb shell pm uninstall --user 0 com.xiaomi.gamecenter
+音乐.bat:adb shell pm uninstall --user 0 com.miui.player
+黄页.bat:adb shell pm uninstall --user 0 com.miui.yellowpage
+卸载msa.bat:adb shell pm uninstall --user 0 com.miui.systemAdSolution
+快应用.bat:adb shell pm uninstall --user 0 com.miui.hybrid
+指南针.bat:adb shell pm uninstall --user 0 com.miui.compass
+浏览器.bat:adb shell pm uninstall --user 0 com.android.browser
+应用商店(不要卸载，会卡米).bat:adb shell pm uninstall --user 0 com.xiaomi.market
+系统更新(不要卸载，会卡米).bat:adb shell pm uninstall --user 0 com.android.updater
+全球上网.bat:adb shell pm uninstall --user 0 com.miui.virtualsim
+小爱同学.bat:adb shell pm uninstall --user 0 com.miui.voiceassist
+小米卡包.bat:adb shell pm uninstall --user 0 com.xiaomi.pass
+小米视频.bat:adb shell pm uninstall --user 0 com.miui.video
+小米钱包.bat:adb shell pm uninstall --user 0 com.mipay.wallet
+游戏服务.bat:adb shell pm uninstall --user 0 com.xiaomi.gamecenter.sdk.service
+用户反馈.bat:adb shell pm uninstall --user 0 com.miui.bugreport
+用户手册.bat:adb shell pm uninstall --user 0 com.miui.userguide
+米币支付.bat:adb shell pm uninstall --user 0 com.xiaomi.payment
+安全守护服务.bat:adb shell pm uninstall --user 0 com.miui.greenguard
+小米安全键盘.bat:adb shell pm uninstall --user 0 com.miui.securityinputmethod
+搜狗输入法小米版.bat:adb shell pm uninstall --user 0 com.sohu.inputmethod.sogou.xiaomi
+
+SIM卡应用 adb shell pm uninstall --user 0 com.android.stk  
+
+以下可以用安全中心卸载
+
+天气 adb shell pm uninstall --user 0 com.miui.weather2
+扫一扫 adb shell pm uninstall --user 0  com.xiaomi.scanner
+
+阅读 adb shell pm uninstall --user 0  com.duokan.reader
+邮件 adb shell pm uninstall --user 0 com.android.email *
+游戏 adb shell pm uninstall --user 0 com.xiaomi.gamecenter *
+便签 adb shell pm uninstall --user 0 com.miui.notes
+主题 adb shell pm uninstall --user 0 com.android.thememanager
+
+
+
+
+手机所需软件
+Gg谷歌框架安装器
+
+指南针 计算器 -
+markor -
+万年历 -
+gboard -
+翻译 -
+安全二维码 SecScanQR
+vlc -
+zarchiver -
+gmail -
+keep笔记 -
+github -
+极简汇率 -
+termux -
+rd client -
+身份验证
+
+围棋宝典 -
+豆瓣阅读 -
+qq -
+Weiyun
+地图 -
+
+F-Droid
+syncthing -
+kopcloud -
+letstalk -
+vnc -
+openvpn
+http快捷
+ssr
+
+游戏
+CrowCastle 

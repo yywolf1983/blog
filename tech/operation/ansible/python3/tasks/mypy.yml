@@ -1,0 +1,25 @@
+- name: dowaland pip
+  get_url:
+    url: http://47.52.97.39/file/get-pip.py
+    dest: /data/soft
+
+      #- name: install pip
+      #command: /data/python3/bin/python3 /data/soft/get-pip.py
+
+- name: upgrade pip
+  command: /data/python3/bin/python3 -m pip install --upgrade pip
+
+- name: install virtualenv
+  command: /data/python3/bin/python3 -m pip install virtualenv
+
+- name: install mypy
+  command: /data/python3/bin/python3 -m virtualenv /data/mypy
+
+- name: up shell
+  template: src=python.sh.j2 dest=~/python.sh
+
+- name: check python
+  command: sh ~/python.sh
+
+- name: up env
+  command: /data/python3/bin/python3 -m virtualenv -p /data/python3/bin/python3 /data/mypy 

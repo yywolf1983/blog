@@ -1,0 +1,377 @@
+# storage.yml
+---
+kind: StorageClass
+apiVersion: storage.k8s.io/v1
+metadata:
+  name: mysql-local-storage
+  
+provisioner: kubernetes.io/no-provisioner
+volumeBindingMode: WaitForFirstConsumer
+---
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: mysql-pv-0
+  labels:
+    type: local
+spec:
+  storageClassName: mysql-local-storage
+  capacity:
+    storage: 15Gi
+  accessModes:
+    - ReadWriteOnce
+  hostPath:
+    path: "/mnt/mysql"
+---
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  
+  name: mysql-pv-1
+  labels:
+    type: local
+spec:
+  storageClassName: mysql-local-storage
+  capacity:
+    storage: 15Gi
+  accessModes:
+    - ReadWriteOnce
+  hostPath:
+    path: "/mnt/mysql"
+
+---
+#deploy-base.yml
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: mysql
+  
+  labels:
+    app: mysql
+data:
+  my.cnf: |
+    # mysql configuration file
+    [mysqld]
+    binlog_checksum=NONE
+    enforce_gtid_consistency=ON
+    gtid_mode=ON
+    secure_file_priv = /var/lib/mysql
+
+    !includedir /etc/mysql/conf.d/
+    
+---
+apiVersion: v1
+kind: Service
+metadata:
+  
+  name: mysql-service
+spec:
+  ports:
+  - name: mysql-service
+    port: 3306
+  clusterIP: None
+  selector:
+    app: mysql
+---
+#deploy-primary.yml
+
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: mysql-primary
+  
+spec:
+  selector:
+    matchLabels:
+      app: mysql
+  serviceName: mysql-service
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: mysql
+    spec:
+      nodeSelector:
+        mysql: master
+      initContainers:
+      - name: init-mysql
+        image: mysql:8.0.18
+        env: 
+          - name: POD_IP
+            valueFrom:
+              fieldRef:
+                fieldPath: status.podIP
+        command:
+        - bash
+        - "-c"
+        - |
+          set -ex
+          # Generate mysql server-id from pod ordinal index.
+          [[ `hostname` =~ -([0-9]+)$ ]] || exit 1
+          mkdir -p /mnt/mysql/conf.d
+          echo [mysqld] > /mnt/mysql/conf.d/server-id.cnf
+          # Add an offset to avoid reserved server-id=0 value.
+          echo server-id=$((1000 + ${BASH_REMATCH[1]})) >> /mnt/mysql/conf.d/server-id.cnf
+          echo report_host=$(POD_IP) >> /mnt/mysql/conf.d/server-id.cnf
+          cp /mnt/config-map/my.cnf /mnt/mysql
+        volumeMounts:
+        - name: conf
+          mountPath: /mnt/mysql
+        - name: config-map
+          mountPath: /mnt/config-map
+      containers:
+        - name: mysql
+          image: mysql:8.0.18
+          env:
+          - name: MYSQL_ROOT_PASSWORD
+            value: "mysql_pass"
+          ports:
+            - containerPort: 3306
+          volumeMounts:
+          - name: data
+            mountPath: /var/lib/mysql
+          - name: conf
+            mountPath: /etc/mysql
+          resources:
+            requests:
+              cpu: 500m
+              memory: 1Gi
+          livenessProbe:
+            exec:
+              command: ["mysqladmin", "-uroot", "-pmysql_pass", "ping"]
+            initialDelaySeconds: 30
+            periodSeconds: 10
+            timeoutSeconds: 5
+          readinessProbe:
+            exec:
+              # Check we can execute queries over TCP (skip-networking is off).
+              command: ["mysql", "-h", "127.0.0.1", "-uroot", "-pmysql_pass", "-e", "SELECT 1"]
+            initialDelaySeconds: 5
+            periodSeconds: 2
+            timeoutSeconds: 1
+        - name: xtrabackup
+          image: 47.108.235.230:8090/base/percona-xtrabackup:8.0
+          ports:
+            - containerPort: 3307
+          env: 
+            - name: BACKUP_ACCOUNT_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: mysql-password
+                  key: root-password
+            - name: POD_IP
+              valueFrom:
+                fieldRef:
+                  fieldPath: status.podIP
+          command:
+          - bash
+          - "-c"
+          - |
+            cd /var/lib/mysql
+            ls -l /var/lib/mysql
+            echo "Waiting for mysqld to be ready (accepting connections)"
+            until mysql -h 127.0.0.1 -uroot -p$(BACKUP_ACCOUNT_PASSWORD) -e "SELECT 1"; do sleep 1; done
+
+            [[ `hostname` =~ -([0-9]+)$ ]] || exit 1
+            yes | mysqlsh --uri $(ADMIN_ACCOUNT):$(ADMIN_ACCOUNT_PASSWORD)@$(POD_IP):3306 -- dba drop-metadata-schema
+            yes | mysqlsh --uri $(ADMIN_ACCOUNT):$(ADMIN_ACCOUNT_PASSWORD)@$(POD_IP):3306 -- dba create-cluster "mysql_cluster" --ipWhitelist=$(POD_IP)/8
+            exec ncat --listen --keep-open --send-only --max-conns=1 3307 -c \
+            "xtrabackup --backup --stream=xbstream --host=127.0.0.1 --user=root --password=$(BACKUP_ACCOUNT_PASSWORD)"
+          volumeMounts:
+          - name: data
+            mountPath: /var/lib/mysql
+          - name: conf
+            mountPath: /etc/mysql
+          resources:
+            requests:
+              cpu: 100m
+              memory: 100Mi
+      volumes:
+      - name: conf
+        emptyDir: {}
+      - name: config-map
+        configMap:
+          name: mysql
+      imagePullSecrets:
+        - name: image-repo-secret
+  volumeClaimTemplates:
+  - metadata:
+      name: data
+    spec:
+      accessModes: ["ReadWriteOnce"]
+      storageClassName: mysql-local-storage
+      resources:
+        requests:
+          storage: 1Gi
+          
+---
+#deploy-secondary.yml
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: mysql-secondary
+  
+spec:
+  selector:
+    matchLabels:
+      app: mysql
+  serviceName: mysql-service
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: mysql
+    spec:
+      nodeSelector:
+        mysql: slave
+      initContainers:
+      - name: init-mysql
+        image: mysql:8.0.18
+        env: 
+          - name: POD_IP
+            valueFrom:
+              fieldRef:
+                fieldPath: status.podIP
+        command:
+        - bash
+        - "-c"
+        - |
+          set -ex
+          # Generate mysql server-id from pod ordinal index.
+          [[ `hostname` =~ -([0-9]+)$ ]] || exit 1
+          mkdir -p /mnt/mysql/conf.d
+          echo [mysqld] > /mnt/mysql/conf.d/server-id.cnf
+          # Add an offset to avoid reserved server-id=0 value.
+          echo server-id=$((2000 + ${BASH_REMATCH[1]})) >> /mnt/mysql/conf.d/server-id.cnf
+          echo report_host=$(POD_IP) >> /mnt/mysql/conf.d/server-id.cnf
+          cp /mnt/config-map/my.cnf /mnt/mysql
+        volumeMounts:
+        - name: conf
+          mountPath: /mnt/mysql
+        - name: config-map
+          mountPath: /mnt/config-map
+      - name: clone-mysql
+        image: 47.108.235.230:8090/base/percona-xtrabackup:8.0
+        command:
+        - bash
+        - "-c"
+        - |
+          set -ex
+          # Skip the clone if data already exists.
+          [[ -d /var/lib/mysql/mysql ]] && exit 0
+          ls -l /var/lib/mysql
+          [[ `hostname` =~ -([0-9]+)$ ]] || exit 1
+          if [[ ${BASH_REMATCH[1]} -eq 0 ]]; then
+            # Clone data from master
+            ncat --recv-only mysql-primary-0.mysql-service 3307 | xbstream -x -C /var/lib/mysql
+          else 
+            # Clone data from previous peer.
+            ncat --recv-only mysql-secondary-$((${BASH_REMATCH[1]}-1)).mysql-service 3307 | xbstream -x -C /var/lib/mysql
+          fi
+          
+          # Prepare the backup.
+          ls -l /var/lib/mysql
+          xtrabackup --prepare --target-dir=/var/lib/mysql
+        volumeMounts:
+        - name: data
+          mountPath: /var/lib/mysql
+        - name: conf
+          mountPath: /etc/mysql
+      containers:
+        - name: mysql
+          image: mysql:8.0.18
+          ports:
+            - containerPort: 3306
+          volumeMounts:
+          - name: data
+            mountPath: /var/lib/mysql
+          - name: conf
+            mountPath: /etc/mysql
+          resources:
+            requests:
+              cpu: 500m
+              memory: 1Gi
+          livenessProbe:
+            exec:
+              command: ["mysqladmin", "-uroot", "-pmysql_pass", "ping"]
+            initialDelaySeconds: 30
+            periodSeconds: 10
+            timeoutSeconds: 5
+          readinessProbe:
+            exec:
+              # Check we can execute queries over TCP (skip-networking is off).
+              command: ["mysql", "-h127.0.0.1", "-uroot", "-pmysql_pass", "-e", "SELECT 1"]
+            initialDelaySeconds: 5
+            periodSeconds: 2
+            timeoutSeconds: 1
+        - name: xtrabackup
+          image: 47.108.235.230:8090/base/percona-xtrabackup:8.0
+          ports:
+            - containerPort: 3307
+          env: 
+            - name: BACKUP_ACCOUNT_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: mysql-password
+                  key: root-password
+            - name: POD_IP
+              valueFrom:
+                fieldRef:
+                  fieldPath: status.podIP
+          command:
+          - bash
+          - "-c"
+          - |
+            cd /var/lib/mysql
+            ls -l /var/lib/mysql
+
+            # Check if we need to complete a clone by starting replication.
+            echo "Waiting for mysqld to be ready (accepting connections)"
+            until mysql -h 127.0.0.1 -uroot -p$(BACKUP_ACCOUNT_PASSWORD) -e "SELECT 1"; do sleep 1; done
+
+            # Determine binlog position of cloned data, if any
+            if [[ -f xtrabackup_binlog_info ]]; then
+              # We're cloning directly from master. Parse binlog position.
+              echo "Initializing replication from clone position"
+              [[ `cat xtrabackup_binlog_info` =~ ^(.*?)[[:space:]]+(.*?)$ ]] || exit 1
+              echo "" > set_gtid.sql
+              mysql -h 127.0.0.1 -uroot  -p$(BACKUP_ACCOUNT_PASSWORD) -e "RESET MASTER;"
+              mysql -h 127.0.0.1 -uroot  -p$(BACKUP_ACCOUNT_PASSWORD) -e "RESET SLAVE ALL;"
+              mysql -h 127.0.0.1 -uroot  -p$(BACKUP_ACCOUNT_PASSWORD) -e "SET SQL_LOG_BIN=OFF;"
+              mysql -h 127.0.0.1 -uroot  -p$(BACKUP_ACCOUNT_PASSWORD) -e "SET @@GLOBAL.GTID_PURGED='${BASH_REMATCH[2]}';"
+              mysql -h 127.0.0.1 -uroot  -p$(BACKUP_ACCOUNT_PASSWORD) -e "SET SQL_LOG_BIN=ON;"
+              rm xtrabackup_binlog_info  
+            fi
+
+            [[ `hostname` =~ -([0-9]+)$ ]] || exit 1
+            yes C | mysqlsh --uri root:$(BACKUP_ACCOUNT_PASSWORD)@mysql-primary-0.mysql-service:3306 -- cluster add-instance "root:$(BACKUP_ACCOUNT_PASSWORD)@$(POD_IP):3306" --ipWhitelist=mysql-primary-0.mysql-service,$(POD_IP)/8
+
+            # Start a server to send backups when requested by peers.
+            exec ncat --listen --keep-open --send-only --max-conns=1 3307 -c \
+            "xtrabackup r--backup --slave-info --stream=xbstream --host=127.0.0.1 --user=root --password=$(BACKUP_ACCOUNT_PASSWORD)"
+          volumeMounts:
+          - name: data
+            mountPath: /var/lib/mysql
+          - name: conf
+            mountPath: /etc/mysql
+          resources:
+            requests:
+              cpu: 100m
+              memory: 100Mi
+      volumes:
+      - name: conf
+        emptyDir: {}
+      - name: config-map
+        configMap:
+          name: mysql
+      imagePullSecrets:
+        - name: image-repo-secret
+  volumeClaimTemplates:
+  - metadata:
+      name: data
+    spec:
+      accessModes: ["ReadWriteOnce"]
+      storageClassName: mysql-local-storage
+      resources:
+        requests:
+          storage: 15Gi

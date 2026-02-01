@@ -1,0 +1,252 @@
+https://sobaigu.com/cloudflare-manage-dns-auto.html
+
+curl -X POST -H "X-Auth-Key: xxxx" \
+    -H "X-Auth-Email: email.com" \
+    -H "Content-Type: application/json" \
+"https://api.cloudflare.com/client/v4/zones" \
+     --data '{"name":"'"aaaabbbbbbccccccc.com"'","jump_start":true,"organization":{"name":"'"账户名称"'","id":"'"帐户 ID"'"}}'
+
+CloudFlare是一家DNS供应商，他有提供很多服务（HTTPS/CDN等等），具体的大家可以自己去官网看一下：www.cloudflare.com
+
+CloudFlare建议使用linux的 curl 命令来开发对应的API功能。
+
+本文件一共有5个文件配合使用：
+
+    domians_list.txt ：用来存放需要添加的域名
+    cloudflare.env ：存放各种变量
+    cloudflare.sh ：存放linux命令，执行时也是执行这一个脚本即可
+    filter_zone_id.py ：用于将CloudFlare返回的数据过滤(过滤出域名及其区域ID)
+    filter_dns_id.py ：用于将CloudFlare返回的数据过滤(过滤出解析记录及其记录ID)
+
+domians_list.txt
+
+就是把顶级域名写到里面，一行一个,如：
+
+a.com
+b.com
+c.com
+
+cloudflare.env
+
+#!/bin/bash
+
+#通用变量
+#当前目录
+PWD=$(pwd)
+PYTHON=$(which python)
+
+#这里DNS指的是解析记录
+#CloudFlare的登录账号
+CF_API_EMAIL=CloudFlare的登录账号
+#在用户信息里面查看“Global KEY”
+CF_API_KEY=在用户信息里面查看“Global KEY”
+#组织名
+ORGANIZATION_NAME="组织名"
+#组织ID
+ORGANIZATION_ID="组织ID"
+#解析参数
+# DNS_TYPE=A/CNAME/AAAA
+DNS_TYPE=解析类型
+#DNS_SUBDOMAIN=子解析记录
+DNS_SUBDOMAIN=
+CONTENT_A=域名需要解析的IP
+CONTENT_CNAME=域名需要解析的CNAME
+
+
+cloudflare.sh
+
+#!/bin/bash
+source ./cloudflare.env
+
+#新增域名
+for DOMAIN in $(cat $PWD/domain_list.txt)
+do
+    curl -X POST -H "X-Auth-Key: ${CF_API_KEY}" \
+    -H "X-Auth-Email: ${CF_API_EMAIL}" \
+    -H "Content-Type: application/json"
+"https://api.cloudflare.com/client/v4/zones" \
+     --data
+'{"name":"'"${DOMAIN}"'","jump_start":true,"organization":{"name":"'"${ORGANIZATION_NAME}"'","id":"'"${ORGANIZATION_ID}"'"}}'
+>> $PWD/get_zone_id.cf
+    ECHO -e "\n" >> $PWD/get_zone_id.cf
+done
+
+#get_zone_id.cf     -- 存放新增域名时Cloudflare返回的JSON 数据
+#filter_zone_id.py  -- 用于从 "get_zone_id.cf"
+中过滤出域名及其相对应的区域ID并写入文件 "zone_id.cf"
+#执行python脚本，过滤出域名的区域ID
+$PYTHON $PWD/filter_zone_id.py
+
+#获取DNS ID列表
+while read line
+do
+    ZONE_NAME=$(ECHO "$line" | awk '{print $1}')
+    ZONE_ID=$(ECHO "$line" | awk '{print $2}')
+    curl -X GET
+"https://api.cloudflare.com/client/v4/zones/${ZONE_ID}/dns_records" \
+         -H "X-Auth-Email: ${CF_API_EMAIL}" -H "X-Auth-Key: ${CF_API_KEY}" \
+         -H "Content-Type: application/json" >> $PWD/get_dns_id.cf
+    ECHO -e "\n" >> $PWD/get_dns_id.cf
+done < $PWD/zone_id.cf
+
+#get_dns_id.cf      -- 存放获取DNS_ID时Cloudflare返回的JSON 数据
+#filter_dns_id.py   -- 用于从 "get_dns_id.cf"
+中过滤出DNS_ID及其DNS_NAME并写入文件 "dns_id.cf"
+#执行python脚本，过滤出DNS_ID
+$PYTHON $PWD/filter_dns_id.py
+
+#删除DNS记录
+#删除DNS记录还需要指定区域ID，每个域名的区域DI不同，所以进行一个判断，判断DNS_NAME是否模糊匹配之前取到的ZONE_NAME
+#如果匹配则使用这个ZONE_ID
+while read zone
+do
+    ZONE_NAME=$(ECHO "$zone" | awk '{print $1}')
+    ZONE_ID=$(ECHO "$zone" | awk '{print $2}')
+    while read dns
+    do
+        DNS_NAME=$(ECHO "$dns" | awk '{ print $1 }')
+        DNS_ID=$(ECHO "$dns" | awk '{ print $2 }')
+        if [[ "*$DNS_NAME" =~ "$ZONE_NAME" ]]
+        then
+            curl -X DELETE
+"https://api.cloudflare.com/client/v4/zones/${ZONE_ID}/dns_records/${DNS_ID}" \
+                 -H "X-Auth-Email:${CF_API_EMAIL}" \
+                 -H "X-Auth-Key:${CF_API_KEY}" \
+                 -H "Content-Type:application/json"
+        fi
+    done < $PWD/dns_id.cf
+done < $PWD/zone_id.cf
+
+#增加DNS记录
+#TTL=1 为自动
+#proxied=true 使用CF的CDN,等于false是不使用
+#data传入变量格式： "'"$EVN"'"
+#设置变量
+
+while read line
+do
+    ZONE_NAME=$(ECHO "$line" | awk '{print $1}')
+    ZONE_ID=$(ECHO "$line" | awk '{print $2}') 
+    curl -X POST
+"https://api.cloudflare.com/client/v4/zones/${ZONE_ID}/dns_records" \
+         -H "X-Auth-Email:${CF_API_EMAIL}" \
+         -H "X-Auth-Key:${CF_API_KEY}" \
+         -H "Content-Type:application/json" \
+         --data
+'{"type":"A","name":"@","content":"'"${CONTENT_A}"'","ttl":1,"priority":10,"proxied":true}'
+
+    curl -X POST
+"https://api.cloudflare.com/client/v4/zones/${ZONE_ID}/dns_records" \
+         -H "X-Auth-Email:${CF_API_EMAIL}" \
+         -H "X-Auth-Key:${CF_API_KEY}" \
+         -H "Content-Type:application/json" \
+         --data
+'{"type":"CNAME","name":"www","content":"'"${CONTENT_CNAME}"'","ttl":1,"priority":10,"proxied":false}'
+
+    curl -X POST
+"https://api.cloudflare.com/client/v4/zones/${ZONE_ID}/dns_records" \
+         -H "X-Auth-Email:${CF_API_EMAIL}" \
+         -H "X-Auth-Key:${CF_API_KEY}" \
+         -H "Content-Type:application/json" \
+         --data
+'{"type":"CNAME","name":"m","content":"'"${CONTENT_CNAME}"'","ttl":1,"priority":10,"proxied":false}'
+done < $PWD/zone_id.cf
+
+
+filter_zone_id.py
+
+#!/usr/bin/env python
+#*- coding:utf-8 -*
+
+#打开文件获取添加域名成功后返回的数据，然后获取到域名的区域ID
+#通过区域ID获取DNS列表
+
+import json
+import os
+import traceback
+
+#traceback 整输出报错信息
+#str(e) 只给出异常信息，不包括异常信息的类型，如1/0的异常信息
+#repr(e) 给出较全的异常信息，包括异常信息的类型，如1/0的异常信息
+
+PWD = os.getcwd()
+
+PWD_GET = PWD+'/get_zone_id.cf'
+PWD_ZONE = PWD+'/zone_id.cf'
+ERROR_FILE = PWD+'/zone_error.log'
+
+#读取添加域名时返回的字符串，并且循环写入字典，以便于过滤出域名的区域ID
+with open (PWD_GET,'r') as file:
+    i = 0
+    j = 0
+    dict = {}
+    list = []
+    for line in file:
+        if line.strip  == " " or line == "\n" or line == " \n":
+            continue
+        try:
+            dict[i]=json.loads(line)
+            i+=1
+        except Exception as e:
+            j+=1
+            with open (ERROR_FILE,'a+') as file:
+                title = "----------\t\t第%d条报错信息\t\t---------"%(j) + "\n"
+                #info = "报错信息：" + traceback.format_exc() + "\n"
+                info = "报错信息：" + repr(e) + "\n"
+                mation = "报错行：" + line + "\n"
+                file.writelines(title)
+                file.writelines(info)
+                file.writelines(mation)
+            continue
+
+#获取所有的key，然后进行循环遍历，获取每个域名的区域ID
+keys_list = dict.keys()
+
+for key in keys_list:
+    ID=dict[key]['result']['id']
+    NAME=dict[key]['result']['name']
+    with open (PWD_ZONE,'a+') as file:
+        line = NAME + " " + ID + "\n"
+        file.writelines(line)
+
+
+filter_dns_id.py
+
+#!/usr/bin/env python
+#*- coding:utf-8 -*
+
+#打开文件读取cloudflare返回的DNS ID
+
+import json
+import os
+
+PWD = os.getcwd()
+
+PWD_GET = PWD+'/get_dns_id.cf'
+PWD_DNS = PWD+'/dns_id.cf'
+
+#读取获取DNS ID时返回的字符串，并且循环写入字典，以便于过滤出DNS ID
+with open (PWD_GET,'r') as file:
+    i = 0
+    dict = {}
+    for line in file:
+        if line.strip  == " " or line == "\n" or line == " \n":
+            continue
+        dict[i]=json.loads(line)
+        i+=1
+
+key_list = dict.keys()
+
+for key in key_list:
+    list =  dict[key]['result']
+
+    #一个域名可能有多个DNS记录，cloudflare返回的是一个列表,列表中是一个一个的字典，
+    #一个key-values代表一个DNS记录，所以这里需要遍历列表中的字典
+    #通过取列表的索引值，循环每一个位置的字典
+    for i in list:
+        with open (PWD_DNS,'a+') as file:
+            line = i['name'] + " " + i['id'] + "\n"
+            file.writelines(line)
+
+
+https://sobaigu.com/cloudflare-manage-dns-auto.html

@@ -1,0 +1,90 @@
+
+// 要设置参数话构建  名称:BRANCH  参数类型:分支
+properties(
+    [gitLabConnection(gitLabConnection: 'jenkins', jobCredentialId: ''), 
+    parameters([
+        choice(choices: ['prod', 'test'], name: 'env',defaultValue: 'test'), 
+        gitParameter(branch: '', branchFilter: '.*', defaultValue: 'no', name: 'tag', quickFilterEnabled: false, selectedValue: 'NONE', sortMode: 'NONE', tagFilter: '*', type: 'PT_TAG'), 
+        gitParameter(branch: '', branchFilter: 'origin/(.*)', defaultValue: 'master', name: 'branch', quickFilterEnabled: false, selectedValue: 'NONE', sortMode: 'NONE', tagFilter: '*', type: 'PT_BRANCH')
+        ])
+    ])
+
+node {
+   environment {
+        VITE_BASEURL = "https://apialpha.arche.network"
+        VITE_AGENCYCONTRACT = "0x611c0a9dec182e0985a62cb7cddf10996bfd89f9"
+        VITE_LOGO = "logo_alpha"
+        env.gitpath = "http://xxxx.com/dedao/dedao-backend.git"
+   }
+try{
+    stage('branch') {
+        echo "'当前分支'${params.branch}"
+        echo "'当前tag'${params.tag}"
+        echo "'当前发布到'${params.env}"
+    }
+    stage('Source') {
+      if (env.env == 'prod') {
+            k8s_name = "dedao-backend"
+            namenode = "mfi"
+            env.docker_name = "dedao-backend"
+       }
+      if (env.env == "test") {
+            k8s_name = "g-dedao-backend"
+            namenode = "mfi-test"
+            env.docker_name = "g-dedao-backend"
+      }
+      git branch: '${branch}', credentialsId: 'c1360bd4-2936-4de6-a782-b5afc1c89a32', url: "${env.gitpath}"
+      
+      if (env.tag == "no") {
+          echo "${tag}"
+      } else {
+          echo "${env.tag}"
+          sh "git checkout ${tag}"
+      }
+  }
+    stage('run build'){
+       sh '''
+          /data/soft/apache-maven-3.6.3/bin/mvn clean package
+       '''
+    }
+    stage('docker build'){
+        echo "开始构建docker镜像"
+        sh "cd ../arche-admin-jeecg/arche-admin && sudo docker build -t harbor.arche.network/aws/arche-admin:latest ."
+        echo "构建结束"
+    }
+    stage('publish'){
+        echo "开始推送镜像"
+        sh "sudo docker login -u admin -p Harbor1234579 https://harbor.arche.network"
+        sh "sudo docker push harbor.arche.network/aws/arche-admin:latest"
+        sh "sudo docker rmi harbor.arche.network/aws/arche-admin:latest"
+        echo "推送结束"
+    }
+    stage('re DEP'){
+      def suiteRunId = UUID.randomUUID().toString()
+      sh """
+      kubectl patch -n arche-test deployment arche-admin \
+      --patch '{"spec": {"template": {"metadata": {"annotations": {"version/config": "${suiteRunId}" }}}}}' 
+      echo "${suiteRunId}"
+      """
+    }
+    stage('send msg'){
+        rocketSend message: "发布成功 \n\n",channel: '#devops', serverUrl: 'https://rc.arche.network/', trustSSL: true, webhookTokenCredentialId: '599b354c-a745-473e-896a-332c52471c11'
+    }
+
+}
+catch(e){
+    stage('send msg'){
+        rocketSend message: "发布失败 \n\n",channel: '#devops', serverUrl: 'https://rc.arche.network/', trustSSL: true, webhookTokenCredentialId: '599b354c-a745-473e-896a-332c52471c11'
+    }
+}
+
+}
+
+# kubectl -n test set image deployment/tnginx container-0=nginx:1.23
+# kubectl -n test set image deployment/tnginx *=nginx:1.32
+
+# kubectl -n test set image deployment/tnginx container-0=nginx:latest container-1=nginx:1.23
+
+
+# kubectl patch -n test deployment tnginx \
+      --patch '{"spec": {"template": {"metadata": {"annotations": {"version/config": "ab9098b1-3f1b-4acd-87ff-676d504157ed" }}}}}' 

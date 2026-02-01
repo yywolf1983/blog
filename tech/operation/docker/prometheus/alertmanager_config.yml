@@ -1,0 +1,27 @@
+## Alertmanager 配置文件
+global:
+  resolve_timeout: 5m
+  # smtp配置
+  # smtp_from: ""
+  # smtp_smarthost: 'smtp.qq.com:465'
+  # smtp_auth_username: ""
+  # smtp_auth_password: ""
+  # smtp_require_tls: true
+
+# 定义模板
+templates:
+  - '/alertmanager/data/templates/*.tmpl'
+  
+# 路由分组
+route:
+  group_wait: 30s # 在组内等待所配置的时间，如果同组内，30秒内出现相同报警，在一个组内出现。
+  group_interval: 5m # 如果组内内容不变化，合并为一条警报信息，5m后发送。
+  repeat_interval: 1h # 发送报警间隔，如果指定时间内没有修复，则重新发送报警。
+  group_by: ['alertname']  # 报警分组
+  receiver: 'rocketchat'
+
+receivers:
+  - name: 'rocketchat'
+    webhook_configs:
+      - send_resolved: false
+        url: 'http://47.108.235.230:3100/hooks/KpEuWX34iZNTpG78P/FHYczKoj3EAioMcwkrSwZXfw6CjgRM8ij5q32fQzhsNafvgX'

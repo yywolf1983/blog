@@ -1,0 +1,11 @@
+https httpie.io/hello
+
+http PUT pie.dev/put X-API-Token:123 name=John
+
+http -f POST pie.dev/post hello=World
+
+http pie.dev/post < files/data.json
+
+http pie.dev/image/png > image.png
+
+http --print=hm www.d7home.com

@@ -1,0 +1,30 @@
+version: '3'
+services:
+  web:
+    restart: always
+    container_name: my_ubuntu
+    build:
+      dockerfile: Dockerfile
+      x-bake:
+        platforms:
+          - linux/amd64
+    links:
+      - "mysql"
+
+  mysql:
+    restart: always
+    image: mysql:latest
+    container_name: my_mysql
+    security_opt:
+      - seccomp:unconfined
+    # volumes:
+      # - /data/docker/mysql/data:/var/lib/mysql
+      # - /data/docker/mysql/my.cnf:/etc/mysql/my.cnf
+    environment:
+      # 设置密码
+      - "MYSQL_ROOT_PASSWORD=123456"
+      # 设置默认数据库      
+      - "MYSQL_DATABASE=mydb"
+      - "TZ=Asia/Shanghai"
+    ports:
+      - 127.0.0.1:3306:3306

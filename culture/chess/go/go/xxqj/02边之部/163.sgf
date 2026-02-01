@@ -1,0 +1,11 @@
+(;CA[UTF-8]AB[mp][jq][jo][mq][nr][or][oq][po][pp][qp][rp][sp][qn][rn][sn]AW[mo][lo][hq][rr]
+[qr][pr][pq][nq][np][op][oo][on][pn][ro][rl][rk][pl]C[被冠为“玄妙势”的，在《玄玄棋经》里面有两题。何者为先何者为后则不得而知。
+
+不是右边的攻杀问题，本题之狙袭是冲下边黑棋之薄味。]
+
+AP[MultiGo:4.2.4]SZ[19]GN[玄妙势]RE[白先劫]US[桥本宇太郎解说]SO[《玄玄棋经》]MULTIGOGM[1]
+;W[kq]N[正解]
+(;B[kr];W[lr];B[mr];W[lq];B[ls];W[jr];B[js]LB[kp:A]C[白1碰，锐利。黑2时，3之连扳为手筋。黑若4粘则白5亦粘、黑6时白7打，黑8强打成劫。但这是对白棋有利的劫。
+
+黑4若5或A，白4断止，黑三子当然丢掉了。])
+(;B[lr]N[参考];W[kr];B[jr];W[ls];B[lp];W[kp];B[ko];W[ms]C[对杀白胜]))

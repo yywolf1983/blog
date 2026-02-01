@@ -1,0 +1,19 @@
+server {
+    listen       80;
+    server_name {{ item.web_name }};
+
+    error_log  logs/u_{{ item.web_name }}_error.log;
+    access_log  logs/u_{{ item.web_name }}_access.log  main;
+
+    add_header Access-Control-Allow-Origin *;
+
+    location / {
+        root   {{ item.web_path }} ;
+        index  index.html index.htm;
+    }
+
+    location ~ .*\.apk$ {
+        gzip off;
+        root {{ item.web_path }} ;
+    }
+}

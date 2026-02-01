@@ -1,0 +1,8 @@
+(;CA[UTF-8]AB[hr][ir][jq][kq][lq][mp][np][nq][nr]AW[qq][pr][pp][no][mo][mq][mr][lp][kp][jp]
+
+[iq][hq][gr][fq]C[本题的手筋类似“王乔求仙”图]AP[MultiGo:4.2.4]SZ[19]GN[二将突围]
+RE[白先黑死]US[桥本宇太郎解说]SO[《玄玄棋经》]MULTIGOGM[1]
+
+(;W[jr]C[白1断进去作为弃子]N[正解];B[kr];W[js];B[ks];W[ns]C[白5扳，这边的攻杀可胜。]
+;B[os];W[ms];B[or];W[op]LB[lr:A][ls:B]C[白1、3的效果马上使得黑A、B不入子，这是很有意思的手筋。])
+(;W[lr]N[失败];B[kr];W[js];B[ks]LB[hs:A][jr:B]C[白1拐再3点看起来好像也是手筋，但被黑4应，什么棋也没有。之后若白A扳，则黑B粘告终。]))

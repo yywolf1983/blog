@@ -1,0 +1,4 @@
+
+sed -i '/mypy/d' {{ sysconfig }}
+
+echo "alias mypy='source /data/mypy/bin/activate'" >> {{ sysconfig }}

@@ -1,0 +1,72 @@
+groups:
+- name: linux-exporter
+  rules:
+  - alert: Servico NodeExporter
+    expr: up == 0
+    for: 3m
+    labels:
+      severity: warning
+    annotations:
+      title: Node {{ $labels.instance }} is down
+      summary: Failed to scrape {{ $labels.job }} on {{ $labels.instance }} . Node seems down.
+      description: Failed to scrape {{ $labels.job }} on {{ $labels.instance }} for more than 3 minutes. Node seems down.
+
+  - alert: CPU_LOAD1
+    #这里不是直接算核心数 而是总核心数的百分比
+    expr: node_load1 >= count by (instance, job) (node_cpu_seconds_total{mode="idle"})*1.5
+    for: 1m
+    annotations:
+      summary: Instance {{ $labels.instance }} on {{ $value }} load
+
+  # disk space alert (with resource=<instance>:<mountpoint> event=disk_space
+  - alert: ESPACO EM DISCO
+    expr: (node_filesystem_size_bytes - node_filesystem_free_bytes) * 100 / node_filesystem_size_bytes > 75
+    for: 30s
+    labels:
+      instance: '{{ $labels.instance }}:{{ $labels.mountpoint }}'
+    annotations:
+      summary: '{{ humanize $value }}%'
+
+  - alert: HostCPU
+    expr: 100 * (1 - avg(irate(node_cpu_seconds_total{mode="idle"}[2m])) by(instance)) > 80
+    for: 5m
+    labels:
+      serverity: high
+    annotations:
+      summary: "{{$labels.instance}}: High CPU Usage Detected"
+      description: "{{$labels.instance}}: CPU usage is {{$value}}, above 80%"
+
+  - alert: HostMemory
+    expr: (node_memory_MemTotal_bytes - node_memory_MemAvailable_bytes) / node_memory_MemTotal_bytes * 100 > 80
+    for: 5m
+    labels:
+      serverity: middle
+    annotations:
+      summary: "{{$labels.instance}}: High Memory Usage Detected"
+      description: "{{$labels.instance}}: Memory Usage i{{ $value }}, above 80%"
+
+  - alert: httpcheck
+    expr: probe_http_status_code!=200
+    for: 10s
+    labels:
+      serverity: warning
+    annotations:
+      summary: "{{$labels.instance}}: is error {{ $value }}"
+      description: "{{$labels.instance}}: is error {{ $value }}"
+
+  - alert: tcpcheck
+    expr: probe_success!=1
+    for: 10s
+    labels:
+      serverity: warning
+    annotations:
+      summary: "{{$labels.instance}}: is error {{ $value }}"
+      description: "{{$labels.instance}}: is error {{ $value }}"
+
+  - alert: Watchdog
+    expr: vector(1)
+    labels:
+      severity: none
+    annotations:
+      message: |
+        This is an alert meant to ensure that the entire alerting pipeline is functional.

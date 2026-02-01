@@ -1,0 +1,14 @@
+(;CA[UTF-8]AB[pd][dp]AW[pp][jj][dd]AP[MultiGo:4.2.4]SZ[19]GN[玉井栏]US[桥本宇太郎解说]SO[《玄玄棋经》]
+MULTIGOGM[1]
+;B[fc]N[1变];W[hc];B[fe];W[he]C[黑1挂时白棋于2位夹击，黑3跳时，白4从这边跳，此为本定势之骨骼。]
+;B[de]LB[df:A]C[黑5后之变化有种种可能。黑5下在A位的变化，后来也下出了（见“大角势”）。]
+;W[ce];B[cd];W[dc];B[cc];W[cb];B[bb];W[db];B[be];W[cf];B[df]C[黑15止为有意思之变化]
+;W[bf];B[ad];W[bc];B[bd];W[ba];B[ab];W[fb]C[白16挡至22碰止，破角上眼位再渡过。]
+;B[ch]C[黑于23位攻杀];W[bh];B[dg];W[af];B[cg];W[bg];B[bi];W[ci];B[bj]
+(;W[ah];B[ai];W[cj];B[bk]C[黑31时白32为好棋。这手棋如贸然于34位压，被黑32扳到，即成倒脱靴。]
+;W[ca];B[ac];W[aa];B[gc];W[gb];B[eb]C[白38止角上成为双活，但因白36、38来子，白形气紧，生出黑39再41挖之手法。]
+;W[ec];B[ea];W[fa];B[hb];W[da];B[ib];W[ic];B[jb]C[黑49止是必然之手顺。下到这里，看起来好像吃到角上白棋的样子，但这次中央黑棋反而变薄。]
+;W[fd];B[gd];W[ge];B[ed];W[ee];B[ef];W[hd];B[fd];W[ff];B[ee];W[dh];B[eg];W[fh]C[白50挖至62止，简单地吃到黑棋了。
+
+这是非常有意思的变化。])
+(;W[cj]N[2变];B[ah];W[bk];B[ai];W[ak];B[ac];W[aj];B[ae];W[ag];B[bi]C[倒脱靴，此即珍珑之部“日重轮”势（边之部，第199题）所展示之手筋。]))

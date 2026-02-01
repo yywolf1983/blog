@@ -1,0 +1,14 @@
+(;CA[UTF-8]AB[lq][om][lr][mq][mp][no][oo][mm][pl][rl][qk][ro][pr][qr][rr][rs][os]AW[lo][jo]
+[jq][ir][hq][rn][pq][sr][sp][kq][rq][qq][pp][po][pn][qn][sn][op][np][mo]C[这诘棋说最后要下到21手，相比会令人吃惊吧！
+
+“临危见机”这句话，对实战心理好像会有帮助。]
+
+AP[MultiGo:4.2.4]SZ[19]GN[临危见机]RE[白先黑死]US[桥本宇太郎解说]SO[《玄玄棋经》]
+MULTIGOGM[1]
+
+(;W[ms]C[白1点为有意思之手筋，这问题有深入细算的必要。]N[正解];B[ns];W[ls];B[kr]
+;W[js];B[ks];W[nr];B[nq];W[or]C[白1、3动手，黑4时白先5然后7、9进行。];B[oq];W[ps]
+;B[mr];W[os]C[黑12只此一手，此时13之粘为好棋。];B[ns];W[ms]C[打二还一];B[ls];W[sq]
+C[黑16从左边紧气时，白棋在17位紧气，最后用倒脱靴吃到五子。];B[ns];W[ss];B[qs];W[or])
+(;W[nr]N[失败];B[nq];W[or];B[oq];W[ps];B[ns]C[白若1、3再5着手，则黑6爬为好棋，可作出眼位。这样一来，连带白也死了。]
+;W[ms];B[os]))

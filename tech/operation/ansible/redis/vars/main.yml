@@ -1,0 +1,6 @@
+
+redis_ver: 'redis-5.0.10'
+redis_obj: '{{ redis_ver  }}.tar.gz'
+port: 6379
+redis_path: '/data/redis_{{ port }}'
+redis_pass: 'redis_98776'

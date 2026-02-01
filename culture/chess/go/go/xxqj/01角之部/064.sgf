@@ -1,0 +1,15 @@
+﻿(;CA[UTF-8]AB[nr][rq][qq][pq][oq][iq][mr][lr][kr][hr][qk][ip][gq][ko][mo][no][on][om][pm]
+[qm][rl][sm]AW[oo][ir][jr][jq][kq][lq][mq][nq][np][op][pp][qp][rp][sq][rn][qn][pn]
+C[是作活白棋的问题，不过如果黑勉强去吃，白有翻过身来反击的准备。
+
+相似的手筋，参看“翻云覆雨”势。]
+
+AP[MultiGo:4.2.4]SZ[19]GN[五龙翻身]RE[白先活]US[桥本宇太郎解说]SO[《玄玄棋经》]
+MULTIGOGM[1]
+;W[rr]N[正解];B[qr]
+(;W[sp];B[qo];W[rs]C[白1扳角再先手3粘，次5立为有意思之手筋。];B[sr];W[ps];B[qs]
+;W[or]LB[os:A]C[黑若6，则7点、9断，至15止，相反地吃到了黑棋。
+
+黑8若A则白8，黑不行，白7实系巧手。]
+;B[ss];W[rr];B[rs];W[ks];B[ls];W[ns]C[黑14若15立则白14长，黑仍死。])
+(;W[ps]N[失败];B[rs];W[sr];B[os]C[欲速则不达，准备工作还是必须的。]))

@@ -1,0 +1,96 @@
+
+## 随机密码
+clush -b -a "aa=\`head -n 2 /dev/urandom  | base64 -w 0 | head -c28\` ;  echo \${aa} ; echo \${aa} | passwd root --stdin " | grep -vE '(password|passwd)'
+
+### ubuntu
+clush -b -g aws "aa=\`head -n 2 /dev/urandom  | base64 -w 0 | head -c28\` ;  echo 'root:\$\{aa\}' ; echo 'root:'\${aa} | chpasswd "
+
+## 单机密码
+aa=`head -n 2 /dev/urandom  | base64 -w 0 | head -c18`;  echo ${aa} ; echo ${aa} | passwd root --stdin
+
+dd if=/dev/urandom bs=1 count=32 2>/dev/null | base64 -w 0 |md5sum | base64 | head -c 28
+
+### ubuntu 系列用这个
+aa=`dd if=/dev/urandom bs=1 count=32 2>/dev/null | base64 -w 0 |md5sum | base64 | head -c 28`;echo $aa;echo root:$aa | chpasswd
+
+## 清理tty登陆
+mytt=$(tty | awk -F "/" '{print $4}'); for i in `ls /dev/pts/`; do if [[ $i != $mytt && "$i" != "ptmx" ]]; then echo /dev/pts/$i; fi done | xargs fuser -k
+
+## 三个主机名：静态、瞬态和灵活主机名
+hostnamectl set-hostname qqmm
+hostnamectl --static
+hostnamectl --transient
+hostnamectl --pretty
+
+## linux 登陆信息
+1、/etc/issue 本地登陆显示的信息，本地登录前
+2、/etc/issue.net 网络登陆显示的信息，登录后显示，需要由sshd配置
+3、/etc/motd 常用于通告信息，如计划关机时间的警告等，登陆后的提示信息
+
+\d          //本地端时间的日期；
+\l          //显示当前tty的名字即第几个tty；
+\m          //显示硬体的架构 (i386/i486/i586/i686...)；
+\n          //显示主机的网路名称；
+\o          //显示 domain name；
+\r          //当前系统的版本 (相当于 uname -r)
+\t          //显示本地端时间的时间；
+\u          //当前有几个用户在线。
+\s          //当前系统的名称；
+\v          //当前系统的版本。
+
+size 查看文件段信息
+
+0 – stdin (standard input)，
+1 – stdout (standard output)，
+2 – stderr (standard error) ；
+2>&1是将标准错误（2）重定向到标准输出（&1），标准输出（&1）再被重定向输入到myout.file文件中。
+
+datefudge "2012-12-01 12:00" date 使用假的时间运行命令
+
+平滑重启
+$>sudo kill -USR2 pid
+或
+$>sudo kill -12 pid12 就是 USR2
+
+## bc
+
+echo "scale=7; 355/113" | bc
+
+## blkid  查看磁盘UUID
+
+方法一：ls -l /dev/disk/by-uuid
+方法二：blkid /dev/sda5
+
+# Linux登录过程中加载配置文件顺序：
+## 登录式shell如何读取配置文件：
+/etc/profile
+/etc/profile.d/\*.sh
+~/.bash_profile
+~/.bashrc
+/etc/bashrc
+
+## 非登录式shell： 
+~/.bashrc
+/etc/bashrc
+/etc/profile.d/\*.sh
+
+POST加电自检
+BIOS(Boot Sequence)
+MBR(bootloader)
+Kernel
+initrd
+rootfs(/sbin/init，/etc/inittab)
+
+/etc/rc.d/rc.sysinit
+/etc/fstab 
+swap
+/etc/sysctl.conf
+/etc/rc.d/init.d/
+/etc/rc.d/rc#.d
+/etc/rc.d/rc.local
+ctrlatdel
+set "pf" and "pr"
+mingetty
+loginrc.d 下 K*
+## 只要是以K开头的文件均执行stop工作S*
+## 只要是以S开头的文件均执行start工作0-99  (执行次序，数字越小越先被执行)

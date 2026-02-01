@@ -1,0 +1,16 @@
+(;CA[UTF-8]AB[kq][jr][lq][jp][ko][kn][km][mm][mn][no][np][nq][nr][or][pr][qr][rr]AW[ir][ip]
+[sr][rq][qq][pq][op][oo][nn][om][mo][mp][mq][mr][lo][jq][iq]C[黑棋六气，白棋四气，所以普通下法很难获胜。
+
+请在长气上下功夫。]
+
+AP[MultiGo:4.2.4]GN[五虎入山]RE[白先黑死]US[桥本宇太郎解说]SO[《玄玄棋经》]MULTIGOGM[1]
+;W[js]N[正解];B[kr];W[ms]C[白棋于1位扳再3立，是长气的绝妙手法。]
+(;B[ks]LB[ls:A][lr:B]C[黑4没有在A或B紧气的道理，会一下子就被渡过去（白棋藏有倒扑的手段）。]
+;W[ns];B[ln];W[os]C[黑4之后，白5、7从这边紧气即可。];B[lp];W[ps]LB[ls:A][lr:B][rs:C]
+C[白9之后，黑若A则白C，黑B不入子为得意之处。
+
+下到最后，暴露了这块黑棋的缺陷（有倒扑的断头）。])
+(;B[lr]MN[4]N[参考]
+(;W[kp]N[正着1];B[lp];W[ks]C[先扑再长是次序])
+(;W[ls]MN[5]N[正着2];B[ks];W[kp];B[is];W[lp]C[黑6阻渡不成立，所以白5一手即可渡过。])
+(;W[ks]MN[5]N[错着];B[ls];W[kp];B[is];W[lp];B[ln]C[白棋差一气])))

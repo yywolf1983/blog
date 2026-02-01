@@ -1,0 +1,54 @@
+## user_add
+
+usermod -c 修改用户备注信息
+lslogins   查看现有用户信息
+
+adduser phpq                             //新建phpq用户
+passwd phpq                               //给phpq用户设置密码
+echo "newpassword" | passwd user --stdin
+echo -e "new_password\nnew_password" | (passwd --stdin $USER) 无提示修改用户密码
+
+# 新建组
+groupadd test
+
+# 新建用户同时增加工作组
+useradd -g test phpq  -d, --home HOME_DIR
+注：：-g 所属组 -d 家目录 -s 所用的SHELL
+
+# 给已有的用户增加工作组
+usermod -G groupname username
+或者：
+gpasswd -a user group
+
+# 临时关闭：
+# 在/etc/shadow文件中属于该用户的行的第二个字段
+passwd peter –l
+# 重新释放：
+passwd peter –u
+
+# 删除用户
+userdel peter
+groupdel peter
+usermod –G peter peter   （强制删除该用户的主目录和主目录下的所有文件和子目录）
+
+# 设置账户过期时间
+usermod -e 7/15/15 test
+
+# 取消过期 
+usermod -e "" test
+
+# 密码过期
+chage -M 90 test
+# 显示过期用户
+chage -l test   
+
+8、显示用户信息id user
+cat /etc/passwd
+cat /etc/passwd | grep "bash" | cut -d: -f1 
+passwd -d $USER 允许空密码登录
+passwd -k -l 关闭账号密码。效果相当于usermod -L，只有root才有权使用此项。
+-u 恢复账号密码。效果相当于usermod -U，同样只有root才有权使用。
+-g 修改组密码。gpasswd的等效命令。
+-f 更改由finger命令访问的用户信息。
+-d 关闭使用者的密码认证功能, 使用者在登入时将可以不用输入密码, 只有具备 root 权限的使用者方可使用.
+-S 显示指定使用者的密码认证种类
