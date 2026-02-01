@@ -60,7 +60,7 @@ KISS = Keep It Simple and Stupid
 
 ## 鹤
 
-<img src="../res/鹤隐.jpg"  width="150px" ></img>
+<img src="assets/鹤隐.jpg"  width="150px" ></img>
 
 ## mail
 

@@ -124,6 +124,7 @@
     .category:nth-child(4) { animation-delay: 0.4s; }
     .category:nth-child(5) { animation-delay: 0.5s; }
     .category:nth-child(6) { animation-delay: 0.6s; }
+    .category:nth-child(7) { animation-delay: 0.7s; }
     
     .category h2 {
       color: #00d9ff;
@@ -194,6 +195,28 @@
     
     .category a:hover i {
       opacity: 1;
+    }
+    
+    .jieqi-container {
+      margin-top: 15px;
+      border-radius: 8px;
+      overflow: hidden;
+      border: 1px solid rgba(102, 126, 234, 0.3);
+      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 400px;
+    }
+    
+    .jieqi-container iframe {
+      border: none;
+      background: rgba(30, 30, 50, 0.95);
+      overflow: hidden;
+    }
+    
+    .category-full {
+      grid-column: 1 / -1;
     }
     
     .footer {
@@ -305,6 +328,13 @@
     </header>
     
     <div class="container">
+      <div class="category category-full">
+        <h2><i class="fas fa-cloud-sun"></i>节气</h2>
+        <div class="jieqi-container">
+          <iframe src="assets/jieqi.html" width="100%" height="600" frameborder="0" scrolling="no" style="margin: 0 auto; display: block;"></iframe>
+        </div>
+      </div>
+      
       <div class="category">
         <h2><i class="fas fa-code"></i>技术</h2>
         <ul>
@@ -312,6 +342,8 @@
           <li><a href="viewer.html?file=tech/operation/README.md"><i class="fas fa-server"></i>运维相关</a></li>
           <li><a href="viewer.html?file=tech/optimization/README.md"><i class="fas fa-tachometer-alt"></i>性能优化</a></li>
           <li><a href="viewer.html?file=tech/development/README.md"><i class="fas fa-laptop-code"></i>开发相关</a></li>
+          <li><a href="viewer.html?file=tech/operation/commnd/README.md"><i class="fas fa-terminal"></i>命令行工具</a></li>
+          <li><a href="viewer.html?file=tech/operation/docker/docker-elk/README.md"><i class="fas fa-search"></i>ELK日志系统</a></li>
         </ul>
       </div>
       
@@ -329,17 +361,21 @@
         <h2><i class="fas fa-database"></i>资源</h2>
         <ul>
           <li><a href="viewer.html?file=resources/README.md"><i class="fas fa-folder-open"></i>资源总览</a></li>
-          <li><a href="viewer.html?file=resources/imgs/README.md"><i class="fas fa-images"></i>图片资源</a></li>
           <li><a href="viewer.html?file=resources/man/README.md"><i class="fas fa-file-alt"></i>手册资源</a></li>
+          <li><a href="viewer.html?file=man/README.md"><i class="fas fa-book"></i>技术手册</a></li>
         </ul>
       </div>
       
       <div class="category">
         <h2><i class="fas fa-ellipsis-h"></i>其他</h2>
         <ul>
-          <li><a href="viewer.html?file=other/README.md"><i class="fas fa-archive"></i>其他内容</a></li>
-          <li><a href="viewer.html?file=notes/README.md"><i class="fas fa-sticky-note"></i>笔记</a></li>
-          <li><a href="viewer.html?file=docs/README.md"><i class="fas fa-file-pdf"></i>文档</a></li>
+          <li><a href="viewer.html?file=other/README.md"><i class="fas fa-archive"></i>其他总览</a></li>
+          <li><a href="viewer.html?file=other/Bitcoin.md"><i class="fab fa-bitcoin"></i>Bitcoin</a></li>
+          <li><a href="viewer.html?file=other/中国区域划分.md"><i class="fas fa-map"></i>中国区域划分</a></li>
+          <li><a href="viewer.html?file=other/五花八门意思.md"><i class="fas fa-question-circle"></i>五花八门意思</a></li>
+          <li><a href="viewer.html?file=other/扑克.md"><i class="fas fa-dice"></i>扑克</a></li>
+          <li><a href="viewer.html?file=other/文房用具制作.md"><i class="fas fa-pen-fancy"></i>文房用具制作</a></li>
+          <li><a href="viewer.html?file=other/陕西旅游景点顺口溜.md"><i class="fas fa-landmark"></i>陕西旅游景点顺口溜</a></li>
         </ul>
       </div>
       
@@ -347,16 +383,21 @@
         <h2><i class="fas fa-tools"></i>工具</h2>
         <ul>
           <li><a href="viewer.html?file=tools/README.md"><i class="fas fa-wrench"></i>工具总览</a></li>
-          <li><a href="viewer.html?file=dockerobj/README.md"><i class="fab fa-docker"></i>Docker相关</a></li>
+          <li><a href="viewer.html?file=tools/docker/aria2.yml"><i class="fas fa-download"></i>Aria2配置</a></li>
+          <li><a href="viewer.html?file=tools/docker/cockpit.yml"><i class="fas fa-plane"></i>Cockpit配置</a></li>
+          <li><a href="viewer.html?file=tools/docker/nginx.yml"><i class="fas fa-server"></i>Nginx配置</a></li>
+          <li><a href="viewer.html?file=tools/docker/nginxproxy.yml"><i class="fas fa-shield-alt"></i>Nginx Proxy配置</a></li>
+          <li><a href="viewer.html?file=tools/docker/portainer.yml"><i class="fab fa-docker"></i>Portainer配置</a></li>
         </ul>
       </div>
       
       <div class="category">
         <h2><i class="fas fa-user"></i>个人</h2>
         <ul>
-          <li><a href="viewer.html?file=personal/README.md"><i class="fas fa-id-card"></i>个人记录</a></li>
-          <li><a href="viewer.html?file=book/README.md"><i class="fas fa-book"></i>书籍</a></li>
-          <li><a href="viewer.html?file=dao/README.md"><i class="fas fa-yin-yang"></i>道学</a></li>
+          <li><a href="viewer.html?file=md/README.md"><i class="fas fa-file-code"></i>Markdown文档</a></li>
+          <li><a href="viewer.html?file=tech/programming/code/README.md"><i class="fas fa-code-branch"></i>代码示例</a></li>
+          <li><a href="viewer.html?file=notes/README.md"><i class="fas fa-code-branch"></i>杂记</a></li>
+          <li><a href="viewer.html?file=culture/taoism/me.md"><i class="fas fa-code-branch"></i>AUTOME</a></li>
         </ul>
       </div>
     </div>
@@ -366,6 +407,7 @@
       <div class="social-links">
         <a href="https://github.com/yywolf1983" target="_blank"><i class="fab fa-github"></i></a>
         <a href="mailto:yywolf1983@g-mail.com"><i class="fas fa-envelope"></i></a>
+        <a href="viewer.html?file=culture/taoism/me.md" target="_blank"><i class="fas fa-file-alt"></i></a>
       </div>
     </div>
   </div>
