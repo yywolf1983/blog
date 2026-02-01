@@ -41,7 +41,6 @@
 * 笔记
     * [笔记目录](/notes/README.md)
     * [个人笔记](/notes/2021年7月1日.md)
-    * [异星蓝图](/notes/初级火箭车.txt)
 
 * 资源
     * [资源目录](/resources/README.md)
