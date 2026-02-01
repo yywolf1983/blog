@@ -1,0 +1,13 @@
+# 自动处理换行符
+* text=auto
+
+# 二进制文件不进行换行符转换
+*.png binary
+*.jpg binary
+*.gif binary
+*.zip binary
+*.exe binary
+
+# 特定文件类型的换行符处理
+*.sh text eol=lf    # 脚本文件始终使用LF
+*.bat text eol=crlf  # Windows批处理文件始终使用CRLF
