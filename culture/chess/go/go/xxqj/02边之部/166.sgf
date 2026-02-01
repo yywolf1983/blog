@@ -1,0 +1,9 @@
+(;CA[UTF-8]AB[kr][jp][kp][lp][mp][no][oo][nq][or][pq][pr][os][ns]AW[io][ip][iq][ir][lq][mq]
+[mr][ps][qs][qr][qq][qp][po][pn][on][mn][lo][ko][jo]C[白棋没有直接逃出三子之手法。但可冲其吃法之形薄处，按例是狙袭气紧。]
+
+AP[MultiGo:4.2.4]SZ[19]GN[龙牙势]RE[白先黑死]US[桥本宇太郎解说]SO[《玄玄棋经》]
+MULTIGOGM[1]
+;W[kq]N[正解];B[jq];W[jr]C[白1、3冲断，做些准备工作。];B[ls];W[op]C[黑4虽是手筋，但白5为有意思之手法，先手在此处紧白气。]
+(;B[pp];W[np];B[oq];W[np];B[mo];W[nn]C[白7、9扑，11再打，先手把黑气贴紧。];B[op]
+;W[ms]C[最后白13立，成两边不入子之形。])
+(;B[np]N[参考];W[lr];B[ks];W[pp]C[聚五死]))

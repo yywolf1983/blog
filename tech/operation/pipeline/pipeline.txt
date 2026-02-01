@@ -1,0 +1,48 @@
+
+node {
+    env.PATH = "${NODE_HOME}/bin:${env.PATH}"
+    env.PATH = "${MAVEN_HOME}/bin:${env.PATH}"
+    dir('repo') {
+        stage('svn clone repo') {
+          checkout([$class: 'SubversionSCM', locations: [[cancelProcessOnExternalsFail: true, credentialsId: 'c1b83db9-86da-4e06-aad7-9dd203cf4b47', depthOption: 'infinity', ignoreExternalsOption: true, local: '.', remote: 'https://192.168.100.253/svn/ZHWK/Root/cloud/SmartNetbar']], quietOperation: true, workspaceUpdater: [$class: 'UpdateUpdater']])   
+        }
+        stage('Build') {
+          // Run the maven build
+          sh "mvn clean package -DskipTests"
+        }
+        
+        stage('rm old jar')
+        {
+          sh(script: "for ss in `find ./ | grep .jar\$`;do ssh root@192.168.100.155 rm -rf /webser/java_webapps/test/`echo \$ss | awk -F \"/\" '{print \$2}'`;done", returnStdout: true).trim()
+        }
+        
+        stage('all jar')
+        {
+          sh(script: "for ss in `find ./ | grep .jar\$`;do ssh root@192.168.100.155 mkdir -p /webser/java_webapps/test/`echo \$ss | awk -F \"/\" '{print \$2}'`;scp \$ss root@192.168.100.155:/webser/java_webapps/test/`echo \$ss | awk -F \"/\" '{print \$2}'`;done", returnStdout: true).trim()
+        }
+        stage('install start.sh')
+        {
+           sh(script: "for ss in `find ./ | grep .jar\$`;do scp /data/ansible_files/s*.sh root@192.168.100.155:/webser/java_webapps/test/`echo \$ss | awk -F \"/\" '{print \$2}'`/;done", returnStdout: true).trim()
+        }
+        
+        stage('reload jar')
+        {
+           sh(script: "for ss in `find ./ | grep .jar\$`;do ssh root@192.168.100.155 mkdir -p /webser/java_webapps/test/`echo \$ss | awk -F \"/\" '{print \$2}'`;ssh root@192.168.100.155 sh /webser/java_webapps/test/`echo \$ss | awk -F \"/\" '{print \$2}'`/stop.sh; ssh root@192.168.100.155 sh /webser/java_webapps/test/`echo \$ss | awk -F \"/\" '{print \$2}'`/start.sh;done", returnStdout: true).trim()
+        }
+        
+        stage('ok')
+        {
+            def test="ok"
+            echo "$test"
+        }
+        stage('re obj'){
+          sh '''
+              JENKINS_NODE_COOKIE=dontKillMe
+              cp -rf start.sh ./jeecg-cloud-module/
+              chmod 755 ./jeecg-cloud-module/start.sh
+              cd /mnt/jenkins/workspace/arche-admin-jeecg/jeecg-cloud-module
+              ./start.sh  > start.log &
+          '''
+      }
+    }
+}

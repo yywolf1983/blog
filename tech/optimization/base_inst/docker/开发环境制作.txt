@@ -1,0 +1,12 @@
+启动一个环境
+docker run -d -i -v /F/data:/data --name dezsh 47.108.235.230:8090/base/dezsh:r2
+
+启动一个shell
+docker run -i -t -v /F/data:/data --name dezsh 47.108.235.230:8090/base/dezsh:r2 zsh
+
+-d  后台模式
+-t 	在新容器内指定一个伪终端或终端
+-i 	允许对容器内的标准输入 ( STDIN ) 进行交互
+
+
+可以用docker-compose 组合多个组件

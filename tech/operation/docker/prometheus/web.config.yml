@@ -1,0 +1,6 @@
+tls_server_config:
+  cert_file: /ssl/prometheus.crt
+  key_file: /ssl/prometheus.key
+
+basic_auth_users:
+  prometheus: $2y$12$bmK43Gu7VYDfHwkQLwBlyO2cx/9XFlG4Pppro6NiVx7fwx5Wx4q6S%

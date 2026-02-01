@@ -1,0 +1,4 @@
+include bottle-docs.pdf
+include bottle.py
+recursive-include html *
+

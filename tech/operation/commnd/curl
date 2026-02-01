@@ -1,0 +1,45 @@
+# To download and rename a file:
+curl <url> -o <outfile>
+
+# To download multiple files:
+curl -O <url> -O <url>
+
+# To download all sequentially numbered files (1-24):
+curl http://example.com/pic[1-24].jpg
+
+# To download a file with a proxy:
+curl -x <proxy-host>:<port> <url>
+
+# To resume a previously failed download:
+curl -C - -o <partial-file> <url>
+
+# To limit the rate of a download:
+curl --limit-rate 1000B -O <outfile>
+
+# To get only the HTTP status code:
+curl -o /dev/null -w '%{http_code}\n' -s -I URL
+
+curl -D a.txt 记录cookie
+curl -x 123.45.67.89:1080 -o page.htmlhttp://www.yahoo.com
+#  -x 代理访问
+#  -b cookie0001.txt  追加cookie
+#  -A "Mozilla/4.0 (compatible; MSIE 6.0; Windows NT 5.0)"  指定浏览器信息
+#  -e "mail.yahoo.com"  连接欺骗 你是从mail.yahoo.com点击某个链接过来的了
+#  -O 按服务器名称存储到本地
+#  -c 续传
+#  -r 分块下载
+curl -r 0-10240 -o "zhao.part1" http:/cgi2.tky.3web.ne.jp/~zzh/zhao1.mp3&
+curl -r 10241-20480 -o "zhao.part1" http:/cgi2.tky.3web.ne.jp/~zzh/zhao1.mp3&
+curl -r 20481-40960 -o "zhao.part1" http:/cgi2.tky.3web.ne.jp/~zzh/zhao1.mp3&
+curl -r 40961- -o "zhao.part1" http:/cgi2.tky.3web.ne.jp/~zzh/zhao1.mp3
+curl -O ftp://192.168.10.202/pub/Packages/wget-1.12-1.8.el6.x86_64.rpmcat zhao.part > zhao.mp3 合并
+curl -u name:passwd ftp://ip:port/path/file
+curl -T localfile -u name:passwd ftp://upload_site:port/path/  上传
+curl -I 查看服务器详细头信息
+
+curl -i "http://www.baidu.com"  显示全部信息
+curl -l "http://www.baidu.com" 只显示头部信息
+curl -v "http://www.baidu.com" 显示get请求全过程解析
+
+# post 请求
+curl -d "param1=value1&param2=value2" "http://www.baidu.com"

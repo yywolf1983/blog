@@ -1,0 +1,10 @@
+CA[UTF-8]
+(;AB[rr][pr][or][qp][pp]AW[ro][qo][po][rm][op][oq][nr][mq]AP[MultiGo:4.2.4]SZ[19]
+GN[樊哙入项门]RE[白先劫]US[桥本宇太郎解说]SO[《玄玄棋经》]MULTIGOGM[1]
+
+(;W[os]C[正攻法，黑虽不至于“死于扳手”，却也无法净活。]N[正解];B[rp];W[pq];B[qq]
+;W[ps];B[qs];W[qr];B[pr];W[sq];B[sp];W[sr];B[ss];W[rs];B[qr];W[so]C[黑棋被紧贴，无法以压溃吃白，成劫为正解。])
+(;W[rq]N[失败1];B[rp]
+(;W[sp];B[sr]C[这里终究是攻防之急所];W[pq];B[qr]LB[qq:A][os:B]C[次A、B见合，黑棋净活。])
+(;W[sr]N[扳];B[sp];W[qr];B[rs]C[白棋搞不出花样];W[qs];B[qq];W[ss];B[sq]C[白棋怎么也不行]))
+(;W[sr]N[失败2];B[rq];W[pq];B[ss];W[os];B[qs];W[qq];B[qr];W[rs];B[sq]C[压溃]))

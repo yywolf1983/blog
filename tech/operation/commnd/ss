@@ -1,0 +1,48 @@
+---
+tags: [ networking ]
+---
+Args
+-4/-6 list ipv4/ipv6 sockets
+-n numeric addresses instead of hostnames
+-l list listing sockets
+-u/-t/-x list udp/tcp/unix sockets
+-p Show process(es) that using socket
+
+# show all listing tcp sockets including the corresponding process
+ss -tlp
+
+# show all sockets connecting to 192.168.2.1 on port 80
+ss -t dst 192.168.2.1:80
+
+# show all ssh related connection
+ss -t state established '( dport = :ssh or sport = :ssh )'
+
+ss -o state established '( dport = :smtp or sport = :smtp )' 显示所有已建立的SMTP连接
+ss -o state established '( dport = :http or sport = :http )' 显示所有已建立的HTTP连接
+ss -x src /tmp/.X11-unix/ 找出所有连接X服务器的进程 
+ss -s 列出当前socket详细信息:
+
+查看进程的连接信息
+pid_t=23331
+ss -anp | grep ${pid_t} | awk '{++s [$5]}END{for(a in s ) print a,s[a]}'
+ss -anp | awk '{++s [$5]}END{for(a in s ) print a,s[a]}' | awk '{if($2>1) print $0}'
+
+# 查看网络链接
+ss -n | awk '/^tcp/ {++S[$NF]} END {for (a in S) print a, S[a]}'
+ss -na| awk '{print $5}' | awk -F : '{print $1}' |sort|uniq -c|sort -nr查看连接数
+ss -ntu | awk '{print $5}' | cut -d: -f1 | sort | uniq -c | sort -n
+
+ss
+-a显示所有的sockets
+-l显示正在监听的
+-n显示数字IP和端口，不通过域名服务器
+-p显示使用socket的对应的程序
+-t只显示TCP sockets
+-u只显示UDP sockets
+-4 -6 只显示v4或v6V版本的sockets
+-s打印出统计信息。这个选项不解析从各种源获得的socket。对于解析/proc/net/top大量的sockets计数时很有效
+-0 显示PACKET sockets
+-w 只显示RAW sockets
+-x只显示UNIX域sockets
+-r尝试进行域名解析，地址/端口
+

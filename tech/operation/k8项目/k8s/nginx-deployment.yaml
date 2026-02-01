@@ -1,0 +1,140 @@
+#创建nginx
+#cat > nginx-test.yml << EOF
+apiVersion: apps/v1
+#标准管理器
+#Deployment 是一个更高级的概念，它管理 ReplicaSet，
+kind: Deployment
+metadata:
+  name: nginx-test
+  #namespace: default
+# 对象规约
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      name: nginx-test
+  # 更新策略
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      labels:
+        name: nginx-test
+    spec:
+      #kubectl create secret docker-registry myregistry \
+      #        --docker-server=<你的镜像仓库服务器> \
+      #        --docker-username=<你的用户名> \
+      #        --docker-password=<你的密码> \
+      #        --docker-email=<你的邮箱地址>
+      #imagePullSecrets:
+      #- name: myregistry
+      # 容器
+      containers:
+      - name: nginx-test
+        image: 47.108.235.230:8090/base/nginx:latest
+        ports:
+        - containerPort: 80
+        livenessProbe:    #周期性探测
+          httpGet:
+           path: /index.html
+           port: 80
+        volumeMounts:
+          - name: logs
+            mountPath: /var/log/nginx
+          - name: data
+            mountPath: /data/nginx/html
+          - name: nginxssl
+            mountPath: /ssl
+          - name: nginxconfig
+            # --将配置文件挂载到哪里
+            mountPath: /etc/nginx/conf.d
+      volumes:
+      #挂在系统目录
+      - name: logs
+        hostPath:
+          path: /data/nginx/logs
+      - name: data
+        configMap:
+          name: nginx-index
+      - name: nginxssl
+        configMap:
+          name: nginx-csr
+      - name: nginxconfig
+        configMap:
+          #指定使用configMap中的nginx-config配置
+          name: nginx-config
+          items:
+          #--使用nginx-config配置的nginx.conf键里的内容
+          - key: default.conf
+            path: default.conf
+
+---
+
+apiVersion: v1
+# 可以理解为集群 组
+kind: Service
+metadata:
+  name: nginx-service-nodeport
+  #namespace: default
+spec:
+  ports:
+    - name: http
+      protocol: TCP
+      port: 80      #设置Service对外提供服务的端口
+      targetPort: 80    #设置Pod对外提供服务的端口.
+      #nodePort: 30080   #此宿主机端口也可不指定,系统将自动从3万~65535分配
+    - protocol: TCP
+      port: 443      #设置Service对外提供服务的端口
+      targetPort: 443    #设置Pod对外提供服务的端口.
+      name: https
+      #nodePort: 30443   #此宿主机端口也可不指定,系统将自动从3万~65535分配
+  #type: NodePort
+  selector:
+    name: nginx-test
+
+#ClusterIP 集群内部容器访问地址，会生成一个虚拟IP 与pod不在一个网段。
+#NodePort  会在宿主机上映射一个端口，供外部应用访问模式。
+#Headless CluserIP  无头模式，无serviceip，即把spec.clusterip设置为None 。
+#LoadBalancer  使用外部负载均衡。
+
+---
+
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: example-ingress
+  #namespace: default
+  annotations:  # 扩展资源描述
+    kubernetes.io/ingress.class: "nginx"
+    # 开启use-regex，启用path的正则匹配 
+    nginx.ingress.kubernetes.io/use-regex: "true"
+    nginx.ingress.kubernetes.io/rewrite-target: /
+spec:
+  tls:
+    - hosts:
+      - www.abc.com
+      secretName: example-secret
+  rules:
+    - host: www.abc.com
+      http:
+        paths:
+          - path: "/test"
+            pathType: Prefix
+            #pathType: ImplementationSpecific
+            backend:
+              service:
+                name: nginx-service-nodeport
+                port:
+                  number: 80
+    - host: www.abc.com
+      http:
+        paths:
+          - path: "/1"
+            pathType: Prefix
+            #pathType: ImplementationSpecific
+            backend:
+              service:
+                name: nginx-service-nodeport
+                port:
+                  number: 80
+#EOF

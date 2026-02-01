@@ -1,0 +1,26 @@
+version: "3"
+services:
+  ccex-01:
+    image: 47.108.235.230:8090/ccex/ccex-app:${VERSION}
+    restart: always
+    container_name: ccex-01
+    network_mode: host
+    volumes:
+      - /data/docker/ccex-01/tmp:/tmp
+    environment:
+      TZ: Asia/Shanghai
+      SPRING_PROFILES_ACTIVE: prod
+      XXL_JOB_PORT: 9998
+      SERVER_PORT: 8089
+  ccex-02:
+    image: 47.108.235.230:8090/ccex/ccex-app:${VERSION}
+    restart: always
+    container_name: ccex-02
+    network_mode: host
+    volumes:
+      - /data/docker/ccex-02/tmp:/tmp
+    environment:
+      TZ: Asia/Shanghai
+      SPRING_PROFILES_ACTIVE: prod
+      XXL_JOB_PORT: 9994
+      SERVER_PORT: 8090

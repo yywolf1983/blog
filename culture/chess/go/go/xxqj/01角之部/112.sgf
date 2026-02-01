@@ -1,0 +1,15 @@
+(;CA[UTF-8]AB[ss][sr][rr][rs][qq][pq][pr][nq][mq][mr][ls]AW[lr][lq][jr][mp][np][op][pp][qp]
+
+[rq][sq][ro]C[比“小铁网”稍为复杂的问题，用同样的手筋会怎么样呢？]AP[MultiGo:4.2.4]
+SZ[19]GN[大铁网]RE[白先劫]US[桥本宇太郎解说]SO[《玄玄棋经》]MULTIGOGM[1]
+;W[ns]C[急所]N[正解]
+(;B[oq];W[os]C[黑2为好棋，白3亦只此一手。];B[ms];W[ps];B[or];W[qr]C[黑6如7则白6，是聚五。]
+;B[qs]C[黑8提，狙袭倒脱靴。];W[qr];B[rr];W[rs]C[黑10倒脱靴时，白11做劫抵抗。];B[qs]
+;W[sr];B[ss]C[至此大致是劫，此处系介绍局部解决之图。];W[kr];B[nr];W[rs];B[ks];W[qr]
+;B[js];W[ir];B[rr];W[os];B[ss];W[ps];B[ns];W[rs];B[is];W[hr];B[ss];W[ps];B[os];W[rs]
+;B[hs];W[qr];B[gr];W[ps];B[gs];W[gq]C[最后黑棋在劫争后逃出，但一眼也无。
+
+如果结合全局的劫材来研究，结果当然不会一样。])
+(;B[os]N[参考];W[qs]
+(;B[qr];W[or];B[oq];W[ps]C[聚五之死形])
+(;B[ps]N[夹];W[oq];B[or];W[ks]C[黑死])))

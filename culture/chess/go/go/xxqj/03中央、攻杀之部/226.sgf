@@ -1,0 +1,9 @@
+(;CA[UTF-8]AB[op][kq][lq][oq][pp][qp][no][mo][mm][nm][pl][ql][rn][ro]AW[qr][rq][rp][qo][po]
+
+[oo][on][pm][np][mp][lp][kp][lo]C[因为白棋只有四气，下松的话赢不了。]AP[MultiGo:4.2.4]
+SZ[19]GN[金钩势]RE[白先黑死]US[桥本宇太郎解说]SO[《玄玄棋经》]MULTIGOGM[1]
+;W[or]N[正解]
+(;B[nq];W[mq]C[白棋于1位碰，对黑2，白3以下不紧迫盯人赢不了。];B[nr];W[mr];B[pr]
+;W[os];B[ns];W[qq]C[黑6时白7走成二子而弃之，变成三气对四气之攻杀胜。])
+(;B[nr]N[参考];W[nq];B[pr];W[os];B[ns];W[pq];B[ps];W[or];B[os];W[qq];B[or];W[mr]
+C[大头鬼]))

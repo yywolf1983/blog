@@ -1,0 +1,6 @@
+
+python3: Python-3.9.6
+python3_ver: "{{ python3 }}.tgz"
+download_url: http://47.52.97.39/file/
+
+sysconfig: ~/.bashrc

@@ -1,0 +1,9 @@
+- name: check conf
+  command: '{{ nginx_path }}/sbin/nginx -t'
+  notify: restart nginx
+
+- name: start nginx
+  shell: systemctl start nginx
+
+- name: restart nginx
+  command: '{{ nginx_path }}/sbin/nginx -s reload'

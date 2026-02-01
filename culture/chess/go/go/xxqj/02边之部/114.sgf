@@ -1,0 +1,12 @@
+(;CA[UTF-8]AB[mr][mq][mp][nq][oq][op][oo][no][pr][qs]AW[rr][qr][pq][pp][po][pn][on][nn][mo]
+[lo][lp][lq][lr]C[因为范围很小，一手一手加以研究，也不会费时间。
+
+但是，如果想得太简单的话，黑棋也有抵抗之应手，要注意。]
+
+AP[MultiGo:4.2.4]SZ[19]GN[神奇势]RE[白先黑死]US[桥本宇太郎解说]SO[《玄玄棋经》]
+MULTIGOGM[1]
+
+(;W[ns]N[正解];B[ms];W[or];B[ps];W[ls]C[一心想断就会失败，冷静地单于1位点才是正解。
+
+黑若2，则白3断，没有劫。])
+(;W[or]N[失败];B[os]C[有劫]))

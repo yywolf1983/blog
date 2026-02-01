@@ -1,0 +1,11 @@
+﻿(;CA[UTF-8]AB[rq][qq][oq][or][rs]AW[qp][nq][nr][lr][op][rp][rn][oo]TR[op]C[请如题名所言，降服这五个黑子。
+
+提示：要考虑如何有效地利用白△子。]
+
+AP[MultiGo:4.2.4]SZ[19]GN[五胡宾从]RE[白先黑死]US[桥本宇太郎解说]SO[《玄玄棋经》]
+MULTIGOGM[1]
+;W[sr]N[正解];B[sq];W[os]
+(;B[ps]
+(;W[pq];B[pr];W[qr];B[pp];W[rr];B[po];W[pn]C[白1为“2之一”的急所，次3再5挖为巧手。对黑6挡，白7、9破眼。对黑10冲，白11止，黑棋跑不出去。])
+(;W[pr]MN[5]N[断];B[pq];W[qs];B[qr]C[接不归，黑活。]))
+(;B[pr]MN[4]N[弯];W[rr]LB[qr:A][ps:B]C[以下A、B见合，黑棋净死。]))

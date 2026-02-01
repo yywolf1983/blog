@@ -1,0 +1,31 @@
+version: '3'
+services:
+  web:
+    build: .
+    container_name: "webpy"
+    working_dir: /data/py
+    network_mode: host
+    volumes:
+      - ./:/data/py
+    command: gunicorn --preload -c gunicorn_config.py flask_helloworld:app
+    #links:
+    #  - redis
+    #启动顺序依赖
+    #depends_on:
+    #  - redis
+      
+  pyfile:
+    build: .
+    container_name: "pyfile"
+    working_dir: /data/py
+    network_mode: host
+    volumes:
+      - ./:/data/py
+    command: python new_price.py
+      
+  redis:
+    image: redis:latest
+    container_name: "redis"
+    restart: always
+    ports:
+      - 127.0.0.1:6380:6379

@@ -1,0 +1,18 @@
+
+属于 sysstat 包
+# 【每隔2秒刷新显示，且显示3次】
+iostat 2  3
+
+# 显示指定磁盘信息
+iostat -d /dev/sda
+
+# 显示tty和Cpu信息
+iostat -t
+
+# 以M为单位显示所有信息
+iostat -m
+
+查看设备使用率（%util）、响应时间（await）
+#  【-d 显示磁盘使用情况，-x 显示详细信息】
+#  d: detail
+iostat -d -x -k 1 1

@@ -1,0 +1,56 @@
+- name: update mysql
+  copy: src=/data/soft/{{ mysql_obj }} dest=/data/soft
+
+- name: tar mysql
+  unarchive: src=/data/soft/{{ mysql_obj  }} dest=/data/soft/ copy=no
+
+- name: install mysql
+  command: mv /data/soft/{{ mysql_ver }} /data/mysql_{{ mysql_port }}
+
+- name: create new user
+  user: name=mysql state=present
+
+- name: mkdir {{ mysql_path  }}
+  file: 
+     path: '{{ mysql_path  }}/{{ item  }}'
+     state: directory
+     group: mysql
+     owner:  mysql
+  loop:
+     - logs
+     - data
+     - tmp
+
+- name: chmod mysql_path
+  file: path={{ mysql_path  }} state=directory group=mysql owner=mysql recurse=yes
+
+- name: copy conf
+  template: src=my.conf.j2 dest={{ mysql_path  }}/my.cnf
+
+- name: in mysql
+  command: '{{ mysql_path }}/bin/mysqld --defaults-file={{ mysql_path }}/my.cnf --initialize-insecure  --user=mysql'
+
+- name: add systemd
+  template: src=mysql.service.j2 dest=/lib/systemd/system/mysql_{{ mysql_port }}.service
+
+- name: reload systemd
+  shell: systemctl daemon-reload
+
+- name: auto start
+  shell: systemctl enable mysql_{{ mysql_port  }}
+
+- name: start mysql
+  shell: systemctl start mysql_{{ mysql_port  }}
+
+- name: updata my.sql
+  template: src=my.sql.j2 dest={{ mysql_path }}/my.sql
+
+- name: timed wait
+  pause: seconds=30
+
+- name: in pass
+  command: '{{ mysql_path  }}/bin/mysql -vvv -P {{ mysql_port }} -S {{ mysql_path  }}/tmp/mysql_{{ mysql_port  }}.sock -e "source {{ mysql_path  }}/my.sql"'
+
+- name: clean file
+  file: path='{{ mysql_path }}/my.sql' state=absent
+

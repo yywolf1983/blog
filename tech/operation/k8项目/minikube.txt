@@ -1,0 +1,66 @@
+curl -LO https://storage.googleapis.com/minikube/releases/latest/minikube_latest_amd64.deb
+sudo dpkg -i minikube_latest_amd64.deb
+
+sudo minikube --v=7 --alsologtostderr start --vm-driver=none
+
+cat <<EOF > /etc/docker/daemon.json
+{
+   "insecure-registries": ["47.108.235.230:8090"],
+   "exec-opts": ["native.cgroupdriver=systemd"]
+}
+EOF
+
+sudo systemctl daemon-reload
+sudo systemctl restart docker
+
+sudo minikube config set driver none
+sudo minikube config set driver docker
+
+sudo apt install conntrack
+
+sudo sysctl fs.protected_regular=0
+
+sudo bash -c 'cat << EOF >> /etc/sysctl.conf
+fs.protected_regular=0
+EOF'
+
+sudo minikube start
+minikube pause
+minikube unpause
+minikube stop
+
+minikube tunnel
+
+minikube config set memory 16384
+minikube addons list
+
+alias kubectl="sudo minikube kubectl --"
+ 
+kubectl get po -A -o wide
+
+minikube dashboard
+
+删除所有
+sudo minikube delete --all
+
+# 这种方式装不上ingress
+sudo minikube addons enable ingress 
+#改成这种
+https://kubernetes.github.io/ingress-nginx/deploy/#quick-start
+
+#直接访问
+Source: ingress-nginx/templates/controller-deployment.yaml
+    spec:
+      hostNetwork: true
+      dnsPolicy: ClusterFirstWithHostNet
+      #dnsPolicy: ClusterFirst
+
+报错处理
+kubectl get validatingwebhookconfigurations
+kubectl delete -A ValidatingWebhookConfiguration ingress-nginx-admission
+
+StatefulSet 
+seccomp  特性
+
+
+ 

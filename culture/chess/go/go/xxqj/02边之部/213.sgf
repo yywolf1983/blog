@@ -1,0 +1,14 @@
+(;CA[UTF-8]AB[qi][rs][qq][rq][sq][oq][or][qm][ql][qk][er][on][mq][kq][kr][ls][jq][iq][hq]
+[gr][jo][eq][dr][br][bp][cp][co][bm][bl][bi][ch][dj][el][em][en][gn][gm][hn][hl]
+[jl][km][ln][mn]AW[mp][cq][dq][dp][do][dn][dm][ck][bk][cl][ep][fo][go][gp][hp][ip]
+[jp][kp][lp][np][nq][nr][op][qp][po][qo][ro][so][jn][in][kn]C[图形很大，但是若能活用到目前为止的手筋，并没有想象中的难。
+
+但对右下之黑棋要下出阻渡之妙着。]
+
+AP[MultiGo:4.2.4]SZ[19]GN[讲武势]RE[白先活]US[桥本宇太郎解说]SO[《玄玄棋经》]MULTIGOGM[1]
+;W[bq]N[正解];B[aq];W[cr];B[cs];W[ao];B[bo];W[cn];B[bn];W[ds];B[es];W[ap];B[an]
+;W[ap];B[ao];W[al];B[bs];W[ar];B[as];W[cm];B[ds];W[ak];B[ar];W[am];B[ap]C[至此的手顺和“精义入神”图几乎完全一样，意图导致黑棋气紧。]
+;W[fq];B[fr];W[gq];B[eo]C[25、27亦为先手紧贴黑棋]
+(;W[ps]C[阻渡之妙着];B[qr];W[lq];B[mr];W[lr];B[ms];W[hr];B[hs];W[ir];B[is];W[ks]
+;B[js];W[ns];B[ks];W[gs]C[双倒扑])
+(;W[lq]N[失败];B[mr];W[lr];B[ns]C[被黑棋渡过，白棋失败。]))

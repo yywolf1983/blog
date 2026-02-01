@@ -1,0 +1,47 @@
+- name: copy nginx.conf
+  template: src=nginx.conf.j2 dest={{ nginx_path  }}/conf/nginx.conf
+
+- name: mkdir vhost
+  file: 
+     path: '{{ nginx_path  }}/conf/vhost/'
+     state: directory
+
+- name: copy upst.conf
+  template: src=upst.conf.j2 dest={{ nginx_path  }}/conf/vhost/up{{ item.obj }}.conf
+  when: item.host == hosts
+  with_items: '{{ up }}'
+  notify: check conf
+
+- name: mkdir vhost dir
+  file: 
+     path: '{{ item.web_path }}'
+     state: directory
+  when: item.host == hosts
+  with_items: '{{ web }}'
+
+- name: copy web.conf
+  template: src=web.conf.j2 dest={{ nginx_path  }}/conf/vhost/web{{ item.web_name }}.conf
+  when: item.host == hosts
+  with_items: '{{ web }}'
+  notify: check conf
+
+
+- name: copy ftp.conf
+  template: src=ftp.conf.j2 dest={{ nginx_path  }}/conf/vhost/ftp.conf
+  when: item.host == hosts
+  with_items:
+    - { host: "thg3" , web_name: "timages.lnqukuai.com", web_path: "/data/ftp/", ssl: no }
+  notify: check conf
+
+- name: copy file.conf
+  template: src=file.conf.j2 dest={{ nginx_path  }}/conf/vhost/file.conf
+  when: item.host == hosts
+  with_items:
+    - { host: "thg2" }
+  notify: check conf
+
+# - name: copy test
+#   debug:
+#     msg: '{{ item.web_name }}'
+#   when: item.host == hosts
+#   with_items: '{{ web }}'

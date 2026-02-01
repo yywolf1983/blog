@@ -1,0 +1,10 @@
+(;CA[UTF-8]AB[lo][fo][dq][fq][dr][er][ep][go][hp][ip][jo][ko][lp][mp][lq][nq][oq][pr][on]
+[hn][hm][il][kl][mm][nm][qo][rn][rp][rq]AW[cq][cr][io][no][rr][qr][qq][pp][cp][op]
+[np][mo][mn][ln][kn][jn][in][ho][mq][jp][gp][gn][fn][en][dl][do]C[白棋大龙濒临死态。只好冲黑棋味恶之处，但应该怎么下呢？]
+
+AP[MultiGo:4.2.4]SZ[19]GN[养虎势]RE[白先活]US[桥本宇太郎解说]SO[《玄玄棋经》]MULTIGOGM[1]
+;W[hq]N[正解];B[iq];W[ir];B[jq];W[kq]C[白从1位叫提再5挖为妙着，5挖是本题之题眼。]
+(;B[kp];W[kr];B[mr]C[黑6时白7立下，次有8之立。];W[jr];B[jp];W[lr];B[mq];W[gq]C[黑若8提，则9至13止攻杀，黑胜。
+
+黑8若13打，则黑于8位立。])
+(;B[jr]N[参考];W[kr];B[js];W[lr];B[mr];W[kp]C[黑棋逃不掉]))

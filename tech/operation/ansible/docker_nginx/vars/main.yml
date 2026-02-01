@@ -1,0 +1,4 @@
+
+nginx_ver: 'nginx:latest'
+nginx_path: '/data/docker/nginx/'
+

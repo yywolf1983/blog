@@ -1,0 +1,274 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  annotations:
+    deployment.kubernetes.io/revision: '42'
+    field.cattle.io/publicEndpoints: >-
+      [{"addresses":["acd8a61eab082493397cf089d0834243-1528803551.ap-southeast-1.elb.amazonaws.com"],"port":80,"protocol":"TCP","serviceName":"test:tnginx-loadbalancer","allNodes":false},{"addresses":["acd8a61eab082493397cf089d0834243-1528803551.ap-southeast-1.elb.amazonaws.com"],"port":8080,"protocol":"TCP","serviceName":"test:tnginx-loadbalancer","allNodes":false}]
+  creationTimestamp: '2022-03-31T08:33:23Z'
+  generation: 72
+  labels:
+    workload.user.cattle.io/workloadselector: apps.deployment-test-tnginx
+  managedFields:
+    - apiVersion: apps/v1
+      fieldsType: FieldsV1
+      fieldsV1:
+        f:metadata:
+          f:annotations: {}
+        f:status:
+          f:conditions:
+            .: {}
+            k:{"type":"Available"}:
+              .: {}
+              f:type: {}
+            k:{"type":"Progressing"}:
+              .: {}
+              f:type: {}
+      manager: kube-controller-manager
+      operation: Update
+      time: '2022-05-24T07:19:33Z'
+    - apiVersion: apps/v1
+      fieldsType: FieldsV1
+      fieldsV1:
+        f:spec:
+          f:template:
+            f:metadata:
+              f:annotations:
+                f:version/config: {}
+      manager: kubectl-patch
+      operation: Update
+      time: '2023-03-02T03:38:50Z'
+    - apiVersion: apps/v1
+      fieldsType: FieldsV1
+      fieldsV1:
+        f:metadata:
+          f:annotations:
+            f:field.cattle.io/publicEndpoints: {}
+          f:labels:
+            .: {}
+            f:workload.user.cattle.io/workloadselector: {}
+        f:spec:
+          f:progressDeadlineSeconds: {}
+          f:replicas: {}
+          f:revisionHistoryLimit: {}
+          f:selector: {}
+          f:strategy:
+            f:rollingUpdate:
+              .: {}
+              f:maxSurge: {}
+              f:maxUnavailable: {}
+            f:type: {}
+          f:template:
+            f:metadata:
+              f:annotations:
+                .: {}
+                f:cattle.io/timestamp: {}
+              f:labels:
+                .: {}
+                f:workload.user.cattle.io/workloadselector: {}
+            f:spec:
+              f:affinity: {}
+              f:containers:
+                k:{"name":"container-0"}:
+                  .: {}
+                  f:imagePullPolicy: {}
+                  f:name: {}
+                  f:ports:
+                    .: {}
+                    k:{"containerPort":80,"protocol":"TCP"}:
+                      .: {}
+                      f:containerPort: {}
+                      f:name: {}
+                      f:protocol: {}
+                  f:resources: {}
+                  f:terminationMessagePath: {}
+                  f:terminationMessagePolicy: {}
+                  f:volumeMounts:
+                    .: {}
+                    k:{"mountPath":"/etc/nginx/conf.d/"}:
+                      .: {}
+                      f:mountPath: {}
+                      f:name: {}
+                k:{"name":"container-1"}:
+                  f:ports:
+                    k:{"containerPort":8080,"protocol":"TCP"}:
+                      .: {}
+                      f:containerPort: {}
+                      f:name: {}
+                      f:protocol: {}
+                  f:volumeMounts:
+                    .: {}
+                    k:{"mountPath":"/data/nginx/html"}:
+                      .: {}
+                      f:mountPath: {}
+                      f:name: {}
+                    k:{"mountPath":"/etc/nginx/conf.d/"}:
+                      .: {}
+                      f:mountPath: {}
+                      f:name: {}
+              f:dnsPolicy: {}
+              f:restartPolicy: {}
+              f:schedulerName: {}
+              f:securityContext: {}
+              f:terminationGracePeriodSeconds: {}
+              f:volumes:
+                .: {}
+                k:{"name":"vol-asi6a"}:
+                  .: {}
+                  f:configMap:
+                    .: {}
+                    f:defaultMode: {}
+                    f:name: {}
+                  f:name: {}
+                k:{"name":"vol-hmew6"}:
+                  .: {}
+                  f:configMap:
+                    .: {}
+                    f:defaultMode: {}
+                    f:name: {}
+                  f:name: {}
+                k:{"name":"vol-msajx"}:
+                  .: {}
+                  f:configMap:
+                    .: {}
+                    f:defaultMode: {}
+                    f:name: {}
+                  f:name: {}
+      manager: agent
+      operation: Update
+      time: '2023-03-02T04:03:30Z'
+    - apiVersion: apps/v1
+      fieldsType: FieldsV1
+      fieldsV1:
+        f:spec:
+          f:template:
+            f:spec:
+              f:containers:
+                k:{"name":"container-0"}:
+                  f:image: {}
+                k:{"name":"container-1"}:
+                  f:image: {}
+      manager: kubectl-set
+      operation: Update
+      time: '2023-03-02T04:08:17Z'
+    - apiVersion: apps/v1
+      fieldsType: FieldsV1
+      fieldsV1:
+        f:metadata:
+          f:annotations:
+            f:deployment.kubernetes.io/revision: {}
+        f:status:
+          f:availableReplicas: {}
+          f:conditions:
+            k:{"type":"Available"}:
+              f:lastTransitionTime: {}
+              f:lastUpdateTime: {}
+              f:message: {}
+              f:reason: {}
+              f:status: {}
+            k:{"type":"Progressing"}:
+              f:lastTransitionTime: {}
+              f:lastUpdateTime: {}
+              f:message: {}
+              f:reason: {}
+              f:status: {}
+          f:observedGeneration: {}
+          f:readyReplicas: {}
+          f:replicas: {}
+          f:updatedReplicas: {}
+      manager: kube-controller-manager
+      operation: Update
+      subresource: status
+      time: '2023-03-02T04:08:28Z'
+  name: tnginx
+  namespace: test
+  resourceVersion: '168947912'
+  uid: d6c5b9d3-514f-4b89-8c8a-7472e17620a5
+spec:
+  progressDeadlineSeconds: 600
+  replicas: 6
+  revisionHistoryLimit: 10
+  selector:
+    matchLabels:
+      workload.user.cattle.io/workloadselector: apps.deployment-test-tnginx
+  strategy:
+    rollingUpdate:
+      maxSurge: 25%
+      maxUnavailable: 25%
+    type: RollingUpdate
+  template:
+    metadata:
+      annotations:
+        cattle.io/timestamp: '2023-03-02T04:00:35Z'
+        version/config: ab9098b1-3f1b-4acd-87ff-676d504157ed
+      creationTimestamp: null
+      labels:
+        workload.user.cattle.io/workloadselector: apps.deployment-test-tnginx
+    spec:
+      affinity: {}
+      containers:
+        - image: nginx:latest
+          imagePullPolicy: Always
+          name: container-0
+          ports:
+            - containerPort: 80
+              name: tnginx
+              protocol: TCP
+          resources: {}
+          terminationMessagePath: /dev/termination-log
+          terminationMessagePolicy: File
+          volumeMounts:
+            - mountPath: /etc/nginx/conf.d/
+              name: vol-msajx
+        - image: nginx:1.23
+          imagePullPolicy: Always
+          name: container-1
+          ports:
+            - containerPort: 8080
+              name: container-1
+              protocol: TCP
+          resources: {}
+          terminationMessagePath: /dev/termination-log
+          terminationMessagePolicy: File
+          volumeMounts:
+            - mountPath: /etc/nginx/conf.d/
+              name: vol-asi6a
+            - mountPath: /data/nginx/html
+              name: vol-hmew6
+      dnsPolicy: ClusterFirst
+      restartPolicy: Always
+      schedulerName: default-scheduler
+      securityContext: {}
+      terminationGracePeriodSeconds: 30
+      volumes:
+        - configMap:
+            defaultMode: 420
+            name: tnginx
+          name: vol-msajx
+        - configMap:
+            defaultMode: 420
+            name: nginx2
+          name: vol-asi6a
+        - configMap:
+            defaultMode: 420
+            name: index
+          name: vol-hmew6
+status:
+  availableReplicas: 6
+  conditions:
+    - lastTransitionTime: '2023-03-02T03:55:47Z'
+      lastUpdateTime: '2023-03-02T03:55:47Z'
+      message: Deployment has minimum availability.
+      reason: MinimumReplicasAvailable
+      status: 'True'
+      type: Available
+    - lastTransitionTime: '2022-12-29T05:49:33Z'
+      lastUpdateTime: '2023-03-02T04:08:28Z'
+      message: ReplicaSet "tnginx-765d497d84" has successfully progressed.
+      reason: NewReplicaSetAvailable
+      status: 'True'
+      type: Progressing
+  observedGeneration: 72
+  readyReplicas: 6
+  replicas: 6
+  updatedReplicas: 6

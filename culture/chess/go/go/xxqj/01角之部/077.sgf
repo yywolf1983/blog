@@ -1,0 +1,12 @@
+﻿(;CA[UTF-8]AB[ql][om][nn][np][mn][ko][jp][iq][hq][hr][oq][pq][qp][rp][sq][qr][qn][rk][mp]
+[qm][qj][lr]AW[rm][qo][po][oo][op][nq][mq][lq][kq][kr][jr][ir][rr][rl][rq][ro][rn]
+
+C[由白棋的妙着使得最后三块棋都成为活形，大家都活是值得庆贺的事情吧！]AP[MultiGo:4.2.4]
+GN[三生势]RE[白先活]US[桥本宇太郎解说]SO[《玄玄棋经》]MULTIGOGM[1]
+;W[sr]N[正解];B[sp]
+(;W[pr]C[白1后，3在出人意料的地方碰为妙着。]
+(;B[or];W[qq]C[先手利];B[ps];W[pp]C[必然];B[nr];W[mr];B[ns];W[ls]C[三块棋均活])
+(;B[qq]MN[4]N[变化1];W[or]C[对杀黑负])
+(;B[ps]MN[4]N[变化2];W[qq];B[rs]C[劫争]))
+(;W[or]MN[3]N[失败];B[pr];W[pp]C[黑4时，5为最佳手顺。];B[rs];W[ps]C[黑6时，7狙袭一口干。]
+;B[nr];W[so]LB[ns:A]C[白9若于A位则成劫];B[os];W[qq];B[mr]C[但白若9、11吃四子，则黑12止，左边白棋死掉。]))
