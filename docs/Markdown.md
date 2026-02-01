@@ -13,7 +13,7 @@
 
 img<img src="https://www.google.com/images/branding/googlelogo/2x/googlelogo_color_272x92dp.png" style="zoom:50%" />
 
-![鹤隐](images/鹤隐.jpg "鹤隐")
+![鹤隐](/assets/images/鹤隐.jpg "鹤隐")
 
 ## 标题
 

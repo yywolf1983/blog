@@ -1,5 +1,0 @@
-main .app-name-link img{
-    height: 50px;
-    transition: filter .3s;
-    filter:brightness(170%);
-}
