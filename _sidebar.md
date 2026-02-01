@@ -33,10 +33,10 @@
         * [古琴](/culture/music/调音表.md)
 
 * 文档
-    * [文档目录](/docs/README.md)
-    * [Markdown语法](/docs/Markdown.md)
-    * [基础文档](/docs/base.md)
-    * [数学公式](/docs/mark_math.md)
+    * [文档目录](/md/README.md)
+    * [Markdown语法](/md/Markdown.md)
+    * [基础文档](/md/base.md)
+    * [数学公式](/md/mark_math.md)
 
 * 笔记
     * [笔记目录](/notes/README.md)
