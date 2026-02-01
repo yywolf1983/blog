@@ -1,5 +1,6 @@
 <!-- _coverpage.md -->
 
+<<<<<<< HEAD
 * 首页
     * [项目介绍](README.md)
 
@@ -42,6 +43,32 @@
     * [笔记目录](/notes/README.md)
     * [个人笔记](/notes/2021年7月1日.md)
     * [异星蓝图](/notes/初级火箭车.txt)
+=======
+* 简介
+
+  * [nones](README.md)
+
+* doc
+
+  * [Markdown](/docs/Markdown.md)
+
+* man
+  * [linux](/man/linux.md)
+  * [vim](/man/vim.md)
+  * [electron](/man/electron.md)
+
+* xlxs
+  * [Taoist](/dao/taoist.md)
+  * [杏林学事](/dao/xinglin.md)
+  * [书房楹联](/book/对联.md)
+  * [琴法入门](/dao/qin.md)
+  * [烂坷之隐](/dao/go.md)
+
+* other
+  * [陕西景点](/other/陕西旅游景点顺口溜.md)
+  * [中国区域划分](/other/中国区域划分.md)
+  * [test1](/docs/index.md)
+>>>>>>> 0d6a86cd801bdad203c8f580e700b9f8826873ad
 
 * 资源
     * [资源目录](/resources/README.md)
