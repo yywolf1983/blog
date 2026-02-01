@@ -1,21 +1,196 @@
 <!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/xhtml" lang="UTF-8"> <!-- 名字空间 -->
+<html xmlns="http://www.w3.org/1999/xhtml" lang="UTF-8">
 <head>
 <title>节气显示</title>
-  <meta charset="UTF-8"> <!-- 添加字符编码声明 -->
-  <meta name="viewport" content="width=1280, initial-scale=1"> <!-- 针对手机显示像素点 -->
-  <link rel="icon" href="animated_favicon.gif" type="image/gif" >   
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="icon" href="animated_favicon.gif" type="image/gif">
   <base target="_blank" />
-  <script type="text/javascript" src="data-years.js" ></script>
+  <script type="text/javascript" src="data-years.js"></script>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "PingFang SC", "Microsoft YaHei", sans-serif;
+      background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%);
+      min-height: 100vh;
+      padding: 20px;
+    }
+    
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+    
+    .title {
+      text-align: center;
+      color: #00d9ff;
+      font-size: 2.5em;
+      margin-bottom: 30px;
+      text-shadow: 0 0 20px rgba(0, 217, 255, 0.5);
+      animation: fadeInDown 1s ease-out;
+    }
+    
+    @keyframes fadeInDown {
+      from {
+        opacity: 0;
+        transform: translateY(-30px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+    
+    .jieqi-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 20px;
+      padding: 10px;
+    }
+    
+    .jieqi-card {
+      background: rgba(30, 30, 50, 0.95);
+      border-radius: 16px;
+      padding: 25px 20px;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+      transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+      border: 1px solid rgba(102, 126, 234, 0.2);
+      position: relative;
+      overflow: hidden;
+      animation: fadeInUp 0.6s ease-out;
+      animation-fill-mode: both;
+    }
+    
+    .jieqi-card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 4px;
+      background: linear-gradient(90deg, #00d9ff, #a855f7, #f472b6);
+      transform: scaleX(0);
+      transition: transform 0.4s ease;
+    }
+    
+    .jieqi-card:hover {
+      transform: translateY(-10px) scale(1.02);
+      box-shadow: 0 20px 40px rgba(0, 212, 255, 0.2);
+    }
+    
+    .jieqi-card:hover::before {
+      transform: scaleX(1);
+    }
+    
+    @keyframes fadeInUp {
+      from {
+        opacity: 0;
+        transform: translateY(30px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+    
+    .jieqi-name {
+      font-size: 1.8em;
+      font-weight: 700;
+      margin-bottom: 15px;
+      background: linear-gradient(135deg, #00d9ff 0%, #a855f7 50%, #f472b6 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+    
+    .jieqi-status {
+      display: flex;
+      justify-content: center;
+      gap: 10px;
+      margin-bottom: 15px;
+      flex-wrap: wrap;
+    }
+    
+    .status-item {
+      padding: 8px 15px;
+      border-radius: 8px;
+      font-size: 0.9em;
+      font-weight: 500;
+      transition: all 0.3s ease;
+    }
+    
+    .status-active {
+      background: linear-gradient(135deg, rgba(0, 217, 255, 0.2) 0%, rgba(168, 85, 247, 0.2) 100%);
+      color: #00d9ff;
+      border: 1px solid rgba(0, 217, 255, 0.3);
+    }
+    
+    .status-inactive {
+      background: rgba(255, 255, 255, 0.05);
+      color: #808080;
+      border: 1px solid rgba(128, 128, 128, 0.2);
+    }
+    
+    .jieqi-date {
+      font-size: 1.1em;
+      color: #c0c0c0;
+      margin-bottom: 10px;
+      padding: 10px;
+      background: rgba(0, 0, 0, 0.2);
+      border-radius: 8px;
+      text-align: center;
+    }
+    
+    .jieqi-next {
+      font-size: 0.95em;
+      color: #a0a0a0;
+      text-align: center;
+      padding-top: 10px;
+      border-top: 1px solid rgba(102, 126, 234, 0.2);
+    }
+    
+    .jieqi-next span {
+      color: #f472b6;
+      font-weight: 600;
+    }
+    
+    @media (max-width: 768px) {
+      body {
+        padding: 10px;
+      }
+      
+      .title {
+        font-size: 1.8em;
+        margin-bottom: 20px;
+      }
+      
+      .jieqi-grid {
+        grid-template-columns: 1fr;
+        gap: 15px;
+      }
+      
+      .jieqi-card {
+        padding: 20px 15px;
+      }
+      
+      .jieqi-name {
+        font-size: 1.5em;
+      }
+    }
+  </style>
 </head>
 <body>
-
-    <div id="jieqi" style="color:azure; text-align: center; padding: 20px;"></div>
-
+  <div class="container">
+    <h1 class="title">二十四节气</h1>
+    <div id="jieqi" class="jieqi-grid"></div>
+  </div>
 </body>
 <script type="text/javascript">
-    // var qs = getQueryString();
-    // var year = qs["year"]; 
     var z_dic = { 1:"一", 2:"丁", 3:"上", 4:"止", 5:"正" };
     var all_str = ""
     var ztime = true;
@@ -26,9 +201,8 @@
     var jieqi_time = new Date(jieqi_list["正  立春  东风解  蛰虫始  鱼陟冰"]).getTime()
     var now_time = new Date(today).getTime()
 
-   console.log(jieqi_time,now_time)
+    console.log(jieqi_time,now_time)
 
-    // 阳历年过后 日期跳过处理
     if (jieqi_time > now_time) 
     {
       year = year - 1
@@ -36,33 +210,27 @@
     console.log(year)
     var str = jieqi_d(year);
     
-    // 检查当前日期是否已经超过大寒节气，并且已经到了立春
     var 大寒日期 = str["腊  大寒  鸡乳卵  征鸟厉  泽腹坚"];
     var 大寒时间 = new Date(大寒日期).getTime();
     var 下一年立春 = jieqi_d(year + 1)["正  立春  东风解  蛰虫始  鱼陟冰"];
     var 下一年立春时间 = new Date(下一年立春).getTime();
     
     if (now_time > 大寒时间 && now_time >= 下一年立春时间) {
-      // 如果已经超过大寒，并且已经到了立春，显示下一年的节气循环
       year = year + 1;
       console.log('已过大寒和立春，显示下一年节气:', year);
       str = jieqi_d(year);
     } else if (now_time > 大寒时间) {
-      // 如果已经超过大寒，但还没到立春，保持显示当前年份的节气循环（包含大寒）
       console.log('已过大寒但未到立春，保持显示当前年份节气');
     }
     
-    // 计算当前日期对应的节气
     function getCurrentJieqi() {
       var currentDate = new Date(today);
       var currentTime = currentDate.getTime();
       
-      // 检查是否在大寒到立春之间
       if (currentTime > 大寒时间 && currentTime < 下一年立春时间) {
         return "大寒";
       }
       
-      // 检查当前年份的节气
       for (var i = 0; i < 24; i++) {
         var jieqiName = Object.keys(str)[i];
         var jieqiDate = Object.values(str)[i];
@@ -70,7 +238,6 @@
         
         var nextJieqiTime;
         if (i === 23) {
-          // 最后一个节气（大寒）的下一个节气是下一年的立春
           nextJieqiTime = 下一年立春时间;
         } else {
           var nextJieqiDate = Object.values(str)[i + 1];
@@ -78,7 +245,7 @@
         }
         
         if (currentTime >= jieqiTime && currentTime < nextJieqiTime) {
-          return jieqiName.split('  ')[1]; // 提取节气名称
+          return jieqiName.split('  ')[1];
         }
       }
       
@@ -88,14 +255,10 @@
     var currentJieqi = getCurrentJieqi();
     console.log('当前日期对应的节气:', currentJieqi);
 
-
     for(var j=0;j<=23;j++){
-      
-
        var run_nums = time_day(Object.values(str)[j])
        run_num = run_nums/1000/60/60/24
        
-       // 确保z_dics有默认值
        var z_dics = " 〇 〇 〇 ";
        
        if (run_num >= 15)
@@ -106,9 +269,7 @@
        {
           u = parseInt(run_num/5)
           u1 = Math.floor(run_num%5)
-          // 确保u1在有效范围内
           u1 = Math.max(0, Math.min(4, u1));
-          // 处理z_dic键从1开始的情况
           var z_dic_values = ['', '一', '丁', '上', '止', '正'];
           u2 = z_dic_values[u1 + 1] || "正";
           if (u == 0)
@@ -120,12 +281,11 @@
           if (u == 2)
              z_dics=" 正 正 "+u2+" "
        }
-       // 显示下一个节气的日期
+       
        var nextIndex = (j + 1) % 24;
        var nextJieqiDate;
        var nextJieqiName;
        if (nextIndex === 0) {
-         // 最后一个节气（大寒）的下一个节气是下一年的立春
          var nextYearStr = jieqi_d(year + 1);
          nextJieqiDate = Object.values(nextYearStr)[0];
          nextJieqiName = Object.keys(nextYearStr)[0].split('  ')[1];
@@ -133,8 +293,40 @@
          nextJieqiDate = Object.values(str)[nextIndex];
          nextJieqiName = Object.keys(str)[nextIndex].split('  ')[1];
        }
-       all_str=all_str+Object.keys(str)[j]+z_dics+nextJieqiDate+" (" + nextJieqiName + ")<br/>"
+       
+       var jieqiName = Object.keys(str)[j].split('  ')[1];
+       var isActive = (jieqiName === currentJieqi);
+       
+       all_str += '<div class="jieqi-card" style="animation-delay: ' + (j * 0.05) + 's;">';
+       all_str += '<div class="jieqi-name">' + jieqiName + '</div>';
+       all_str += '<div class="jieqi-status">';
+       
+       if (run_num >= 15) {
+         all_str += '<div class="status-item status-active">正</div>';
+         all_str += '<div class="status-item status-active">正</div>';
+         all_str += '<div class="status-item status-active">正</div>';
+       } else if (run_num >= 0) {
+         for (var k = 0; k < 3; k++) {
+           if (k < u) {
+             all_str += '<div class="status-item status-active">正</div>';
+           } else if (k === u) {
+             all_str += '<div class="status-item status-active">' + u2 + '</div>';
+           } else {
+             all_str += '<div class="status-item status-inactive">〇</div>';
+           }
+         }
+       } else {
+         all_str += '<div class="status-item status-inactive">〇</div>';
+         all_str += '<div class="status-item status-inactive">〇</div>';
+         all_str += '<div class="status-item status-inactive">〇</div>';
+       }
+       
+       all_str += '</div>';
+       all_str += '<div class="jieqi-date">' + nextJieqiDate + '</div>';
+       all_str += '<div class="jieqi-next">下个节气：<span>' + nextJieqiName + '</span></div>';
+       all_str += '</div>';
     }
+    
     document.getElementById("jieqi").innerHTML = all_str
 
     console.log("从",start_time,"到",end_time,"相距",to_times/1000/60/60/24,"天")
