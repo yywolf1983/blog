@@ -1,0 +1,16 @@
+(;CA[UTF-8]AB[iq][nb][mb][em][el][rf][rg][gk][ek][fg][hh][jm][kq][lp][fj][ir][hp][ho][go]
+[fo][fp][eq][er][dr]AW[ma][na][sg][in][sf][fi][ej][di][dk][dl][dm][dn][dp][ep][cq]
+[bq][gq][gp][fq][hq][gr][gs][ip][io]C[下边的攻杀是四气对五气，白棋差一气。必须对上边黑子找手段。
+
+结局是征子一口干的情况，果真如此，那么要从何处动手呢？]
+
+AP[MultiGo:4.2.4]SZ[19]GN[长空射雁]RE[白先胜]US[桥本宇太郎解说]SO[《玄玄棋经》]
+MULTIGOGM[1]
+;W[fn]C[必须紧住气，一口气都松不得。]N[正解];B[en];W[eo];B[gn];W[gm];B[fm];W[hn]
+;B[fn];W[fk];B[fl];W[gl];B[fk];W[hk];B[gj];W[hi]C[8止绞封，15门封。];B[hl];W[hm]
+;B[hj];W[ij];B[ik];W[gi];B[hk];W[jk];B[il];W[jl];B[im];W[km];B[jn];W[ko]C[29再度门封，黑棋冲破后变成大征子。]
+;B[jj];W[ii];B[kl];W[kk];B[kn];W[ln];B[lm];W[jo];B[km];W[mm];B[ll];W[lk];B[ml];W[nl]
+;B[mk];W[mj];B[nk];W[ok];B[nj];W[ni];B[oj];W[pj];B[oi];W[oh];B[pi];W[qi];B[ph];W[pg]
+;B[qh];W[rh];B[qg];W[re];B[qf];W[pf];B[qe];W[qd];B[pe];W[oe];B[pd];W[pc];B[od];W[nd]
+;B[oc];W[ob];B[nc];W[lb];B[mc];W[md];B[lc];W[kc];B[ld];W[le];B[kd];W[jd];B[ke];W[kf]
+;B[je];W[ie];B[jf];W[jg];B[if];W[hf];B[ig];W[ih];B[hg];W[gg]C[壮观])

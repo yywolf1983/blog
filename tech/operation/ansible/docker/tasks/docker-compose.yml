@@ -1,0 +1,14 @@
+- name: install docker-compose
+  shell: |
+       curl -L http://13.214.254.61:8095/api/public/dl/urKaM4d9 \
+       -o /usr/local/bin/docker-compose
+
+- name: chmod
+  shell: chmod +x /usr/local/bin/docker-compose
+
+- name: check version
+  shell: /usr/local/bin/docker-compose --version
+  register: check
+
+- name: show
+  debug: var=check.stdout verbosity=0    #check.stdout 显示出的信息会看的更清晰点

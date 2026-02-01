@@ -1,0 +1,36 @@
+- name: yum install base
+  yum:
+        name: "{{ item }}"
+        state: present
+  loop:
+        - tcl
+
+- name: copy redis
+  copy: src=/data/soft/{{ redis_obj  }} dest=/data/soft
+
+- name: tar redis
+  shell: chdir=/data/soft tar -zxf {{ redis_obj  }}
+
+- name: install redis
+  shell: chdir=/data/soft/{{ redis_ver  }} make PREFIX={{ redis_path  }} install
+
+- name: mkdir {{ redis_path  }}/conf
+  file: path={{ redis_path  }}/conf state=directory
+
+- name: copy redis-{{ port|default(6397) }}.conf
+  template: src=redis.conf.j2 dest={{ redis_path  }}/conf/redis-{{ port|default(6397) }}.conf
+
+- name: copy /etc/init.d/redis-{{ port|default(6397) }}
+  template: src=redis.j2 dest=/etc/init.d/redis-{{ port|default(6397) }} mode=755
+
+- name: add systemd service
+  template: src=redis.service.j2 dest=/lib/systemd/system/redis@.service
+
+- name: reload systemd
+  shell: systemctl daemon-reload
+
+- name: auto start redis-{{ port|default(6397) }}
+  shell: systemctl enable redis@{{ port|default(6397) }}
+
+- name: start redis-{{ port|default(6397) }}
+  shell: systemctl start redis@{{ port|default(6397) }}

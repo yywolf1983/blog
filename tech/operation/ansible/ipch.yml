@@ -1,0 +1,10 @@
+---
+- name: paylook
+  hosts: aws
+  tasks:
+    - name: "ip check"
+      script: ./sh/ipck.sh
+      register: ipeh
+    - name: output
+      debug:
+        msg: "{{ ipeh.stdout_lines }}"

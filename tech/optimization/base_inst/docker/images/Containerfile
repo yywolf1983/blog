@@ -1,0 +1,16 @@
+# 使用您的基础镜像
+FROM localhost/debian:12
+
+# 维护者信息（可选）
+LABEL maintainer="you@example.com"
+
+# 安装 Nginx 并清理缓存
+RUN apt-get update \
+    && apt-get install -y --no-install-recommends nginx \
+    && rm -rf /var/lib/apt/lists/*
+
+# 暴露 80 端口
+EXPOSE 80
+
+# 启动 Nginx（前台运行）
+CMD ["nginx", "-g", "daemon off;"]

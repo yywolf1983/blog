@@ -1,0 +1,244 @@
+
+/usr/lib/systemd/systemd
+/etc/systemd/system
+chmod +x /etc/rc.d/rc.local
+
+# Linux中如何启动、重启、停止、重载服务以及检查服务（如 httpd.service）状态
+systemctl start httpd.service
+systemctl restart httpd.service
+systemctl stop httpd.service
+systemctl reload httpd.service
+systemctl status httpd.service
+
+# 如何激活服务并在启动时启用或禁用服务（即系统启动时自动启动服务）
+systemctl is-active httpd.service
+systemctl enable httpd.service
+systemctl disable httpd.service
+
+# 如何屏蔽（让它不能启动）或显示服务（如 httpd.service）
+systemctl mask httpd.service
+systemctl unmask httpd.service
+
+# 使用systemctl命令杀死服务
+systemctl kill httpd
+systemctl status httpd
+
+ 系统服务（.service）、挂载点（.mount）、sockets（.sockets 、系统设备、交换分区/文件、启动目标（target）、文件系统路径、由 systemd 管理的计时器。
+日志系统
+
+journalctl -f
+journalctl -ex
+
+# 显示特定进程的所有消息:
+journalctl PID=1
+# 显示指定单元的所有消息
+journalctl -u netcfg
+
+
+# 使某服务自动启动
+chkconfig --level 3 httpd on
+systemctl enable httpd.service
+
+# 使某服务不自动启动
+chkconfig --level 3 httpd off
+systemctl disable httpd.service
+
+# 检查服务状态
+
+service httpd status
+systemctl status httpd.service （服务详细信息）
+systemctl is-active httpd.service （仅显示是否 Active)
+
+# 查看帮助
+systemctl help sshd
+
+# 显示所有已启动的服务
+chkconfig --list
+systemctl list-units --type=service
+
+# 启动某服务
+service httpd start
+systemctl start httpd.service
+
+# 停止某服务
+service httpd stop
+systemctl stop httpd.service
+
+# 重启某服务
+service httpd restart
+systemctl restart httpd.service
+
+SysV启动级别        Systemd 目标      注释
+0       runlevel0.target, poweroff.target       中断系统（halt）
+1, s, single    runlevel1.target, rescue.target 单用户模式
+2, 4    runlevel2.target, runlevel4.target, multi-user.target   用户自定义启动级别，通常识别为级别3。
+3       runlevel3.target, multi-user.target     多用户，无图形界面。用户可以通过终端或网络登录。
+5       runlevel5.target, graphical.target      多用户，图形界面。继承级别3的服务，并启动图形界面服务。
+6       runlevel6.target, reboot.target 重启
+emergency       emergency.target        急救模式（Emergency shell）
+其他
+
+
+# systemd --version
+
+# whereis systemctl
+
+# 分析systemd启动进程
+# systemd-analyze
+
+# 分析启动时各个进程花费的时间
+# systemd-analyze blame
+
+# 分析启动时的关键链
+# systemd-analyze critical-chain
+
+# 列出所有可用单元
+# systemctl list-unit-files
+
+# 列出所有运行中单元
+# systemctl list-units
+
+# 列出所有失败单元
+# systemctl --failed
+
+# 检查某个单元（如 cron.service）是否启用
+# systemctl is-enabled crond.service
+
+# 检查某个单元或服务是否运行
+# systemctl status firewalld.service
+
+# 列出所有服务（包括启用的和禁用的）
+# systemctl list-unit-files --type=service
+
+
+# 获取当前某个服务的CPU分配额（如httpd）
+# systemctl show -p CPUShares httpd.service
+# CPUShares=1024
+# 注意：各个服务的默认CPU分配份额=1024，你可以增加/减少某个进程的CPU分配份额。
+
+# 将某个服务（httpd.service）的CPU分配份额限制为2000 CPUShares/
+# systemctl set-property httpd.service CPUShares=2000
+# systemctl show -p CPUShares httpd.service
+# 注意：当你为某个服务设置CPUShares，会自动创建一个以服务名命名的目录（如 httpd.service），里面包含了一个名为90-CPUShares.conf的文件，该文件含有CPUShare限制信息，你可以通过以下方式查看该文件：
+
+# vi /etc/systemd/system/httpd.service.d/90-CPUShares.conf
+[Service]
+CPUShares=2000
+
+# 检查某个服务的所有配置细节
+# systemctl show httpd
+
+# 分析某个服务（httpd）的关键链
+# systemd-analyze critical-chain httpd.service
+
+# 获取某个服务（httpd）的依赖性列表
+# systemctl list-dependencies httpd.service
+
+# 按等级列出控制组
+# systemd-cgls
+
+# 按CPU、内存、输入和输出列出控制组
+# systemd-cgtop
+
+# 启动系统救援模式
+# systemctl rescue
+Broadcast message from root@tecmint on pts/0(Wed2015-04-2911:31:18 IST):
+The system is going down to rescue mode NOW!
+
+
+# 进入紧急模式
+# systemctl emergency
+Welcome to emergency mode!After logging in, type "journalctl -xb" to view
+system logs,"systemctl reboot" to reboot,"systemctl default" to try again
+to boot intodefault mode.
+
+# 列出当前使用的运行等级
+# systemctl get-default
+multi-user.target
+
+# 启动运行等级5，即图形模式
+# systemctl isolate runlevel5.target
+或
+# systemctl isolate graphical.target
+
+# 启动运行等级3，即多用户模式（命令行）
+# systemctl isolate runlevel3.target
+或
+# systemctl isolate multiuser.target
+
+# 设置多用户模式或图形模式为默认运行等级
+# systemctl set-default runlevel3.target
+# systemctl set-default runlevel5.target
+
+# 重启、停止、挂起、休眠系统或使系统进入混合睡眠
+# systemctl reboot
+# systemctl halt
+# systemctl suspend
+# systemctl hibernate
+# systemctl hybrid-sleep
+# 对于不知运行等级为何物的人，说明如下。
+
+ Runlevel 0 : 关闭系统
+ Runlevel 1 : 救援？维护模式
+ Runlevel 3 : 多用户，无图形系统
+ Runlevel 4 : 多用户，无图形系统
+ Runlevel 5 : 多用户，图形化系统
+ Runlevel 6 : 关闭并重启机器
+
+
+# 显示特定程序的所有消息:
+# journalctl /usr/lib/systemd/systemd
+# 配置样例
+cat /etc/system/system/sshd.service
+[Unit]
+Description=OpenSSH server daemon              #描述
+Documentation=man:sshd(8) man:sshd_config(5)   #文档
+After=network.target sshd-keygen.service  #之前启动
+Wants=sshd-keygen.service                 #弱依赖
+
+#Before   #之后启动
+#Requires #强依赖
+
+[Service]
+Type=notify
+EnvironmentFile=/etc/sysconfig/sshd    #指定当前服务的环境参数文件
+ExecStart=/usr/sbin/sshd -D $OPTIONS
+ExecReload=/bin/kill -HUP $MAINPID     #重启服务时执行的命令
+KillMode=process                      
+Restart=on-failure                     
+RestartSec=42s                         #重启服务之前，需要等待的秒数。
+
+[Install]
+WantedBy=multi-user.target             #表示该服务所在的 Target。
+
+
+KillMode         #如何停止服务
+                   # control-group（默认值）：当前控制组里面的所有子进程，都会被杀掉
+                   # process：只杀主进程
+                   # mixed：主进程将收到 SIGTERM 信号，子进程收到 SIGKILL 信号
+                   # none：没有进程会被杀掉，只是执行服务的 stop 命令。
+Restart          #定义了退出后，Systemd 的重启方式
+                  # no（默认值）：退出后不会重启
+                  # on-success：只有正常退出时（退出状态码为0），才会重启
+                  # on-failure：非正常退出时（退出状态码非0），包括被信号终止和超时，才会重启
+                  # on-abnormal：只有被信号终止和超时，才会重启
+                  # on-abort：只有在收到没有捕捉到的信号终止时，才会重启
+                  # on-watchdog：超时退出，才会重启
+                  # always：不管是什么退出原因，总是重启
+
+
+cat multi-user.target
+[Unit]
+Description=Multi-User System
+Documentation=man:systemd.special(7)
+Requires=basic.target
+Conflicts=rescue.service rescue.target
+After=basic.target rescue.service rescue.target
+AllowIsolate=yes
+
+Requires字段：要求basic.target一起运行。
+Conflicts字段：冲突字段。如果rescue.service或rescue.target正在运行，multi-user.target就不能运行，反之亦然。
+After：表示multi-user.target在basic.target 、 rescue.service、 rescue.target之后启动，如果它们有启动的话。
+AllowIsolate：允许使用systemctl isolate命令切换到multi-user.target。
+
+

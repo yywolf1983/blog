@@ -1,0 +1,29 @@
+- name: debug
+  debug: msg="setup-Ubuntu"
+
+- name: apt install base
+  apt: 
+      name: "{{ item }}"
+      state: present
+      update_cache: true
+  with_items:
+      - apt-transport-https
+      - ca-certificates
+      - curl
+      - software-properties-common
+
+- name: install app-key 
+  shell: 'curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo apt-key add -'
+
+- name: add-apt
+  shell: |
+        add-apt-repository \
+        "deb [arch=amd64] https://download.docker.com/linux/ubuntu \
+         $(lsb_release -cs) \
+         stable"
+- name: install docker-ce
+  apt:
+      name: docker-ce
+
+- include: config.yml
+- include: docker-compose.yml

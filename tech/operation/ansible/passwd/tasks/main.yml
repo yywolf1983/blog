@@ -1,0 +1,17 @@
+- name: random passwd
+  shell: head -n 2 /dev/urandom  | base64 -w 0 | head -c32
+  register: shell_result
+
+- debug: 
+    msg: ps-{{ shell_result.stdout_lines }}
+
+#- name: check passwd
+#  user: name=root  password={{ shell_result.stdout_lines[0] | password_hash('sha512') }} update_password=always
+
+- name: check passwd
+  shell: echo root:{{ shell_result.stdout_lines[0] }} | chpasswd
+
+- name: save file
+  copy:
+    content: "{% for host in groups.all %}{{ hostvars[host].inventory_hostname }}--[{{ hostvars[host].shell_result.stdout }}]\n{% endfor %}"
+    dest: /root/.passwd

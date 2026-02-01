@@ -1,0 +1,19 @@
+- name: add dir
+  shell: mkdir -p /etc/docker/
+
+- name: up service
+  template: src=daemon.json.j2 dest=/etc/docker/daemon.json
+  notify: start docker
+
+- name: up add_key
+  template: src=add_key.sh.j2 dest=/etc/docker/add_key.sh
+
+- name: add keys
+  shell: /bin/bash /etc/docker/add_key.sh
+
+- name: up daemon
+  template: src=docker.service.j2 dest=/lib/systemd/system/docker.service
+
+- name: reload service
+  shell: /bin/systemctl daemon-reload
+  notify: restart docker

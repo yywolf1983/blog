@@ -1,0 +1,11 @@
+- name: copy java soft
+  copy: src=/data/soft/{{ java_obj }} dest=/data/soft
+
+- name: tar java
+  unarchive: src=/data/soft/{{ java_obj }} dest=/data/ copy=no
+
+- name: add jdk
+  template: src=add_jdk.sh.j2 dest=~/add_jdk.sh mode=700
+  
+- name: exec add jdk
+  shell: ~/add_jdk.sh

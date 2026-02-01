@@ -1,0 +1,26 @@
+- name: debug
+  debug: msg="setup-CentOS"
+
+- name: apt install base
+  yum: 
+      name: "{{ item }}"
+      state: present
+      update_cache: true
+  with_items:
+      - yum-utils
+      - device-mapper-persistent-data
+      - lvm2
+      - curl
+
+- name: install app-key 
+  shell: |
+        yum-config-manager \
+        --add-repo \
+        https://download.docker.com/linux/centos/docker-ce.repo
+
+- name: install docker-ce
+  yum:
+      name: docker-ce
+
+- include: config.yml
+- include: docker-compose.yml

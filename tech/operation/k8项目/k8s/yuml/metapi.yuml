@@ -1,0 +1,162 @@
+apiVersion: v1
+data:
+  .dockerconfigjson: >-
+    eyJhdXRocyI6eyJoYXJib3IudXNkYS5vbmUiOnsidXNlcm5hbWUiOiJhZG1pbiIsInBhc3N3b3JkIjoiUnJ2YzN3SzlLQlhpeUhlIn19fQ==
+kind: Secret
+metadata:
+  creationTimestamp: '2022-05-27T07:34:19Z'
+  name: harbor
+  namespace: mfi
+  resourceVersion: '160352798'
+
+---
+
+# echo -n 'admin' | base64
+# echo -n '1f2d1e2e67df' | base64
+
+apiVersion: v1
+kind: Secret
+metadata:
+  name: mysecret
+type: Opaque
+data:
+  username: YWRtaW4=
+  password: MWYyZDFlMmU2N2Rm
+
+---
+
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  annotations:
+    pv.kubernetes.io/bind-completed: "yes"
+  finalizers:
+  - kubernetes.io/pvc-protection
+  name: test
+  namespace: test
+spec:
+  accessModes:
+  - ReadWriteOnce
+  resources:
+    requests:
+      storage: 10Gi
+  storageClassName: ""
+  volumeMode: Filesystem
+  volumeName: test
+status:
+  accessModes:
+  - ReadWriteMany
+  capacity:
+    storage: 10Gi
+  phase: Bound
+
+---
+
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  annotations:
+    pv.kubernetes.io/bound-by-controller: "yes"
+  finalizers:
+  - kubernetes.io/pv-protection
+  name: test
+spec:
+  accessModes:
+  - ReadWriteMany
+  capacity:
+    storage: 10Gi
+  claimRef:
+    apiVersion: v1
+    kind: PersistentVolumeClaim
+    name: test
+    namespace: test
+    #这个uid 区的pvc的
+    uid: 95ee3f71-2441-49cb-a055-4f7d0007ec62
+  local:
+    path: /data
+  nodeAffinity:
+    required:
+      nodeSelectorTerms:
+      - matchExpressions:
+        - key: disktype
+          operator: In
+          values:
+          - ssd
+  persistentVolumeReclaimPolicy: Retain
+  volumeMode: Filesystem
+status:
+  phase: Bound
+
+---
+
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  annotations:
+    deployment.kubernetes.io/revision: "1"
+  generation: 1
+  labels:
+    workload.user.cattle.io/workloadselector: apps.deployment-test-ubuntu
+  name: ubuntu
+  namespace: test
+spec:
+  progressDeadlineSeconds: 600
+  replicas: 1
+  revisionHistoryLimit: 10
+  selector:
+    matchLabels:
+      workload.user.cattle.io/workloadselector: apps.deployment-test-ubuntu
+  strategy:
+    rollingUpdate:
+      maxSurge: 25%
+      maxUnavailable: 25%
+    type: RollingUpdate
+  template:
+    metadata:
+      creationTimestamp: null
+      labels:
+        workload.user.cattle.io/workloadselector: apps.deployment-test-ubuntu
+    spec:
+      affinity: {}
+      containers:
+      - image: harbor.usda.one/aws/ubuntu:latest
+        imagePullPolicy: Always
+        name: container-0
+        ports:
+        - containerPort: 22
+          name: 22tcp
+          protocol: TCP
+        resources: {}
+        terminationMessagePath: /dev/termination-log
+        terminationMessagePolicy: File
+        volumeMounts:
+        - mountPath: /data
+          name: test
+      dnsPolicy: ClusterFirst
+      imagePullSecrets:
+      - name: harbor
+      restartPolicy: Always
+      schedulerName: default-scheduler
+      securityContext: {}
+      terminationGracePeriodSeconds: 30
+      volumes:
+      - name: test
+        persistentVolumeClaim:
+          claimName: test
+status:
+  availableReplicas: 1
+  conditions:
+  - lastTransitionTime: "2023-03-13T09:27:19Z"
+    message: Deployment has minimum availability.
+    reason: MinimumReplicasAvailable
+    status: "True"
+    type: Available
+  - lastTransitionTime: "2023-03-13T09:27:18Z"
+    message: ReplicaSet "ubuntu-f7484f5d7" has successfully progressed.
+    reason: NewReplicaSetAvailable
+    status: "True"
+    type: Progressing
+  observedGeneration: 1
+  readyReplicas: 1
+  replicas: 1
+  updatedReplicas: 1

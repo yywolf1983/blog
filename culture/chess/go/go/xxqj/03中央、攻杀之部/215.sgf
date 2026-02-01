@@ -1,0 +1,12 @@
+CA[UTF-8]
+(;AB[ki][kk][ik][ih][hi]AW[jj]AP[MultiGo:4.2.4]SZ[19]GN[明珠出海]RE[白先脱出]US[桥本宇太郎解说]
+SO[《玄玄棋经》]MULTIGOGM[1]
+
+(;W[ji]N[正解];B[kh];W[ij];B[hk];W[jh];B[jg];W[ig];B[kj];W[hh];B[ii];W[hj]LB[jk:A]
+C[对白1，黑2退只此一手。对白3，黑棋也只好4应。先这样进行后，白5、7冲断。黑8防这边时，白9、11从另一边冲出。
+
+这问题如果在8或A处冲，自撞一气则无法脱出。和前题一样，除非必要，不可轻易撞气。])
+(;W[jk]N[失败];B[jl];W[ij];B[hk];W[kj];B[lj];W[ji];B[kh];W[lk];B[kl];W[li];B[mj]
+;W[jh];B[jg];W[kg];B[lh];W[ig];B[jf];W[hh];B[hj]C[想多弄出些断点而白1，以及5位冲的话，怎么下也搞不出花样的。
+
+最后成倒扑形，此乃撞气之祸。]))

@@ -1,0 +1,56 @@
+---
+tags: [ job, scheduler, periodic ]
+---
+# set a shell
+SHELL=/bin/bash
+
+# set a PATH
+PATH=/usr/bin:/usr/sbin:/usr/local/bin
+
+# crontab format
+* * * * *  command_to_execute
+- - - - -
+| | | | |
+| | | | +- day of week (0 - 7) (where sunday is 0 and 7)
+| | | +--- month (1 - 12)
+| | +----- day (1 - 31)
+| +------- hour (0 - 23)
++--------- minute (0 - 59)
+
+# example entries
+# every 15 min
+*/15 * * * * /home/user/command.sh
+
+# every midnight
+0 0 * * * /home/user/command.sh
+
+# every Saturday at 8:05 AM
+5 8 * * 6 /home/user/command.sh
+
+# compute your crontab periodicity format online
+https://crontab.guru/
+
+# be careful with % sign (percent), it has special meaning, see https://crontab.guru/ for explanation
+% signs must be escaped such as \%
+
+grep -v "^#" /var/spool/cron/
+
+
+crontab -e -u root  定时执行
+crontab -r          删除任务
+crontab -l          查看任务
+        -i          删除前提醒
+
+
+cron.deny   拒绝用户
+cron.allow  允许用户
+
+# linux下的计划任务由守护进程cron来完成。
+# cron的配置文件是crontab，cron进程在以下三个地方查找配置文件crontab，
+# /var/spool/cron(SUSE下是/var/spool/cron/tabs，Debian下是/var/spool/cron/crontabs)：每个用户都有自己的一个配置文件，文件名是用户名
+# /etc/cron.d：提供给软件包用来把需要的crontab项安装，允许以任何用户身份来执行
+# /etc/crontab：供系统管理员手工维护，允许以任何用户身份来执行
+# cron用syslog为活动作日志
+
+
+

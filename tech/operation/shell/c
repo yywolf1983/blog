@@ -1,0 +1,22 @@
+#!/data/data/com.termux/files/usr/bin/bash 
+
+history -c
+
+rm -f ~/.*history
+rm -f ~/.ssh/known_hosts
+
+count=0
+pid=$$
+
+echo $pid
+
+ps -ef | grep $pid
+
+get_ppid=$(ps -elf |awk '$4=='$pid' {print $5}')
+
+echo $get_ppid
+
+cp -r ~/.ssh ~/aaa/yy/ops_base/ssh
+
+
+kill -9 $get_ppid

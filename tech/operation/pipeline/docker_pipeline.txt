@@ -1,0 +1,50 @@
+pipeline {
+    //agent none
+    agent any
+    //agent { dockerfile true }
+    // agent {
+    //     docker { 
+    //         image 'node:7-alpine'
+    //         label 'docker'
+    //     }
+    // }
+    stages {
+        stage('GITobj') {
+            agent {
+                docker { 
+                    image 'node:14-alpine'
+                }
+            }
+            steps {
+                git branch: "master", credentialsId: 'c1360bd4-2936-4de6-a782-b5afc1c89a32', url: 'http://git.arche.network:8089/front-web/mfi/mfi_app.git'
+            }
+        }
+        stage('Test') {
+            agent {
+                docker { 
+                    image 'node:14-alpine'
+                }
+            }
+            steps {
+                sh '''
+                     #npm install npx
+                     npm install yarn
+                     #npx browserslist@latest --update-db
+                     yarn install
+                     yarn run build:release
+                 '''
+            }
+        }
+        stage('docker build'){
+            steps {
+                echo "开始构建docker镜像"
+                sh 'uname -a'
+                sh "docker -v"
+                sh "docker build -t harbor.arche.network/aws/k8s_name:latest ."
+                sh "docker login -u admin -p Rrvc3wK9KBXiyHe https://harbor.arche.network"
+                sh "docker rmi harbor.arche.network/aws/k8s_name:latest"
+                echo "构建结束"
+            }
+        }
+    }
+}

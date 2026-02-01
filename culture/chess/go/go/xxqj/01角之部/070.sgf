@@ -1,0 +1,12 @@
+﻿(;CA[UTF-8]AB[oq][op][rq][jr][kr][qr][lq][mq][ro][qn][qm][pm][om][nn][mm][ln][kn][jn][jo]
+[ho][gp][fq][gr]AW[mp][oo][sp][rp][qp][pp][pn][no][mo][mn][lp][ko][kq][jq][iq][ir]
+C[这是相当难的问题。因白棋一眼也无，单吃二子还解决不了。不是光说玄妙就可以的。]
+
+AP[MultiGo:4.2.4]SZ[19]GN[玄中又玄]RE[白先劫]US[桥本宇太郎解说]SO[《玄玄棋经》]
+MULTIGOGM[1]
+
+(;W[nq]N[正解];B[nr];W[mr]LB[lr:A][or:B]C[白1挖、3断是常用的手段。次黑若A粘，则白B断进去。]
+;B[np];W[lr]C[白5止虽然吃到二子，但问题仍未解决。];B[pr]C[黑6虎，顽强抵抗。];W[nq]
+;B[mq];W[ms];B[ks]C[白7提、9弯，俱是先手利。];W[rr];B[sr];W[rs]C[之后再11嵌、13长，这是“兴贤势”的手筋呀。]
+;B[qq];W[ns];B[os];W[qs];B[ps];W[lq];B[ss];W[rs];B[pq];W[nq]C[如果是最强的抵抗，那最后成为黑23止之劫争。])
+(;W[pr]N[失败];B[or];W[pq];B[ps];W[sr];B[rr];W[sq];B[ls]C[白1之跨也浮上眼帘，但被黑2应，没有棋。]))

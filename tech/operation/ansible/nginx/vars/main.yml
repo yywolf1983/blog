@@ -1,0 +1,4 @@
+
+nginx_ver: 'nginx-1.20.2'
+nginx_obj: '{{ nginx_ver  }}.tar.gz'
+nginx_path: '/data/nginx'

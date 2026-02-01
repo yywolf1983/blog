@@ -1,0 +1,70 @@
+
+gpg --gen-random --armor 1 12  随机密码
+
+gpg --gen-key --homedir . 生成密钥
+
+gpg --list-key   查看密钥
+gpg -k
+
+gpg --list-public-key  查看公钥
+
+gpg --list-secret-key  查看私钥
+gpg -K
+
+gpg --list-sig   列出签名
+
+导出公钥发布给用户 -a,--armor -o,--output
+gpg --export -a terry@mykms.org > terrypub.asc --homedir .
+gpg --export terry@mykms.org > terry.gpg   导出公钥密钥二进制
+
+导出私钥
+gpg  -a -o terry.asc --export-secret-key terry@mykms.org  导出文本私钥 二进制去掉-a
+gpg  -a --export-secret-key terry@mykms.org > terry.asc
+
+gpg --delete-secret-keys 删除私钥
+gpg --delete-keys 删除公钥
+
+gpg --import terry.gpg   导入公钥
+
+gpg --fingerprint yy@admin.com   核对指纹
+
+gpg --sing-key brian@mykms.org  验证密钥
+或者
+gpg --edit-key name
+command > sign
+
+gpgb --check-sigs brian@mykms.org   检查签名
+
+
+数字签名 适用于明文文本 解压会出现其它字符
+gpg --clearsign policy.txt  对文件数字签名 文件验证
+gpg --detach-sign test.txt  单独存放签名文件
+gpg --sign test.txt         签名结果二进制
+gpg --homedir . --sign --armor aaaa.7z   私有加密
+gpg --verify policy.txt.asc  验证
+gpg -d policy.txt.asc   解出文件
+
+gpg -c test.txt  使用密码加密
+--symmetric
+
+清理缓存密码
+echo RELOADAGENT | gpg-connect-agent
+
+完全信任一个证书
+gpg --edit-key <KEY_ID>
+gpg> trust
+gpg> 5
+gpg> quit
+
+adduid
+1
+deluid
+
+
+加密 适用于二进制文件
+gpg --encrypt -r yy@admin.com  report.txt 用指定私钥加密文件 文件加密
+gpg --decrypt report.txt.gpg > report.txt  解密文件
+
+gpg -se -r test@yahoo.com.cn  report.txt 用公钥文件加密
+
+gpg --verify singaturefile.tar.gz taballpackage.gz  验证文件

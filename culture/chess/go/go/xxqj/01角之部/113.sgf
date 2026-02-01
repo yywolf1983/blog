@@ -1,0 +1,14 @@
+(;CA[UTF-8]AB[kq][ks][kr][kp][lo][mo][no][oo][mq][pp][qq][rr][sr]AW[jp][jq][jr][js][lp][sq]
+[rq][rp][qo][po][rn][on][nn][mn][ln][kn][ko]LB[qp:A][pq:B]C[“地中有棋”的问题。
+
+这是在最后的局面吧。若白A、黑B则是完全的空，但在此之前有千载难逢的机会。]
+
+AP[MultiGo:4.2.4]SZ[19]GN[仙机势]RE[白先得利]US[桥本宇太郎解说]SO[《玄玄棋经》]
+MULTIGOGM[1]
+;W[oq]N[正解]
+(;B[pq];W[op];B[nq];W[pr];B[qr];W[mr]LB[lq:A][nr:B]C[白1点为妙着。黑若2则白3断，次白5扳一手和黑6交换后，7之碰为手筋。
+
+次A、B见合，出棋。])
+(;B[op]N[参考];W[qr];B[pr];W[qs]C[正解图之黑2若在本图1粘，则白2、4走成二子而弃之。]
+;B[ps];W[pq];B[qp];W[mp];B[rs];W[qr];B[qs];W[np];B[qr]C[绞封成大头鬼之形];W[nq]
+;B[ns];W[mr];B[ms];W[lq];B[ls]C[白棋先手双活]))

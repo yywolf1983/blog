@@ -1,0 +1,118 @@
+# 本地存储每一个节点需要建立一个对应的pv
+
+---
+kind: StorageClass
+apiVersion: storage.k8s.io/v1
+metadata:
+  name: mysql-local-storage
+  annotations:
+    storageclass.kubernetes.io/is-default-class: "true"
+provisioner: kubernetes.io/no-provisioner
+volumeBindingMode: WaitForFirstConsumer
+
+---
+
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: mysql-pv-s-0
+  labels:
+    type: local
+spec:
+  storageClassName: mysql-local-storage
+  capacity:
+    storage: 10Gi
+  accessModes:
+    #- ReadWriteOnce
+    - ReadWriteMany
+  volumeMode: Filesystem
+  hostPath:
+    path: "/data/mysql0"
+  nodeAffinity:
+    required:
+      nodeSelectorTerms:
+      - matchExpressions:
+        - key: kubernetes.io/hostname
+          operator: In
+          values:
+          - m2
+          - m3
+          - m4
+          - m5
+
+---
+
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: mysql-pv-s-1
+  labels:
+    type: local
+spec:
+  storageClassName: mysql-local-storage
+  capacity:
+    storage: 10Gi
+  accessModes:
+    #- ReadWriteOnce
+    - ReadWriteMany
+  volumeMode: Filesystem
+  hostPath:
+    path: "/data/mysql1"
+  nodeAffinity:
+    required:
+      nodeSelectorTerms:
+      - matchExpressions:
+        - key: kubernetes.io/hostname
+          operator: In
+          values:
+          - m2
+          - m3
+          - m4
+          - m5
+
+
+---
+
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: mysql-pv-s-5
+  labels:
+    type: local
+spec:
+  storageClassName: mysql-local-storage
+  capacity:
+    storage: 10Gi
+  accessModes:
+    #- ReadWriteOnce
+    - ReadWriteMany
+  volumeMode: Filesystem
+  hostPath:
+    path: "/data/mysql5"
+  nodeAffinity:
+    required:
+      nodeSelectorTerms:
+      - matchExpressions:
+        - key: kubernetes.io/hostname
+          operator: In
+          values:
+          - m2
+          - m3
+          - m4
+          - m5
+---
+# apiVersion: v1
+# kind: PersistentVolumeClaim
+# metadata:
+#   name: data-mysql-master-0
+# spec:
+#   accessModes:
+#     - ReadWriteOnce
+#   storageClassName: mysql-local-storage
+#   volumeName: mysql-pv
+#   resources:
+#     requests:
+#       storage: 1Gi
+#   selector:                         #绑定pv
+#     matchLabels:
+#       app: mysql-pv

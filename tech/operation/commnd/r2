@@ -1,0 +1,94 @@
+
+## 查看文件信息
+rabin2 -z binfile  数据信息
+rabin2 -I ./crackme0x06  平台信息
+
+r2 binfile
+aaa 扫描文件
+
+pdf@main  反汇编函数
+pdf@main | grep cmp
+
+? 0x149a   查看地址信息
+
+pdc@main 代码反编译
+
+pdd@main  一个更好好的反编译插件
+
+s 0x804856c  扫描地址
+s+
+s-
+ps 打印扫描结果
+
+b 更改块大小
+i 打印信息
+
+f 标签
+t 类型
+
+r 调整大小
+w 写入文件
+
+y 复制
+x 粘贴
+
+/ 搜索
+
+计算器
+rax2 '=10' '(0x5a+0x1ec)\*(0x5a+0x1ec)'
+
+fs strings  查找
+f 打印查找结果
+
+v  反汇编
+V  二进制
+VV 显示调用图形
+
+z 签名
+
+别名
+$alias=cmd
+
+db 断点 
+dc 运行
+dr 寄存器
+
+对比
+radiff2 -A -C ./crackme0x07 ./crackme0x08
+
+rahash2 -a md5 ../a.out
+
+rarun2 运行脚本
+
+$ r2 -c=H /bin/ls
+
+调用进程
+r2 -d 32220
+
+r2pm -ci r2ghidra
+r2pm -U 升级
+
+颜色管理
+echo 'e scr.color=1' >> ~/.radare2rc
+    0：黑白
+    1: 16 种基本 ANSI 颜色
+    2: 256 色阶
+    3：24bit真彩
+
+
+ecs 查看颜色
+eco 查看模板
+
+在v 模式下 按R 改变颜色
+radare2
+    rabin2->查看文件格式的
+    radiff2->比较文件不同的
+    rahash2->各种密码算法，hash算法集成
+        rahash2 -L
+        rahash2 -a md5 test
+    rasm2->汇编和反汇编
+        rasm2 -a x86 -b 64 "mov eax,0x20"
+    ragg2->开发shellcode工具(radare2自己编写的编译器)
+    radare2->整合了所有工具
+        radare2.exe -c=H  test #开启web
+        ? 帮助

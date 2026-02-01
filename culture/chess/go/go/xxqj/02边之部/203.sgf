@@ -1,0 +1,17 @@
+(;CA[UTF-8]AB[qm][qo][oo][on][nm][mm][kn][jo][jq][jr][lr][mq][nq][oq][pq][rr][rp][sq][ro]
+AW[qr][qq][qp][rq][pp][op][np][mp][lp][lq][lo][mn][nn][no]C[解开本诘棋时，你会对围棋的玄妙性长叹一声吧？洋溢着争夺真正目标的真实感！
+
+又，参见“仙老炼丹”图。]
+
+AP[MultiGo:4.2.4]SZ[19]GN[夺标势]RE[白先劫]US[桥本宇太郎解说]SO[《玄玄棋经》]MULTIGOGM[1]
+;W[mr]N[正解];B[nr];W[pr]
+(;B[ms];W[or]C[白棋于1位断，黑2时白3拐。黑若4提则白5静静地紧气，含有很多手段，妙绝。如此成为劫争。
+
+在成劫的过程中，尽量要走成白棋先手提劫。]
+(;B[os]
+(;W[sr];B[ss];W[rs];B[qs];W[ps]C[两边的劫争成为见合];B[ns];W[rs]C[白棋先手提劫])
+(;W[ps]N[参考3];B[ns];W[sr];B[ss];W[rs]C[黑棋先手提劫，白不好。]))
+(;B[qs]N[参考2];W[ps];B[ns];W[sr];B[ss];W[rs]C[白棋先手提劫]))
+(;B[or]N[参考1]
+(;W[sr]N[正着];B[ss];W[rs];B[qs];W[ps];B[ms];W[rs]C[白棋先手提劫])
+(;W[ps]MN[2]N[错着];B[ms];W[sr];B[ss];W[rs]C[黑棋先手提劫])))

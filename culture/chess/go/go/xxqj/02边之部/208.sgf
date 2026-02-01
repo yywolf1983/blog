@@ -1,0 +1,15 @@
+(;CA[UTF-8]AB[qp][rr][sr][sq][sp][so][rn][qn][rp][jr][pq][pr][op][np][mp][lp][kq][jq][pg]
+[io][hp][gp][gq][fr][eq][im][km][lm][ml][nl][ol][qk][qj][qi][qg]AW[qr][qf][pf][of]
+[pd][rm][qm][pm][om][nm][mm][ro][qo][po][oo][no][mo][lo][ko][kp][jp][ip][iq][hq]
+[hr][gr][oq][pp][qq][rq]C[白棋大龙能作出眼位即可的情况，但黑棋如果无理来吃，可就要拿出看家本领。
+
+提示：冲黑棋气紧。
+
+又，参看“楚汉争锋”势。]
+
+AP[MultiGo:4.2.4]SZ[19]GN[一夫当关]RE[白先活]US[桥本宇太郎解说]SO[《玄玄棋经》]
+MULTIGOGM[1]
+;W[rk]C[只此一手]N[正解];B[sk]C[黑2碰为手筋。局部来说，此为没眼之形。];W[rj]
+(;B[ri];W[sl];B[ql];W[rl];B[sj];W[sn];B[sm];W[pn];B[sn];W[lq]C[但黑8之后，白9、11一旦在此处紧气，则下边13之断手可以成立。]
+;B[mq];W[os]LB[qs:A][lr:B]C[13之后15为手筋，次将A之立和B之长当作相对点。])
+(;B[sm]N[参考];W[rl];B[sl];W[sj];B[sn];W[rg]C[渡过]))

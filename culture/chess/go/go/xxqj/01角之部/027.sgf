@@ -1,0 +1,9 @@
+﻿CA[UTF-8]
+(;AB[rr][qq][pq][pr][nr]AW[mr][mp][lq][kr][op][pp][qp][rp][rq]AP[MultiGo:4.2.4]
+SZ[19]GN[夺槊]RE[白先黑死]US[桥本宇太郎解说]SO[《玄玄棋经》]MULTIGOGM[1]
+
+(;W[qs]C[这问题手顺很重要。首先，第一手点到白1之急所。]N[正解];B[sr];W[ns];B[os]
+;W[oq]C[黑2时，白3扳再5冲手顺很妙，9止弄出假眼。];B[rs];W[or];B[ms];W[ps]C[手顺如果不对，会变成劫争。])
+(;W[oq]N[失败1];B[sr]C[无条件活])
+(;W[sr]N[失败2];B[qs]C[成劫])
+(;W[ns]N[失败3];B[os];W[oq];B[qs];W[or];B[sr]C[成劫]))

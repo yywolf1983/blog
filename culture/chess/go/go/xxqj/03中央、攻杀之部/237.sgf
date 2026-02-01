@@ -1,0 +1,14 @@
+(;CA[UTF-8]AB[rj][pq][qo][po][op][np][mp][lp][lo][mn][nn][mm][om][pm][ql][rl][rk]AW[oo][mo]
+[no][on][pn][qn][rn][qm][ln][kn][jj][pl][pk][qj][qi][ri]C[右边的对杀没有获胜的道理，所以要狙袭中央五子。
+
+虽说如此，白棋是三气。想在三手之内解决中央黑子好像很难。]
+
+AP[MultiGo:4.2.4]SZ[19]GN[八仙长啸]RE[白先活]US[桥本宇太郎解说]SO[《玄玄棋经》]
+MULTIGOGM[1]
+
+(;W[lm]C[白1在想不到的地方压，有意思。]N[正解];B[ml];W[mk]C[黑2时白于3位碰，反正一手也松不得，所以只有这么下。]
+;B[ll];W[kl];B[lk];W[lj]C[白5、7也是当然，不能用松气的手法。];B[mj];W[nk];B[kj]
+;W[nm]C[白11扑是本题的题眼，有此一手即可擒下二黑子。];B[nl];W[ol]C[吃掉二黑子，被围的白棋即可脱困。])
+(;W[ml]N[失败];B[lm];W[km];B[ll];W[lk];B[kl];W[jl];B[kk];W[kj];B[mk];W[nl];B[nm]
+;W[lj];B[ol];W[nk];B[ok];W[nj];B[oj];W[oi];B[ni];W[mj];B[pi];W[oh];B[pj];W[qk];B[ph]
+C[普通有从白1碰的想法，但是白13之后，黑有14以下逃出的手法，抓不到。]))

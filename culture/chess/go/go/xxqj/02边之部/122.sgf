@@ -1,0 +1,12 @@
+(;CA[UTF-8]AB[rr][qq][pp][po][pn][nm][mm][lm][ko][jo][kq][jq][nq][nr][hq][ir][js][gr]AW[hr]
+[iq][ip][lp][mp][np][op][oo][nn][mn][oq][pr][qr]C[是边上做出一眼即可之问题，但因黑有巧妙之应手，请当心。
+
+请不要让左边黑子起了作用（不事边功）。]
+
+AP[MultiGo:4.2.4]SZ[19]GN[不事边功]RE[白先活]US[桥本宇太郎解说]SO[《玄玄棋经》]
+MULTIGOGM[1]
+;W[mr]N[正解];B[ms]C[白1每个人都注意到了吧，此时黑2应为最佳应手。]
+(;W[os]C[对黑2，白3为妙手。];B[mq];W[lq];B[lr];W[ns];B[kr];W[qs]C[对黑4以下之进行，白7挤入、9止活定。])
+(;W[or]N[失败1];B[os]LB[mq:A][ls:B]C[次白A则黑B，成为类似“三虎出峡”、“四老出山”之构图。]
+;W[ps];B[mq];W[lq];B[lr];W[ns]C[有劫])
+(;W[lr]N[失败2];B[ls];W[kr];B[ks];W[jr];B[hs]C[没棋]))

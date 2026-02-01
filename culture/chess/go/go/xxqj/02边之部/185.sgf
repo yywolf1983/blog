@@ -1,0 +1,16 @@
+(;CA[UTF-8]AB[mr][lq][kq][jr][pj][ir][qh][mi][qf][pd][od][me][mg][mj][nk][ok][nl][nm][om]
+[pl][pm][on][oo][op][qj][oq]AW[ql][pr][pq][qp][po][qn][qm][qk][pk][oj][nj][oi][oh]
+[og][of][oe][mk][ml][mm][mn][nn][np][mp][kp][jq][iq][hq][hr][lp]C[图形虽大，但考虑的场所比较有限。]
+
+AP[MultiGo:4.2.4]SZ[19]GN[克用归唐]RE[白先胜]US[桥本宇太郎解说]SO[《玄玄棋经》]
+MULTIGOGM[1]
+;W[lr]C[冲黑棋联络不全之白1嵌，真正是痛快之手筋。]N[正解]
+(;B[or];W[kr]LB[nr:A]C[黑若2则白3断，到此结束。此一对杀白胜。
+
+黑2若下在3位，则A碰可切断白子。
+
+白1实在是没话说的漂亮手筋啊！])
+(;B[mq]N[参考1];W[nq];B[or];W[nr];B[ns];W[kr]C[正解图之黑2若在本图1位团，则白2、4冲再6断。])
+(;B[ls]N[参考2]
+(;W[or]N[正着];B[nq];W[mq]C[黑棋被切断])
+(;W[nr]MN[2]N[错着];B[or];W[mq];B[kr];W[os];B[ns]C[如此会有劫])))

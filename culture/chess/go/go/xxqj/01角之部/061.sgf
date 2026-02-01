@@ -1,0 +1,15 @@
+﻿(;CA[UTF-8]AB[mp][mq][mr][pq][pp][po]AW[qp][qn][ql][pn][on][no][mo][lp][lq][lr][jr]C[本题的后半部分即“秦王带剑”图]
+
+AP[MultiGo:4.2.4]SZ[19]GN[申哙断臂]RE[白先黑死]US[桥本宇太郎解说]SO[《玄玄棋经》]
+MULTIGOGM[1]
+;W[qq]C[白从1位行动，只此一手。]N[正解];B[qo];W[ro];B[qr];W[rr];B[rq];W[rp];B[rs]
+(;W[sq];B[or]C[至此为“秦王带剑”势之构图];W[ps]
+(;B[qs]
+(;W[ms];B[ns];W[op]C[白13扳一手后再15动手，此一手顺紧要。];B[oq];W[nq]LB[np:A]C[黑16若A，则白16掐进去。])
+(;W[op]N[失败2];B[ms];W[os];B[np];W[oq];B[nq];W[oo];B[ns]C[解答图之白13之扳若立刻于本图1位动手，则黑2立作出眼位。
+
+黑8止，四子纵然被吃仍可提回。]))
+(;B[np]N[参考];W[qs];B[oo];W[oq];B[ms];W[pr];B[op];W[os];B[ns];W[nr]LB[nq:A]C[黑A不入气，净死。]))
+(;W[sr]N[失败1];B[or];W[ps];B[np];W[qs];B[ms];W[os];B[ns];W[ss];B[pr]C[解答图之白9单提千万不可于本图1立，否则角隅之特殊性将导致接不归。
+
+因角隅之特殊性而导致之接不归，亦可参看“五曜呈祥”及“彩云”图。]))

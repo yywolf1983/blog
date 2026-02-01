@@ -1,0 +1,97 @@
+## Alertmanager 配置文件
+global:
+  resolve_timeout: 5m
+  # smtp配置
+  # smtp_from: ""
+  # smtp_smarthost: 'smtp.qq.com:465'
+  # smtp_auth_username: ""
+  # smtp_auth_password: ""
+  # smtp_require_tls: true
+
+# 定义模板
+templates:
+  - '/alertmanager/data/templates/*.tmpl'
+  
+# 路由分组
+route:
+  receiver: ops
+  group_wait: 30s # 在组内等待所配置的时间，如果同组内，30秒内出现相同报警，在一个组内出现。
+  group_interval: 5m # 如果组内内容不变化，合并为一条警报信息，5m后发送。
+  repeat_interval: 24h # 发送报警间隔，如果指定时间内没有修复，则重新发送报警。
+  group_by: [alertname]  # 报警分组
+  routes:
+      - match:
+          team: operations
+        group_by: [env,dc]
+        receiver: 'ops'
+      - match_re:
+          service: nginx|apache
+        receiver: 'web'
+      - match_re:
+          service: mysql|mongodb
+        receiver: 'db'
+# 接收器
+# 抑制测试配置
+      - receiver: ops
+        group_wait: 10s
+        match:
+          status: 'High'
+# ops
+      - receiver: ops # 路由和标签，根据match来指定发送目标，如果 rule的lable 包含 alertname， 使用 ops 来发送
+        group_wait: 10s
+        match:
+          team: operations
+# web
+      - receiver: db # 路由和标签，根据match来指定发送目标，如果 rule的lable 包含 alertname， 使用 db 来发送
+        group_wait: 10s
+        match:
+          team: db
+# 接收器指定发送人以及发送渠道
+receivers:
+# ops分组的定义
+- name: ops
+  email_configs:
+  - to: '9935226@qq.com,10000@qq.com'
+    send_resolved: true
+    headers:
+      subject: "[operations] 报警邮件"
+      from: "警报中心"
+      to: "报警开始"
+  # 钉钉配置
+  webhook_configs:
+  - url: http://localhost:8070/dingtalk/ops/send
+    # 企业微信配置
+  wechat_configs:
+  - corp_id: 'ww5421dksajhdasjkhj'
+    api_url: 'https://qyapi.weixin.qq.com/cgi-bin/'
+    send_resolved: true
+    to_party: '2'
+    agent_id: '1000002'
+    api_secret: 'Tm1kkEE3RGqVhv5hO-khdakjsdkjsahjkdksahjkdsahkj'
+
+# web
+- name: web
+  email_configs:
+  - to: '9935226@qq.com'
+    send_resolved: true
+    headers: { Subject: "[web] 报警邮件"} # 接收邮件的标题
+  webhook_configs:
+  - url: http://localhost:8070/dingtalk/web/send
+  - url: http://localhost:8070/dingtalk/ops/send
+# db
+- name: db
+  email_configs:
+  - to: '9935226@qq.com'
+    send_resolved: true
+    headers: { Subject: "[db] 报警邮件"} # 接收邮件的标题
+  webhook_configs:
+  - url: http://localhost:8070/dingtalk/db/send
+  - url: http://localhost:8070/dingtalk/ops/send
+
+# 抑制器配置
+inhibit_rules: # 抑制规则
+  - source_match: # 源标签警报触发时抑制含有目标标签的警报，在当前警报匹配 status: 'High'
+      status: 'High'  # 此处的抑制匹配一定在最上面的route中配置不然，会提示找不key。
+    target_match:
+      status: 'Warning' # 目标标签值正则匹配，可以是正则表达式如: ".*MySQL.*"
+    equal: ['alertname','operations', 'instance'] # 确保这个配置下的标签内容相同才会抑制，

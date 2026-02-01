@@ -1,0 +1,102 @@
+kind: PersistentVolumeClaim
+apiVersion: v1
+metadata:
+  name: data-mysql-0
+spec:
+  storageClassName: standard
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 3Gi
+  selector:
+    matchLabels:
+      id: mysql-pv-0
+
+---
+
+kind: PersistentVolume
+apiVersion: v1
+metadata:
+  name: mysql-pv0
+  labels:
+    type: local
+    id: mysql-pv-0
+spec:
+  storageClassName: standard
+  capacity:
+    storage: 8Gi
+  accessModes:
+    - ReadWriteOnce
+  hostPath:
+    path: /data/mysql0
+
+---
+
+kind: PersistentVolumeClaim
+apiVersion: v1
+metadata:
+  name: data-mysql-1
+spec:
+  storageClassName: standard
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 3Gi
+  selector:
+    matchLabels:
+      id: mysql-pv-1
+
+---
+
+kind: PersistentVolume
+apiVersion: v1
+metadata:
+  name: mysql-pv1
+  labels:
+    type: local
+    id: mysql-pv-1
+spec:
+  storageClassName: standard
+  capacity:
+    storage: 8Gi
+  accessModes:
+    - ReadWriteOnce
+  hostPath:
+    path: /data/mysql1
+    
+---
+
+kind: PersistentVolumeClaim
+apiVersion: v1
+metadata:
+  name: data-mysql-2
+spec:
+  storageClassName: standard
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 3Gi
+  selector:
+    matchLabels:
+      id: mysql-pv-2
+
+---
+
+kind: PersistentVolume
+apiVersion: v1
+metadata:
+  name: mysql-pv2
+  labels:
+    type: local
+    id: mysql-pv-2
+spec:
+  storageClassName: standard
+  capacity:
+    storage: 8Gi
+  accessModes:
+    - ReadWriteOnce
+  hostPath:
+    path: /data/mysql2

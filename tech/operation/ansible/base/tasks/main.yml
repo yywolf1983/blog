@@ -1,0 +1,42 @@
+- name: yum install base
+  yum:
+        name: "{{ item }}"
+        state: present
+  loop:
+        - tcl
+        - make 
+        - gcc-c++ 
+        - gcc
+        - cmake 
+        - bison-devel
+        - ncurses-devel
+        - readline-devel 
+        - libaio-devel
+        - perl
+        - libaio
+        - wget
+        - lrzsz
+        - vim 
+        - libnuma* 
+        - bzip2
+        - xz
+
+
+- name: base dir
+  file:
+    path: "{{ item }}"
+    state: directory
+    owner: root
+    group: root
+    mode: 0775
+  loop:
+     - /data/soft
+
+
+- name: stat java
+  stat: path=/data/{{ java_ver }}
+  register: foo_stat
+  
+- name: install java
+  include: java.yml
+  when: not foo_stat.stat.exists

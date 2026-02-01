@@ -1,0 +1,51 @@
+
+# 查看进程信息
+ps -Lp 29185  cu
+
+# 查看进程细节
+ps ux  | awk '{if($3>0)print $0}'
+
+ps aux --sort -rss
+
+ps -e -o user,%cpu,%mem,pid,command
+
+ps -eo rss,pmem,pcpu,vsize,args | sort -k 1 -r -n | less
+# -e 是显示所有进程
+# -o是定制显示信息的格式
+# rss: resident set size, 表示进程占用RAM(内存)的大小，单位是KB
+# pmem: %M, 占用内存的百分比
+#  pcpu：%C，占用cpu的百分比
+#  vsize: 表示进程占用的虚拟内存的大小，KB
+#  args：进程名(command)
+#  sort命令对ps结果进行排序
+#  -k 1 :按第一个参数 rss进行排序
+#  -r：逆序
+#  -n：numeric，按数字来排序
+
+# 查询指定pid的所有子进程
+  ps u --ppid 15392
+
+# 查询指定名字的所有进程的pid
+  ps -C httpd -o pid
+
+# 查询所有进程的ppid
+  ps ax -o ppid
+
+# 查询所有进程
+  ps aux
+  ps -ef
+
+# 查询属于指定进程组的所有进程
+  ps -s 15392
+
+# 查询指定有效用户ID的所有进程
+  ps u -u 535
+
+# 查询指定有效用户名的所有进程
+  ps U junjie
+
+# 在默认显示选项的基础上显示ppid
+  ps ax -O ppid
+
+# 如果要将ppid列命名为parent，则：
+  ps ax -O ppid=parent

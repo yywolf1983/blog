@@ -1,0 +1,10 @@
+(;CA[UTF-8]AB[qn][qr][qq][qp][qo][om][or][oq][ps][pm][np][nm][mm][km][in][io][iq][gq][jq]
+[kp][lp][mp]AW[nq][pr][pq][pp][po][pn][on][no][nn][op][mo][lo][ko][jo][jp]C[空间小，比较单纯的关系，我想大概可以简单解决，不过，如果犯了业余棋士之通病，有可能走进迷途。
+
+又，参见“楚汉争锋”势。]
+
+AP[MultiGo:4.2.4]SZ[19]GN[用间势]RE[白先活]US[桥本宇太郎解说]SO[《玄玄棋经》]MULTIGOGM[1]
+;W[kq]C[白棋只好从1断着手]N[正解];B[lq]C[黑2只此一手];W[kr];B[lr]C[白3、黑4也是必然]
+;W[nr];B[os]
+(;W[ls]C[之后，5打再单于7扳为要领。];B[jr];W[ks]LB[ns:A][ms:B]C[一直到最后都不在A位叫提为要领。次，黑10若在B位打，则此时下在A位成为双叫提。])
+(;W[ns]MN[7]C[白7一旦叫提就失败]N[失败];B[qs];W[ls];B[jr];W[ks];B[js];W[ms]C[白13止的结果，局部来说虽是双活，但全体来说却死光。]))

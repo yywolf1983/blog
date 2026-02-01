@@ -1,0 +1,6 @@
+- include: setup-CentOS.yml
+  when: ansible_distribution == 'CentOS'
+
+- include: setup-Ubuntu.yml
+  when: ansible_distribution == 'Ubuntu'
+
