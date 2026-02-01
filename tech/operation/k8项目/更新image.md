@@ -18,14 +18,14 @@ imageName[11]=kubernetesui/metrics-scraper:v1.0.7
 imageName[12]=k8s.gcr.io/ingress-nginx/kube-webhook-certgen:v1.1.1
 imageName[13]=gcr.io/google-samples/xtrabackup:1.0
 
-#ÍÆËÍ
+#æ¨é€
 for name in ${imageName[*]}; do
 docker pull $name
 docker tag $name 47.108.235.230:8090/base/$name
 docker push 47.108.235.230:8090/base/$name
 done
 
-#»ñÈ¡
+#è·å–
 for name in ${imageName[*]}; do
 sudo docker pull 47.108.235.230:8090/base/$name
 sudo docker tag 47.108.235.230:8090/base/$name $name
