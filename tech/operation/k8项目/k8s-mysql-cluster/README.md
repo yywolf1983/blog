@@ -1,24 +1,12 @@
+# k8s-mysql-cluster 目录
 
+## 文件列表
 
-
-
-
-kubectl apply -f secret.yml
-
-cd image/percona-xtrabackup
-sudo docker build . -t percona-xtrabackup:8.0
-
-
-kubectl create configmap mysql-user --from-file=create-mysql-account.sh
-kubectl label nodes m2 mysql=master
-kubectl label nodes m3 mysql=slave
-kubectl apply -f master-slave.yaml
-或者
-kubectl apply -f innodb-cluster.yaml
-
-
-#万丈深坑在此处
-mysql -uroot -pmysql_pass -e "GRANT ALL PRIVILEGES ON *.* TO 'root'@'%';"
-mysql -uroot -pmysql_pass -e "GRANT ALL PRIVILEGES ON *.* TO 'root'@'localhost';"
-mysql -uroot -pmysql_pass -e "CREATE USER 'root'@'localhost' IDENTIFIED BY 'mysql_pass';"
-mysql -uroot -pmysql_pass -e "CREATE USER 'root'@'%' IDENTIFIED BY 'mysql_pass';"
+- **[LICENSE](viewer.html?file=tech/operation/k8项目/k8s-mysql-cluster/LICENSE)**
+- **[create-mysql-account.sh](viewer.html?file=tech/operation/k8项目/k8s-mysql-cluster/create-mysql-account.sh)**
+- **[gfs-storage.yaml](viewer.html?file=tech/operation/k8项目/k8s-mysql-cluster/gfs-storage.yaml)**
+- **[image/](viewer.html?file=tech/operation/k8项目/k8s-mysql-cluster/image/README.md)**
+- **[innodb-cluster.yaml](viewer.html?file=tech/operation/k8项目/k8s-mysql-cluster/innodb-cluster.yaml)**
+- **[local-storage.yaml](viewer.html?file=tech/operation/k8项目/k8s-mysql-cluster/local-storage.yaml)**
+- **[master-slave.yaml](viewer.html?file=tech/operation/k8项目/k8s-mysql-cluster/master-slave.yaml)**
+- **[secret.yml](viewer.html?file=tech/operation/k8项目/k8s-mysql-cluster/secret.yml)**

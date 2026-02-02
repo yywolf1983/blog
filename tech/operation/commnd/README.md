@@ -1,49 +1,43 @@
-# 命令行工具目录
+# commnd 目录
 
-包含各种命令行工具的使用说明和示例。
+## 文件列表
 
-## 摩尔斯电码表
-
-![morse](/tech/electron/morse.code.jpg)
-
-## 目录结构
-
-- `awk`：awk命令使用说明
-- `base`：基础命令使用说明
-- `color`：颜色相关命令
-- `crontab`：定时任务相关
-- `curl`：curl命令使用说明
-- `date`：日期时间命令
-- `dd`：dd命令使用说明
-- `expect`：expect命令使用说明
-- `find`：find命令使用说明
-- `fstab`：fstab文件相关
-- `gpg`：gpg加密工具
-- `httpie`：httpie命令使用说明
-- `iostat`：iostat命令使用说明
-- `ip`：ip命令使用说明
-- `iptables`：iptables防火墙
-- `lsof`：lsof命令使用说明
-- `namp`：nmap命令使用说明
-- `nc`：nc命令使用说明
-- `nc_namp.md`：nc和nmap使用说明
-- `patch`：patch命令使用说明
-- `perf`：perf性能分析工具
-- `ps`：ps命令使用说明
-- `r2`：radare2反汇编工具
-- `rsync`：rsync命令使用说明
-- `sar`：sar命令使用说明
-- `screen`：screen命令使用说明
-- `sed`：sed命令使用说明
-- `sort`：sort命令使用说明
-- `split`：split命令使用说明
-- `ss`：ss命令使用说明
-- `sshfs`：sshfs命令使用说明
-- `strace`：strace命令使用说明
-- `systemctl`：systemctl命令使用说明
-- `tmux`：tmux命令使用说明
-- `top`：top命令使用说明
-- `ulimit`：ulimit命令使用说明
-- `user`：用户管理相关
-- `uuid`：uuid命令使用说明
-- `vim`：vim命令使用说明
+- **[awk](viewer.html?file=tech/operation/commnd/awk)**
+- **[base](viewer.html?file=tech/operation/commnd/base)**
+- **[color](viewer.html?file=tech/operation/commnd/color)**
+- **[crontab](viewer.html?file=tech/operation/commnd/crontab)**
+- **[curl](viewer.html?file=tech/operation/commnd/curl)**
+- **[date](viewer.html?file=tech/operation/commnd/date)**
+- **[dd](viewer.html?file=tech/operation/commnd/dd)**
+- **[expect](viewer.html?file=tech/operation/commnd/expect)**
+- **[find](viewer.html?file=tech/operation/commnd/find)**
+- **[fstab](viewer.html?file=tech/operation/commnd/fstab)**
+- **[gpg](viewer.html?file=tech/operation/commnd/gpg)**
+- **[httpie](viewer.html?file=tech/operation/commnd/httpie)**
+- **[iostat](viewer.html?file=tech/operation/commnd/iostat)**
+- **[ip](viewer.html?file=tech/operation/commnd/ip)**
+- **[iptables](viewer.html?file=tech/operation/commnd/iptables)**
+- **[lsof](viewer.html?file=tech/operation/commnd/lsof)**
+- **[namp](viewer.html?file=tech/operation/commnd/namp)**
+- **[nc](viewer.html?file=tech/operation/commnd/nc)**
+- **[nc_namp.md](viewer.html?file=tech/operation/commnd/nc_namp.md)**
+- **[patch](viewer.html?file=tech/operation/commnd/patch)**
+- **[perf](viewer.html?file=tech/operation/commnd/perf)**
+- **[ps](viewer.html?file=tech/operation/commnd/ps)**
+- **[r2](viewer.html?file=tech/operation/commnd/r2)**
+- **[rsync](viewer.html?file=tech/operation/commnd/rsync)**
+- **[sar](viewer.html?file=tech/operation/commnd/sar)**
+- **[screen](viewer.html?file=tech/operation/commnd/screen)**
+- **[sed](viewer.html?file=tech/operation/commnd/sed)**
+- **[sort](viewer.html?file=tech/operation/commnd/sort)**
+- **[split](viewer.html?file=tech/operation/commnd/split)**
+- **[ss](viewer.html?file=tech/operation/commnd/ss)**
+- **[sshfs](viewer.html?file=tech/operation/commnd/sshfs)**
+- **[strace](viewer.html?file=tech/operation/commnd/strace)**
+- **[systemctl](viewer.html?file=tech/operation/commnd/systemctl)**
+- **[tmux](viewer.html?file=tech/operation/commnd/tmux)**
+- **[top](viewer.html?file=tech/operation/commnd/top)**
+- **[ulimit](viewer.html?file=tech/operation/commnd/ulimit)**
+- **[user](viewer.html?file=tech/operation/commnd/user)**
+- **[uuid](viewer.html?file=tech/operation/commnd/uuid)**
+- **[vim](viewer.html?file=tech/operation/commnd/vim)**

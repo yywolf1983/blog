@@ -1,24 +1,11 @@
-mkdir -p ~/.config/buildkit/
+# ubuntu 目录
 
-cat <<EOF > ~/.config/buildkit/buildkitd.toml
-debug=true
+## 文件列表
 
-[registry."docker.io"]
-  mirrors = ["3.1.119.56:8090"]
-  http = true
-  insecure = true
-EOF
-
-docker buildx create --config=/Users/yy/.config/buildkit/buildkitd.toml
-
-docker buildx use relaxed_pasteur
-
-直接push
-docker buildx build --platform linux/amd64 --push -t 3.1.119.56:8090/base/ubuntu2:latest -f Dockerfile .
-
-load 到本地
-docker buildx build --platform linux/amd64 --load -t 3.1.119.56:8090/base/ubuntu2:latest -f Dockerfile .
-
-
-docker buildx ls
-docker buildx rm
+- **[Dockerfile](viewer.html?file=tech/operation/docker/ubuntu/Dockerfile)**
+- **[authorized_keys](viewer.html?file=tech/operation/docker/ubuntu/authorized_keys)**
+- **[build.sh](viewer.html?file=tech/operation/docker/ubuntu/build.sh)**
+- **[readme.md](viewer.html?file=tech/operation/docker/ubuntu/readme.md)**
+- **[redis.sh](viewer.html?file=tech/operation/docker/ubuntu/redis.sh)**
+- **[run.sh](viewer.html?file=tech/operation/docker/ubuntu/run.sh)**
+- **[ubuntu.yml](viewer.html?file=tech/operation/docker/ubuntu/ubuntu.yml)**
