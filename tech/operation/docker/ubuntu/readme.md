@@ -8,4 +8,5 @@
 - **[readme.md](viewer.html?file=tech/operation/docker/ubuntu/readme.md)**
 - **[redis.sh](viewer.html?file=tech/operation/docker/ubuntu/redis.sh)**
 - **[run.sh](viewer.html?file=tech/operation/docker/ubuntu/run.sh)**
+- **[ubuntu.md](viewer.html?file=tech/operation/docker/ubuntu/ubuntu.md)**
 - **[ubuntu.yml](viewer.html?file=tech/operation/docker/ubuntu/ubuntu.yml)**

@@ -3,6 +3,7 @@
 ## 文件列表
 
 - **[LICENSE](viewer.html?file=tech/operation/k8项目/k8s-mysql-cluster/LICENSE)**
+- **[cluster.md](viewer.html?file=tech/operation/k8项目/k8s-mysql-cluster/cluster.md)**
 - **[create-mysql-account.sh](viewer.html?file=tech/operation/k8项目/k8s-mysql-cluster/create-mysql-account.sh)**
 - **[gfs-storage.yaml](viewer.html?file=tech/operation/k8项目/k8s-mysql-cluster/gfs-storage.yaml)**
 - **[image/](viewer.html?file=tech/operation/k8项目/k8s-mysql-cluster/image/README.md)**

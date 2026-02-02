@@ -4,7 +4,6 @@
 
 - **[Dockerfile](viewer.html?file=tech/operation/docker/Dockerfile)**
 - **[ceph/](viewer.html?file=tech/operation/docker/ceph/README.md)**
-- **[docker-elk/](viewer.html?file=tech/operation/docker/docker-elk/README.md)**
 - **[docker.sh](viewer.html?file=tech/operation/docker/docker.sh)**
 - **[docker_log.sh](viewer.html?file=tech/operation/docker/docker_log.sh)**
 - **[dockerindocker.md](viewer.html?file=tech/operation/docker/dockerindocker.md)**
