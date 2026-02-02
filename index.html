@@ -2,9 +2,13 @@
 <html lang="zh-CN">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>YY's Blog</title>
+  <title>加载中...</title>
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+  <meta name="description" content="加载中...">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link rel="stylesheet" href="assets/css/theme.css">
+  <link rel="stylesheet" href="assets/css/index.css">
   <style>
     * {
       margin: 0;
@@ -18,428 +22,471 @@
       color: #e0e0e0;
       background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%);
       min-height: 100vh;
-      padding: 20px;
-    }
-    
-    .main-container {
-      max-width: 1400px;
-      margin: 0 auto;
-    }
-    
-    header {
-      text-align: center;
-      margin-bottom: 50px;
-      padding: 60px 20px;
-      background: rgba(26, 26, 46, 0.95);
-      border-radius: 20px;
-      box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
-      backdrop-filter: blur(10px);
-      animation: fadeInDown 0.8s ease-out;
-      border: 1px solid rgba(102, 126, 234, 0.3);
-    }
-    
-    .logo {
-      width: 350px;
-      height: 150px;
-      margin: 0 auto 20px;
-      border-radius: 20%;
-      overflow: hidden;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-    }
-    
-    .logo img {
-      width: 100%;
-      height: 100%;
-      object-fit: contain;
-    }
-    
-    @keyframes fadeIn {
-      from {
-        opacity: 0;
-      }
-      to {
-        opacity: 1;
-      }
-    }
-    
-    @keyframes fadeInDown {
-      from {
-        opacity: 0;
-        transform: translateY(-30px);
-      }
-      to {
-        opacity: 1;
-        transform: translateY(0);
-      }
-    }
-    
-    h1 {
-      font-size: 2em;
-      margin-bottom: 15px;
-      background: linear-gradient(135deg, #00d9ff 0%, #a855f7 50%, #f472b6 100%);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      background-clip: text;
-      font-weight: 700;
-    }
-    
-    .subtitle {
-      font-size: 1.3em;
-      color: #a0a0a0;
-      font-weight: 300;
-      letter-spacing: 2px;
     }
     
     .container {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
-      gap: 25px;
-      margin-top: 30px;
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 20px;
     }
     
-    .category {
-      background: rgba(30, 30, 50, 0.95);
-      padding: 35px 30px;
-      border-radius: 16px;
-      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
-      transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-      animation: fadeInUp 0.6s ease-out;
-      animation-fill-mode: both;
-      position: relative;
-      overflow: hidden;
+    .header {
+      background: rgba(26, 26, 46, 0.95);
+      padding: 30px;
+      border-radius: 10px;
+      margin-bottom: 30px;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.5);
+      border: 1px solid rgba(102, 126, 234, 0.3);
+    }
+    
+    .header-top {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 20px;
+    }
+    
+    .logo-container {
+      display: flex;
+      align-items: center;
+      gap: 20px;
+    }
+    
+    .logo {
+      width: 80px;
+      height: 80px;
+      border-radius: 8px;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+    }
+    
+    .header-info {
+      flex: 1;
+    }
+    
+    .header h1 {
+      font-size: 2.5em;
+      color: #00d9ff;
+      margin-bottom: 10px;
+      text-shadow: 0 0 20px rgba(0, 217, 255, 0.5);
+    }
+    
+    .header p {
+      font-size: 1.2em;
+      color: #a0a0a0;
+      margin-bottom: 20px;
+    }
+    
+    .category-nav {
+      display: flex;
+      gap: 15px;
+      flex-wrap: wrap;
+      justify-content: center;
+      margin-top: 20px;
+      padding-top: 20px;
+      border-top: 1px solid rgba(102, 126, 234, 0.3);
+    }
+    
+    .category-item {
+      background: rgba(30, 30, 50, 0.9);
+      padding: 10px 20px;
+      border-radius: 20px;
+      text-decoration: none;
+      color: #e0e0e0;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      transition: all 0.3s ease;
       border: 1px solid rgba(102, 126, 234, 0.2);
     }
     
-    .category::before {
-      content: '';
-      position: absolute;
-      top: 0;
-      left: 0;
-      right: 0;
-      height: 4px;
-      background: linear-gradient(90deg, #00d9ff, #a855f7, #f472b6);
-      transform: scaleX(0);
-      transition: transform 0.4s ease;
+    .category-item:hover {
+      background: rgba(102, 126, 234, 0.2);
+      color: #00d9ff;
+      transform: translateY(-2px);
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
     }
     
-    .category:hover::before {
-      transform: scaleX(1);
+    .content-section {
+      background: rgba(30, 30, 50, 0.95);
+      padding: 30px;
+      border-radius: 10px;
+      margin-bottom: 30px;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+      border: 1px solid rgba(102, 126, 234, 0.2);
     }
     
-    .category:hover {
-      transform: translateY(-10px) scale(1.02);
-      box-shadow: 0 20px 40px rgba(0, 212, 255, 0.2);
-    }
-    
-    @keyframes fadeInUp {
-      from {
-        opacity: 0;
-        transform: translateY(30px);
-      }
-      to {
-        opacity: 1;
-        transform: translateY(0);
-      }
-    }
-    
-    .category:nth-child(1) { animation-delay: 0.1s; }
-    .category:nth-child(2) { animation-delay: 0.2s; }
-    .category:nth-child(3) { animation-delay: 0.3s; }
-    .category:nth-child(4) { animation-delay: 0.4s; }
-    .category:nth-child(5) { animation-delay: 0.5s; }
-    .category:nth-child(6) { animation-delay: 0.6s; }
-    .category:nth-child(7) { animation-delay: 0.7s; }
-    
-    .category h2 {
+    .content-section h2 {
+      font-size: 1.8em;
       color: #00d9ff;
       margin-bottom: 20px;
-      font-size: 1.6em;
-      display: flex;
-      align-items: center;
-      gap: 12px;
-      font-weight: 600;
+      border-bottom: 1px solid rgba(102, 126, 234, 0.3);
+      padding-bottom: 10px;
     }
     
-    .category h2 i {
+    .content-section h3 {
+      font-size: 1.4em;
+      color: #a855f7;
+      margin: 20px 0 10px 0;
+    }
+    
+    .content-section p {
+      margin-bottom: 15px;
+      line-height: 1.8;
+    }
+    
+    .content-section ul,
+    .content-section ol {
+      margin-bottom: 15px;
+      margin-left: 20px;
+    }
+    
+    .content-section li {
+      margin-bottom: 8px;
+    }
+    
+    .content-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 20px;
+      margin-bottom: 30px;
+    }
+    
+    .content-card {
+      background: rgba(30, 30, 50, 0.95);
+      padding: 20px;
+      border-radius: 10px;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+      border: 1px solid rgba(102, 126, 234, 0.2);
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+    
+    .content-card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 8px 16px rgba(0, 0, 0, 0.4);
+    }
+    
+    .content-card h3 {
       font-size: 1.2em;
-      background: linear-gradient(135deg, #00d9ff 0%, #a855f7 50%, #f472b6 100%);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      background-clip: text;
+      color: #00d9ff;
+      margin-bottom: 10px;
     }
     
-    .category ul {
-      list-style: none;
+    .content-card p {
+      color: #a0a0a0;
+      margin-bottom: 15px;
+      font-size: 0.9em;
     }
     
-    .category li {
-      margin-bottom: 12px;
-    }
-    
-    .category a {
-      color: #c0c0c0;
+    .content-card a {
+      color: #a855f7;
       text-decoration: none;
-      display: flex;
+      font-weight: bold;
+      display: inline-flex;
       align-items: center;
-      padding: 12px 16px;
-      border-radius: 8px;
+      gap: 5px;
+      padding: 8px 16px;
+      border-radius: 6px;
       transition: all 0.3s ease;
+      background: rgba(168, 85, 247, 0.1);
+      border: 1px solid rgba(168, 85, 247, 0.2);
+    }
+    
+    .content-card a:hover {
+      color: white;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      transform: translateY(-2px);
+      box-shadow: 0 4px 12px rgba(102, 126, 234, 0.4);
+    }
+    
+    /* 列表项链接样式 */
+    .content-section ul li a,
+    .content-section ol li a {
+      color: #00d9ff;
+      text-decoration: none;
       font-weight: 500;
+      padding: 4px 8px;
+      border-radius: 4px;
+      transition: all 0.3s ease;
       position: relative;
       overflow: hidden;
     }
     
-    .category a::before {
-      content: '';
-      position: absolute;
-      left: 0;
-      top: 0;
-      height: 100%;
-      width: 3px;
-      background: linear-gradient(180deg, #00d9ff, #a855f7, #f472b6);
-      transform: scaleY(0);
-      transition: transform 0.3s ease;
+    .content-section ul li a:hover,
+    .content-section ol li a:hover {
+      color: white;
+      background: rgba(0, 217, 255, 0.2);
+      padding: 4px 12px;
     }
     
-    .category a:hover {
-      background: linear-gradient(135deg, rgba(0, 212, 255, 0.15) 0%, rgba(168, 85, 247, 0.15) 100%);
-      color: #00d9ff;
-      transform: translateX(5px);
+    .content-section ul li a:hover::after,
+    .content-section ol li a:hover::after {
+      content: ' →';
+      font-size: 0.8em;
+      margin-left: 4px;
+      animation: slideIn 0.3s ease;
     }
     
-    .category a:hover::before {
-      transform: scaleY(1);
-    }
-    
-    .category a i {
-      margin-right: 10px;
-      opacity: 0.6;
-      transition: opacity 0.3s;
-    }
-    
-    .category a:hover i {
-      opacity: 1;
+    @keyframes slideIn {
+      0% {
+        opacity: 0;
+        transform: translateX(-10px);
+      }
+      100% {
+        opacity: 1;
+        transform: translateX(0);
+      }
     }
     
     .footer {
+      background: rgba(26, 26, 46, 0.95);
+      padding: 20px;
+      border-radius: 10px;
       text-align: center;
-      margin-top: 50px;
-      padding: 30px;
-      color: rgba(224, 224, 224, 0.7);
-      font-size: 0.95em;
+      color: #a0a0a0;
+      border: 1px solid rgba(102, 126, 234, 0.3);
     }
     
-    .footer a {
-      color: rgba(224, 224, 224, 0.9);
-      text-decoration: none;
-      transition: color 0.3s;
+    .loading {
+      text-align: center;
+      padding: 60px 20px;
+      color: #a0a0a0;
     }
     
-    .footer a:hover {
+    .loading i {
+      font-size: 48px;
       color: #00d9ff;
+      animation: spin 2s linear infinite;
     }
     
-    .social-links {
-      margin-top: 15px;
-    }
-    
-    .social-links a {
-      display: inline-block;
-      margin: 0 10px;
-      font-size: 1.5em;
-      transition: transform 0.3s;
-    }
-    
-    .social-links a:hover {
-      transform: scale(1.2);
+    @keyframes spin {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
     }
     
     @media (max-width: 768px) {
-      body {
+      .container {
         padding: 10px;
       }
       
-      .logo {
-        width: 180px;
+      .header h1 {
+        font-size: 2em;
       }
-        
-      h1 {
-        font-size: 1.8em;
-      }
-        
-      .subtitle {
-        font-size: 1em;
-      }
-        
-      header {
-        padding: 30px 15px;
-      }
-        
-      .container {
+      
+      .content-grid {
         grid-template-columns: 1fr;
-        gap: 20px;
       }
-        
-      .category {
-        padding: 25px 20px;
+      
+      .content-section {
+        padding: 20px;
       }
     }
     
-    .search-box {
-      max-width: 500px;
-      margin: 30px auto 0;
-      position: relative;
+    /* 按钮样式 */
+    .btn {
+      display: inline-block;
+      padding: 12px 24px;
+      margin-top: 16px;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      color: white;
+      text-decoration: none;
+      border-radius: 8px;
+      font-weight: 600;
+      transition: all 0.3s ease;
+      box-shadow: 0 4px 15px rgba(102, 126, 234, 0.3);
     }
     
-    .search-box input {
-      width: 100%;
-      padding: 15px 50px 15px 20px;
-      border: 2px solid rgba(102, 126, 234, 0.3);
-      border-radius: 25px;
-      font-size: 1em;
-      transition: all 0.3s;
-      outline: none;
-      background: rgba(30, 30, 50, 0.8);
-      color: #e0e0e0;
-    }
-    
-    .search-box input::placeholder {
-      color: #808080;
-    }
-    
-    .search-box input:focus {
-      border-color: #00d9ff;
-      box-shadow: 0 0 0 3px rgba(0, 212, 255, 0.2);
-      background: rgba(30, 30, 50, 0.95);
-    }
-    
-    .search-box i {
-      position: absolute;
-      right: 20px;
-      top: 50%;
-      transform: translateY(-50%);
-      color: #808080;
+    .btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 20px rgba(102, 126, 234, 0.4);
+      background: linear-gradient(135deg, #764ba2 0%, #667eea 100%);
     }
   </style>
 </head>
 <body>
-  <div class="main-container">
-    <header>
-      <div class="logo">
-        <img src="assets/images/nones2.png" alt="Logo">
-      </div>
-      <h1>YY's Blog</h1>
-      <p class="subtitle">技术笔记 · 文化记录 · 个人成长</p>
-      <div class="search-box">
-        <input type="text" placeholder="搜索内容..." id="searchInput">
-        <i class="fas fa-search"></i>
-      </div>
-    </header>
-    
-    <div class="container">
-      <div class="category">
-        <h2><i class="fas fa-code"></i>技术</h2>
-        <ul>
-          <li><a href="viewer.html?file=tech/README.md"><i class="fas fa-folder"></i>技术总览</a></li>
-          <li><a href="viewer.html?file=tech/operation/README.md"><i class="fas fa-server"></i>运维相关</a></li>
-          <li><a href="viewer.html?file=tech/optimization/README.md"><i class="fas fa-tachometer-alt"></i>性能优化</a></li>
-          <li><a href="viewer.html?file=tech/development/README.md"><i class="fas fa-laptop-code"></i>开发相关</a></li>
-          <li><a href="viewer.html?file=tech/operation/commnd/README.md"><i class="fas fa-terminal"></i>命令行工具</a></li>
-          <li><a href="viewer.html?file=tech/operation/docker/docker-elk/README.md"><i class="fas fa-search"></i>ELK日志系统</a></li>
-        </ul>
-      </div>
-      
-      <div class="category">
-        <h2><i class="fas fa-palette"></i>文化</h2>
-        <ul>
-          <li><a href="viewer.html?file=culture/README.md"><i class="fas fa-book-open"></i>文化总览</a></li>
-          <li><a href="viewer.html?file=culture/chess/README.md"><i class="fas fa-chess"></i>棋类文化</a></li>
-          <li><a href="viewer.html?file=culture/chess/go/README.md"><i class="fas fa-circle"></i>围棋</a></li>
-          <li><a href="viewer.html?file=culture/chess/go/象棋/README.md"><i class="fas fa-chess-king"></i>象棋</a></li>
-        </ul>
-      </div>
-      
-      <div class="category">
-        <h2><i class="fas fa-database"></i>资源</h2>
-        <ul>
-          <li><a href="viewer.html?file=resources/README.md"><i class="fas fa-folder-open"></i>资源总览</a></li>
-          <li><a href="viewer.html?file=resources/man/README.md"><i class="fas fa-file-alt"></i>手册资源</a></li>
-          <li><a href="viewer.html?file=man/README.md"><i class="fas fa-book"></i>技术手册</a></li>
-        </ul>
-      </div>
-      
-      <div class="category">
-        <h2><i class="fas fa-ellipsis-h"></i>其他</h2>
-        <ul>
-          <li><a href="viewer.html?file=other/README.md"><i class="fas fa-archive"></i>其他总览</a></li>
-          <li><a href="viewer.html?file=other/Bitcoin.md"><i class="fab fa-bitcoin"></i>Bitcoin</a></li>
-          <li><a href="viewer.html?file=other/中国区域划分.md"><i class="fas fa-map"></i>中国区域划分</a></li>
-          <li><a href="viewer.html?file=other/五花八门意思.md"><i class="fas fa-question-circle"></i>五花八门意思</a></li>
-          <li><a href="viewer.html?file=other/扑克.md"><i class="fas fa-dice"></i>扑克</a></li>
-          <li><a href="viewer.html?file=other/文房用具制作.md"><i class="fas fa-pen-fancy"></i>文房用具制作</a></li>
-          <li><a href="viewer.html?file=other/陕西旅游景点顺口溜.md"><i class="fas fa-landmark"></i>陕西旅游景点顺口溜</a></li>
-        </ul>
-      </div>
-      
-      <div class="category">
-        <h2><i class="fas fa-tools"></i>工具</h2>
-        <ul>
-          <li><a href="viewer.html?file=tools/README.md"><i class="fas fa-wrench"></i>工具总览</a></li>
-          <li><a href="viewer.html?file=tools/docker/aria2.yml"><i class="fas fa-download"></i>Aria2配置</a></li>
-          <li><a href="viewer.html?file=tools/docker/cockpit.yml"><i class="fas fa-plane"></i>Cockpit配置</a></li>
-          <li><a href="viewer.html?file=tools/docker/nginx.yml"><i class="fas fa-server"></i>Nginx配置</a></li>
-          <li><a href="viewer.html?file=tools/docker/nginxproxy.yml"><i class="fas fa-shield-alt"></i>Nginx Proxy配置</a></li>
-          <li><a href="viewer.html?file=tools/docker/portainer.yml"><i class="fab fa-docker"></i>Portainer配置</a></li>
-        </ul>
-      </div>
-      
-      <div class="category">
-        <h2><i class="fas fa-user"></i>个人</h2>
-        <ul>
-          <li><a href="jieqi.html"><i class="fas fa-cloud-sun"></i>二十四节气</a></li>
-          <li><a href="viewer.html?file=assets/README.md"><i class="fas fa-folder"></i>资源文件</a></li>
-          <li><a href="viewer.html?file=md/README.md"><i class="fas fa-file-code"></i>Markdown文档</a></li>
-          <li><a href="viewer.html?file=tech/programming/code/README.md"><i class="fas fa-code-branch"></i>代码示例</a></li>
-          <li><a href="viewer.html?file=notes/README.md"><i class="fas fa-code-branch"></i>杂记</a></li>
-          <li><a href="viewer.html?file=culture/taoism/me.md"><i class="fas fa-code-branch"></i>AUTOME</a></li>
-        </ul>
+  <div class="container">
+    <div class="header" id="header">
+      <div class="loading">
+        <i class="fas fa-spinner fa-spin"></i> 加载中...
       </div>
     </div>
     
-    <div class="footer">
-      <p>&copy; 2024 YY's Blog. All rights reserved.</p>
-      <div class="social-links">
-        <a href="https://github.com/yywolf1983" target="_blank"><i class="fab fa-github"></i></a>
-        <a href="mailto:yywolf1983@g-mail.com"><i class="fas fa-envelope"></i></a>
-        <a href="viewer.html?file=culture/taoism/me.md" target="_blank"><i class="fas fa-file-alt"></i></a>
+    <div id="contentSections">
+      <div class="loading">
+        <i class="fas fa-spinner fa-spin"></i> 加载内容中...
+      </div>
+    </div>
+    
+    <div class="footer" id="footer">
+      <div class="loading">
+        <i class="fas fa-spinner fa-spin"></i> 加载中...
       </div>
     </div>
   </div>
   
+  <!-- YAML解析库 -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/js-yaml/4.1.0/js-yaml.min.js"></script>
   <script>
-    document.getElementById('searchInput').addEventListener('keyup', function(e) {
-      const searchTerm = e.target.value.toLowerCase();
-      const categories = document.querySelectorAll('.category');
+    // 加载并解析YAML文件
+    async function loadWebsiteConfig() {
+      try {
+        const response = await fetch('website.yaml');
+        if (!response.ok) {
+          throw new Error('无法加载配置文件');
+        }
+        const yamlText = await response.text();
+        return jsyaml.load(yamlText);
+      } catch (error) {
+        console.error('加载配置文件失败:', error);
+        return null;
+      }
+    }
+    
+    // 生成页面内容
+    function generatePageContent(config) {
+      // 更新网站标题
+      document.title = config.name || '网站标题';
       
-      categories.forEach(category => {
-        const links = category.querySelectorAll('a');
-        let hasMatch = false;
-        
-        links.forEach(link => {
-          const text = link.textContent.toLowerCase();
-          if (text.includes(searchTerm)) {
-            link.style.display = 'flex';
-            hasMatch = true;
-          } else {
-            link.style.display = searchTerm ? 'none' : 'flex';
-          }
+      // 更新头部
+      const header = document.getElementById('header');
+      let headerHTML = `
+        <div class="header-top">
+          <div class="logo-container">
+      `;
+      
+      // 添加logo
+      if (config.logo) {
+        headerHTML += `<img src="${config.logo}" alt="${config.name || '网站logo'}" class="logo">`;
+      } else {
+        headerHTML += `<div class="logo"><i class="fas fa-blog" style="font-size: 48px; color: #00d9ff; padding: 16px;"></i></div>`;
+      }
+      
+      headerHTML += `
+            <div class="header-info">
+              <h1><i class="fas fa-blog"></i> ${config.name || '网站标题'}</h1>
+              <p>${config.description || '网站描述'}</p>
+            </div>
+          </div>
+        </div>
+      `;
+      
+      // 添加分类导航
+      if (config.categories && config.categories.length > 0) {
+        headerHTML += `
+          <div class="category-nav">
+        `;
+        config.categories.forEach(category => {
+          headerHTML += `
+            <a href="viewer.html?file=${category.link}${category.link.endsWith('/') ? 'README.md' : ''}" class="category-item">
+              <i class="fas fa-${category.icon || 'folder'}"></i>
+              ${category.title}
+            </a>
+          `;
         });
-        
-        category.style.display = hasMatch || !searchTerm ? 'block' : 'none';
-      });
-    });
+        headerHTML += `
+          </div>
+        `;
+      }
+      
+      header.innerHTML = headerHTML;
+      
+      // 更新内容部分
+      const contentSections = document.getElementById('contentSections');
+      contentSections.innerHTML = '';
+      
+      // 生成内容区块
+      if (config.sections) {
+        config.sections.forEach(section => {
+          const sectionElement = document.createElement('div');
+          sectionElement.className = 'content-section';
+          
+          let sectionHTML = `<h2>${section.title || '区块标题'}</h2>`;
+          
+          if (section.content) {
+            section.content.forEach(item => {
+              if (item.type === 'paragraph') {
+                sectionHTML += `<p>${item.text || ''}</p>`;
+              } else if (item.type === 'heading') {
+                sectionHTML += `<h3>${item.text || ''}</h3>`;
+              } else if (item.type === 'list') {
+                const listType = item.listType === 'ordered' ? 'ol' : 'ul';
+                sectionHTML += `<${listType}>`;
+                if (item.items) {
+                  item.items.forEach(listItem => {
+                    if (typeof listItem === 'object' && listItem.text && listItem.link) {
+                      sectionHTML += `<li><a href="viewer.html?file=${listItem.link}">${listItem.text}</a></li>`;
+                    } else {
+                      sectionHTML += `<li>${listItem || ''}</li>`;
+                    }
+                  });
+                }
+                sectionHTML += `</${listType}>`;
+              } else if (item.type === 'card') {
+                // 卡片网格
+                if (!sectionElement.querySelector('.content-grid')) {
+                  const grid = document.createElement('div');
+                  grid.className = 'content-grid';
+                  sectionElement.appendChild(grid);
+                }
+                const grid = sectionElement.querySelector('.content-grid');
+                const card = document.createElement('div');
+                card.className = 'content-card';
+                card.innerHTML = `
+                  <h3>${item.title || '卡片标题'}</h3>
+                  <p>${item.description || ''}</p>
+                  ${item.link ? `<a href="viewer.html?file=${item.link}">查看详情 <i class="fas fa-arrow-right"></i></a>` : ''}
+                `;
+                grid.appendChild(card);
+              } else if (item.type === 'link') {
+                sectionHTML += `<p><a href="viewer.html?file=${item.link}" class="btn">${item.text || '链接'}</a></p>`;
+              }
+            });
+          }
+          
+          sectionElement.innerHTML = sectionHTML;
+          contentSections.appendChild(sectionElement);
+        });
+      } else {
+        // 默认内容
+        const defaultSection = document.createElement('div');
+        defaultSection.className = 'content-section';
+        defaultSection.innerHTML = `
+          <h2>欢迎访问</h2>
+          <p>这是一个基于YAML配置文件生成的静态网站。</p>
+          <p>请在website.yaml文件中添加sections配置来生成自定义内容。</p>
+        `;
+        contentSections.appendChild(defaultSection);
+      }
+      
+      // 更新页脚
+      const footer = document.getElementById('footer');
+      footer.innerHTML = `<p>${config.footer || '&copy; 2026 网站名称. All rights reserved.'}</p>`;
+    }
+    
+    // 初始化网站
+    async function initWebsite() {
+      const config = await loadWebsiteConfig();
+      if (config) {
+        // 生成页面内容
+        generatePageContent(config);
+      } else {
+        // 加载失败
+        document.getElementById('header').innerHTML = `
+          <h1 style="color: #f472b6;"><i class="fas fa-exclamation-circle"></i> 加载失败</h1>
+          <p>无法加载配置文件，请检查文件是否存在。</p>
+        `;
+        document.getElementById('contentSections').innerHTML = `
+          <div class="content-section">
+            <h2>错误信息</h2>
+            <p>无法加载website.yaml配置文件。</p>
+            <p>请确保配置文件存在且格式正确。</p>
+          </div>
+        `;
+        document.getElementById('footer').innerHTML = '<p>&copy; 2026 网站名称. All rights reserved.</p>';
+      }
+    }
+    
+    // 页面加载完成后初始化
+    window.addEventListener('DOMContentLoaded', initWebsite);
   </script>
 </body>
 </html>

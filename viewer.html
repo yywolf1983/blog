@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Markdown Viewer - YY's Blog</title>
+  <title>File Viewer - YY's Blog</title>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/github-markdown-css/5.3.0/github-markdown.min.css">
   <style>
@@ -44,7 +44,12 @@
       color: #00d9ff;
     }
     
-    .back-btn {
+    .btn-group {
+      display: flex;
+      gap: 10px;
+    }
+    
+    .btn {
       background: linear-gradient(135deg, #00d9ff 0%, #a855f7 50%, #f472b6 100%);
       color: white;
       border: none;
@@ -58,7 +63,7 @@
       transition: transform 0.3s, box-shadow 0.3s;
     }
     
-    .back-btn:hover {
+    .btn:hover {
       transform: translateY(-2px);
       box-shadow: 0 4px 12px rgba(0, 212, 255, 0.4);
     }
@@ -76,6 +81,7 @@
       color: #e0e0e0;
     }
     
+    /* README标题样式优化 */
     .markdown-body h1,
     .markdown-body h2,
     .markdown-body h3,
@@ -83,25 +89,151 @@
     .markdown-body h5,
     .markdown-body h6 {
       color: #00d9ff;
-      border-bottom: 1px solid rgba(102, 126, 234, 0.3);
+      margin-top: 30px;
+      margin-bottom: 20px;
+      padding-bottom: 10px;
+      border-bottom: 2px solid rgba(102, 126, 234, 0.3);
+      text-shadow: 0 0 10px rgba(0, 217, 255, 0.3);
+      font-weight: 700;
     }
     
+    .markdown-body h1 {
+      font-size: 2.5em;
+      margin-top: 0;
+      padding-bottom: 15px;
+      border-bottom-width: 3px;
+    }
+    
+    .markdown-body h2 {
+      font-size: 2em;
+      color: #a855f7;
+    }
+    
+    .markdown-body h3 {
+      font-size: 1.5em;
+      color: #f472b6;
+    }
+    
+    /* README链接样式优化 */
     .markdown-body a {
       color: #a855f7;
       text-decoration: none;
+      transition: all 0.3s ease;
+      position: relative;
+      padding: 2px 4px;
+      border-radius: 3px;
     }
     
     .markdown-body a:hover {
       color: #00d9ff;
-      text-decoration: underline;
+      background: rgba(0, 217, 255, 0.1);
+      text-decoration: none;
+      box-shadow: 0 0 10px rgba(0, 217, 255, 0.3);
     }
     
+    /* README列表样式优化 */
+    .markdown-body > ul,
+    .markdown-body > ol {
+      margin: 20px 0;
+      padding-left: 20px;
+      display: block;
+    }
+    
+    .markdown-body > ul li,
+    .markdown-body > ol li {
+      position: relative;
+      padding: 8px 12px;
+      margin: 5px 0;
+      border-radius: 6px;
+      transition: all 0.3s ease;
+      border: 1px solid rgba(102, 126, 234, 0.1);
+      background: rgba(26, 26, 46, 0.4);
+      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
+    }
+    
+    .markdown-body > ul li:hover,
+    .markdown-body > ol li:hover {
+      background: rgba(30, 30, 50, 0.7);
+      border-color: rgba(168, 85, 247, 0.5);
+      transform: translateX(4px);
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.4);
+    }
+    
+    /* README段落样式 */
+    .markdown-body p {
+      margin: 15px 0;
+      line-height: 1.7;
+      color: #e0e0e0;
+    }
+    
+    /* README强调文本样式 */
+    .markdown-body strong {
+      color: #f472b6;
+      font-weight: 600;
+    }
+    
+    /* README块引用样式 */
     .markdown-body blockquote {
       border-left: 4px solid #a855f7;
       color: #b0b0b0;
       background: rgba(168, 85, 247, 0.1);
-      padding: 10px 20px;
+      padding: 15px 20px;
       margin: 20px 0;
+      border-radius: 0 6px 6px 0;
+    }
+    
+    /* README代码块样式 */
+    .markdown-body pre {
+      background: #1a1a2e;
+      padding: 20px;
+      border-radius: 8px;
+      overflow-x: auto;
+      border: 1px solid rgba(102, 126, 234, 0.3);
+      margin: 20px 0;
+    }
+    
+    .markdown-body code {
+      font-family: 'Courier New', Courier, monospace;
+      background: rgba(0, 212, 255, 0.1);
+      padding: 2px 6px;
+      border-radius: 4px;
+      color: #00d9ff;
+      font-size: 0.9em;
+    }
+    
+    /* README表格样式 */
+    .markdown-body table {
+      border-collapse: collapse;
+      width: 100%;
+      margin: 20px 0;
+      background: rgba(26, 26, 46, 0.6);
+      border-radius: 8px;
+      overflow: hidden;
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+    }
+    
+    .markdown-body table th,
+    .markdown-body table td {
+      border: 1px solid rgba(102, 126, 234, 0.2);
+      padding: 12px 16px;
+      text-align: left;
+    }
+    
+    .markdown-body table th {
+      background: rgba(0, 212, 255, 0.1);
+      color: #00d9ff;
+      font-weight: 600;
+    }
+    
+    .markdown-body table tr:nth-child(even) {
+      background: rgba(0, 0, 0, 0.2);
+    }
+    
+    /* README水平分隔线样式 */
+    .markdown-body hr {
+      border: none;
+      border-top: 2px solid rgba(102, 126, 234, 0.3);
+      margin: 30px 0;
     }
     
     .markdown-body pre {
@@ -160,6 +292,442 @@
       margin: 30px 0;
     }
     
+    /* README文件的多列布局 */
+    .readme-file ul {
+      list-style: none;
+      padding-left: 0;
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+      gap: 12px;
+      margin: 20px 0;
+    }
+    
+    .readme-file ul li {
+      position: relative;
+      padding: 16px 20px;
+      margin: 0;
+      border-radius: 8px;
+      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+      border: 1px solid rgba(102, 126, 234, 0.1);
+      background: rgba(26, 26, 46, 0.6);
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+      overflow: hidden;
+      height: auto;
+      min-height: 100px;
+    }
+    
+    /* 其他MD文件的线性布局 */
+    .regular-md-file ul {
+      list-style: none;
+      padding-left: 0;
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+      margin: 20px 0;
+    }
+    
+    .regular-md-file ul li {
+      position: relative;
+      padding: 12px 16px;
+      margin: 0;
+      border-radius: 6px;
+      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+      border: 1px solid rgba(102, 126, 234, 0.1);
+      background: rgba(26, 26, 46, 0.5);
+      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
+      overflow: hidden;
+      height: auto;
+    }
+    
+    .markdown-body ul li:hover {
+      background: rgba(30, 30, 50, 0.9);
+      border-color: rgba(0, 217, 255, 0.6);
+      transform: translateY(-3px) translateX(4px);
+      box-shadow: 0 6px 12px rgba(0, 0, 0, 0.5);
+    }
+    
+    .markdown-body ul li::after {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: -100%;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(90deg, transparent, rgba(0, 217, 255, 0.15), transparent);
+      transition: left 0.8s ease;
+    }
+    
+    .markdown-body ul li:hover::after {
+      left: 100%;
+    }
+    
+    /* 目录项特殊样式 */
+    .markdown-body ul li a[href$="/README.md"] {
+      font-weight: 600;
+      color: #00d9ff;
+      display: block;
+      width: 100%;
+      padding: 4px 0;
+    }
+    
+    .markdown-body ul li a[href$="/README.md"]:before {
+      content: "📁";
+      margin-right: 12px;
+      font-size: 18px;
+      vertical-align: top;
+      opacity: 0.9;
+      transition: transform 0.3s ease;
+    }
+    
+    .markdown-body ul li a[href$="/README.md"]:hover:before {
+      transform: scale(1.1) rotate(5deg);
+    }
+    
+    /* 文件项样式 */
+    .markdown-body ul li:not(:has(a[href$="/README.md"])) {
+      display: block;
+    }
+    
+    .markdown-body ul li:not(:has(a[href$="/README.md"])):before {
+      content: "📄";
+      margin-right: 12px;
+      font-size: 18px;
+      vertical-align: top;
+      opacity: 0.7;
+      transition: transform 0.3s ease;
+    }
+    
+    .markdown-body ul li:not(:has(a[href$="/README.md"])):hover:before {
+      transform: scale(1.1);
+    }
+    
+    /* 不同文件类型的图标 */
+    .markdown-body ul li a[href$=".md"]:before,
+    .markdown-body ul li a[href$=".markdown"]:before {
+      content: "📝";
+      margin-right: 14px;
+      font-size: 18px;
+      vertical-align: middle;
+      opacity: 0.7;
+      transition: transform 0.3s ease;
+    }
+    
+    .markdown-body ul li a[href$=".html"]:before,
+    .markdown-body ul li a[href$=".htm"]:before {
+      content: "🌐";
+      margin-right: 14px;
+      font-size: 18px;
+      vertical-align: middle;
+      opacity: 0.7;
+      transition: transform 0.3s ease;
+    }
+    
+    .markdown-body ul li a[href$=".css"]:before {
+      content: "🎨";
+      margin-right: 14px;
+      font-size: 18px;
+      vertical-align: middle;
+      opacity: 0.7;
+      transition: transform 0.3s ease;
+    }
+    
+    .markdown-body ul li a[href$=".js"]:before,
+    .markdown-body ul li a[href$=".jsx"]:before,
+    .markdown-body ul li a[href$=".ts"]:before,
+    .markdown-body ul li a[href$=".tsx"]:before {
+      content: "⚙️";
+      margin-right: 14px;
+      font-size: 18px;
+      vertical-align: middle;
+      opacity: 0.7;
+      transition: transform 0.3s ease;
+    }
+    
+    .markdown-body ul li a[href$=".py"]:before {
+      content: "🐍";
+      margin-right: 14px;
+      font-size: 18px;
+      vertical-align: middle;
+      opacity: 0.7;
+      transition: transform 0.3s ease;
+    }
+    
+    .markdown-body ul li a[href$=".json"]:before {
+      content: "🔧";
+      margin-right: 14px;
+      font-size: 18px;
+      vertical-align: middle;
+      opacity: 0.7;
+      transition: transform 0.3s ease;
+    }
+    
+    .markdown-body ul li a[href$=".yaml"]:before,
+    .markdown-body ul li a[href$=".yml"]:before {
+      content: "📋";
+      margin-right: 14px;
+      font-size: 18px;
+      vertical-align: middle;
+      opacity: 0.7;
+      transition: transform 0.3s ease;
+    }
+    
+    .markdown-body ul li a[href$=".png"]:before,
+    .markdown-body ul li a[href$=".jpg"]:before,
+    .markdown-body ul li a[href$=".jpeg"]:before,
+    .markdown-body ul li a[href$=".gif"]:before,
+    .markdown-body ul li a[href$=".svg"]:before {
+      content: "🖼️";
+      margin-right: 14px;
+      font-size: 18px;
+      vertical-align: middle;
+      opacity: 0.7;
+      transition: transform 0.3s ease;
+    }
+    
+    .markdown-body ul li a[href$=".pdf"]:before {
+      content: "📄";
+      margin-right: 14px;
+      font-size: 18px;
+      vertical-align: middle;
+      opacity: 0.7;
+      transition: transform 0.3s ease;
+    }
+    
+    .markdown-body ul li a[href$=".zip"]:before,
+    .markdown-body ul li a[href$=".tar"]:before,
+    .markdown-body ul li a[href$=".gz"]:before {
+      content: "📦";
+      margin-right: 14px;
+      font-size: 18px;
+      vertical-align: middle;
+      opacity: 0.7;
+      transition: transform 0.3s ease;
+    }
+    
+    /* 默认文件图标 */
+    .markdown-body ul li a:not([href$="/README.md"]):not([href$=".md"]):not([href$=".markdown"]):not([href$=".html"]):not([href$=".htm"]):not([href$=".css"]):not([href$=".js"]):not([href$=".jsx"]):not([href$=".ts"]):not([href$=".tsx"]):not([href$=".py"]):not([href$=".json"]):not([href$=".yaml"]):not([href$=".yml"]):not([href$=".png"]):not([href$=".jpg"]):not([href$=".jpeg"]):not([href$=".gif"]):not([href$=".svg"]):not([href$=".pdf"]):not([href$=".zip"]):not([href$=".tar"]):not([href$=".gz"]):before {
+      content: "📄";
+      margin-right: 14px;
+      font-size: 18px;
+      vertical-align: middle;
+      opacity: 0.7;
+      transition: transform 0.3s ease;
+    }
+    
+    /* 默认文件图标悬停效果 */
+    .markdown-body ul li a:not([href$="/README.md"]):not([href$=".md"]):not([href$=".markdown"]):not([href$=".html"]):not([href$=".htm"]):not([href$=".css"]):not([href$=".js"]):not([href$=".jsx"]):not([href$=".ts"]):not([href$=".tsx"]):not([href$=".py"]):not([href$=".json"]):not([href$=".yaml"]):not([href$=".yml"]):not([href$=".png"]):not([href$=".jpg"]):not([href$=".jpeg"]):not([href$=".gif"]):not([href$=".svg"]):not([href$=".pdf"]):not([href$=".zip"]):not([href$=".tar"]):not([href$=".gz"]):hover:before {
+      transform: scale(1.1);
+    }
+    
+    /* 文件链接样式 */
+    .markdown-body ul li a {
+      display: block;
+      width: 100%;
+      color: #e0e0e0;
+      text-decoration: none;
+      transition: all 0.3s ease;
+      font-size: 16px;
+      font-weight: 400;
+      line-height: 1.5;
+      position: relative;
+      z-index: 1;
+      padding: 4px 0;
+    }
+    
+    .markdown-body ul li a:hover {
+      color: #00d9ff;
+      text-shadow: 0 0 10px rgba(0, 217, 255, 0.5);
+    }
+    
+    .markdown-body ul li a[href$="/README.md"]:hover {
+      color: #a855f7;
+      text-shadow: 0 0 10px rgba(168, 85, 247, 0.5);
+    }
+    
+    /* 文件信息 */
+    .markdown-body ul li .file-info {
+      margin-left: 28px;
+      font-size: 13px;
+      color: #808080;
+      white-space: normal;
+      overflow: visible;
+      text-overflow: clip;
+      transition: color 0.3s ease;
+      margin-top: 4px;
+      line-height: 1.4;
+    }
+    
+    .markdown-body ul li:hover .file-info {
+      color: #a0a0a0;
+    }
+    
+    /* 响应式设计 */
+    @media (max-width: 768px) {
+      /* README文件在小屏幕上切换为单列 */
+      .readme-file ul {
+        grid-template-columns: 1fr;
+        gap: 8px;
+      }
+      
+      /* 所有文件列表在小屏幕上的样式 */
+      .markdown-body ul li {
+        padding: 14px 16px;
+        min-height: 90px;
+      }
+      
+      .markdown-body ul li:before,
+      .markdown-body ul li a:before {
+        font-size: 16px;
+        margin-right: 10px;
+      }
+      
+      .markdown-body ul li a {
+        font-size: 15px;
+      }
+      
+      .markdown-body ul li .file-info {
+        font-size: 12px;
+        margin-left: 24px;
+      }
+    }
+    
+    @media (min-width: 769px) and (max-width: 1200px) {
+      /* README文件在中等屏幕上的布局 */
+      .readme-file ul {
+        grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+        gap: 10px;
+      }
+      
+      /* README文件列表项在中等屏幕上的样式 */
+      .readme-file ul li {
+        padding: 14px 18px;
+        min-height: 95px;
+      }
+    }
+    
+    /* README文件的目录层次结构样式 */
+    .readme-file ul ul {
+      display: block;
+      margin-top: 10px;
+      margin-bottom: 10px;
+      margin-left: 20px;
+      gap: 6px;
+    }
+    
+    .readme-file ul ul li {
+      padding: 10px 14px;
+      font-size: 14px;
+      background: rgba(26, 26, 46, 0.4);
+      border-color: rgba(102, 126, 234, 0.05);
+      min-height: 80px;
+    }
+    
+    /* 其他MD文件的目录层次结构样式 */
+    .regular-md-file ul ul {
+      display: block;
+      margin-top: 6px;
+      margin-bottom: 6px;
+      margin-left: 20px;
+      gap: 4px;
+    }
+    
+    .regular-md-file ul ul li {
+      padding: 8px 12px;
+      font-size: 13px;
+      background: rgba(26, 26, 46, 0.4);
+      border-color: rgba(102, 126, 234, 0.05);
+      min-height: 60px;
+    }
+    
+    /* 目录层次结构通用样式 */
+    .markdown-body ul ul li:before,
+    .markdown-body ul ul li a:before {
+      font-size: 14px;
+      margin-right: 8px;
+    }
+    
+    .markdown-body ul ul li:hover {
+      transform: translateY(-2px) translateX(2px);
+    }
+    
+    /* 加载动画效果 */
+    @keyframes fadeIn {
+      from {
+        opacity: 0;
+        transform: translateY(10px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+    
+    /* README文件的加载动画 */
+    .readme-file ul li {
+      animation: fadeIn 0.3s ease forwards;
+    }
+    
+    /* 其他MD文件的加载动画 */
+    .regular-md-file ul li {
+      animation: fadeIn 0.2s ease forwards;
+    }
+    
+    /* 动画延迟 */
+    .markdown-body ul li:nth-child(1) { animation-delay: 0.05s; }
+    .markdown-body ul li:nth-child(2) { animation-delay: 0.1s; }
+    .markdown-body ul li:nth-child(3) { animation-delay: 0.15s; }
+    .markdown-body ul li:nth-child(4) { animation-delay: 0.2s; }
+    .markdown-body ul li:nth-child(5) { animation-delay: 0.25s; }
+    .markdown-body ul li:nth-child(6) { animation-delay: 0.3s; }
+    .markdown-body ul li:nth-child(7) { animation-delay: 0.35s; }
+    .markdown-body ul li:nth-child(8) { animation-delay: 0.4s; }
+    .markdown-body ul li:nth-child(9) { animation-delay: 0.45s; }
+    .markdown-body ul li:nth-child(10) { animation-delay: 0.5s; }
+    
+    /* README文件字体增大 */
+    .readme-file {
+      font-size: 16px;
+    }
+    
+    .readme-file p {
+      font-size: 1.05em;
+      line-height: 1.7;
+    }
+    
+    .readme-file a {
+      font-size: 1.05em;
+    }
+    
+    /* 增大列表项字体 */
+    .readme-file ul li, .readme-file ol li {
+      font-size: 1.1em;
+      padding: 12px 16px;
+    }
+    
+    /* 增大目录项字体 */
+    .readme-file ul li a {
+      font-size: 1.1em;
+      font-weight: 600;
+    }
+    
+    /* 增大文件信息字体 */
+    .readme-file ul li .file-info {
+      font-size: 0.95em;
+      margin-top: 6px;
+    }
+    
+    .readme-file blockquote {
+      font-size: 1.1em;
+    }
+    
+    .readme-file code {
+      font-size: 1em;
+    }
+    
+    .readme-file table th, .readme-file table td {
+      font-size: 1.1em;
+    }
+    
     .loading {
       text-align: center;
       padding: 40px;
@@ -196,6 +764,49 @@
       margin: 0 8px;
     }
     
+    /* 图片查看器样式 */
+    .image-viewer {
+      text-align: center;
+      padding: 20px;
+    }
+    
+    .image-viewer img {
+      max-width: 100%;
+      max-height: 80vh;
+      border-radius: 8px;
+      box-shadow: 0 8px 16px rgba(0, 0, 0, 0.5);
+    }
+    
+    /* 文本查看器样式 */
+    .text-viewer {
+      background: #1a1a2e;
+      padding: 20px;
+      border-radius: 8px;
+      border: 1px solid rgba(102, 126, 234, 0.3);
+      max-height: 80vh;
+      overflow-y: auto;
+    }
+    
+    .text-viewer pre {
+      margin: 0;
+      white-space: pre-wrap;
+      font-family: 'Courier New', Courier, monospace;
+      font-size: 14px;
+      line-height: 1.5;
+    }
+    
+    /* 二进制文件样式 */
+    .binary-file {
+      text-align: center;
+      padding: 60px 20px;
+    }
+    
+    .binary-file .icon {
+      font-size: 64px;
+      color: #a855f7;
+      margin-bottom: 20px;
+    }
+    
     @media (max-width: 768px) {
       body {
         padding: 10px;
@@ -210,16 +821,27 @@
         gap: 15px;
         text-align: center;
       }
+      
+      .btn-group {
+        flex-direction: column;
+        width: 100%;
+      }
+      
+      .btn {
+        justify-content: center;
+      }
     }
   </style>
 </head>
 <body>
   <div class="container">
     <div class="header">
-      <h1><i class="fas fa-file-alt"></i> Markdown Viewer</h1>
-      <a href="index.html" class="back-btn">
-        <i class="fas fa-home"></i> 返回首页
-      </a>
+      <h1><i class="fas fa-file-alt"></i> File Viewer</h1>
+      <div class="btn-group">
+        <a href="index.html" class="btn">
+          <i class="fas fa-home"></i> 返回首页
+        </a>
+      </div>
     </div>
     
     <div class="breadcrumb" id="breadcrumb">
@@ -227,7 +849,7 @@
     </div>
     
     <div class="content">
-      <div id="markdownContent" class="markdown-body">
+      <div id="contentArea">
         <div class="loading">
           <i class="fas fa-spinner fa-spin"></i> 加载中...
         </div>
@@ -241,51 +863,119 @@
     const file = urlParams.get('file');
     
     if (!file) {
-      document.getElementById('markdownContent').innerHTML = `
+      document.getElementById('contentArea').innerHTML = `
         <div class="error">
           <i class="fas fa-exclamation-circle"></i>
           <p>未指定文件参数</p>
-          <p>请使用 ?file=路径/文件名.md 的格式访问</p>
+          <p>请使用 ?file=路径/文件名 的格式访问</p>
         </div>
       `;
     } else {
-      fetch(file)
-        .then(response => {
-          if (!response.ok) {
-            throw new Error('文件不存在');
-          }
-          return response.text();
-        })
-        .then(markdown => {
-          const html = marked.parse(markdown);
-          document.getElementById('markdownContent').innerHTML = html;
-          
-          const pathParts = file.split('/');
-          let breadcrumbHTML = '<a href="index.html">首页</a>';
-          let currentPath = '';
-          
-          pathParts.forEach((part, index) => {
-            if (index < pathParts.length - 1) {
-              currentPath += part + '/';
-              breadcrumbHTML += '<span>/</span><a href="index.html">' + part + '</a>';
-            } else {
-              breadcrumbHTML += '<span>/</span><span>' + part + '</span>';
+      // 检测文件类型
+      const fileExtension = file.split('.').pop().toLowerCase();
+      const contentArea = document.getElementById('contentArea');
+      
+      // 更新面包屑
+      const pathParts = file.split('/');
+      let breadcrumbHTML = '<a href="index.html">首页</a>';
+      pathParts.forEach((part, index) => {
+        if (index < pathParts.length - 1) {
+          breadcrumbHTML += `<span>/</span><a href="viewer.html?file=${pathParts.slice(0, index + 1).join('/')}/README.md">${part}</a>`;
+        } else {
+          breadcrumbHTML += `<span>/</span><span>${part}</span>`;
+        }
+      });
+      document.getElementById('breadcrumb').innerHTML = breadcrumbHTML;
+      document.title = pathParts[pathParts.length - 1] + ' - YY\'s Blog';
+      
+      // 处理不同类型的文件
+      if (['md', 'markdown'].includes(fileExtension)) {
+        // 处理Markdown文件
+        fetch(file)
+          .then(response => {
+            if (!response.ok) {
+              throw new Error('文件不存在');
             }
+            return response.text();
+          })
+          .then(markdown => {
+            const html = marked.parse(markdown);
+            // 检测是否是README.md文件
+            const isReadme = file.includes('README.md');
+            const className = isReadme ? 'markdown-body readme-file' : 'markdown-body regular-md-file';
+            contentArea.innerHTML = `<div class="${className}">${html}</div>`;
+          })
+          .catch(error => {
+            contentArea.innerHTML = `
+              <div class="error">
+                <i class="fas fa-exclamation-triangle"></i>
+                <p>加载失败: ${error.message}</p>
+                <p>文件: ${file}</p>
+              </div>
+            `;
           });
-          
-          document.getElementById('breadcrumb').innerHTML = breadcrumbHTML;
-          
-          document.title = pathParts[pathParts.length - 1] + ' - YY\'s Blog';
-        })
-        .catch(error => {
-          document.getElementById('markdownContent').innerHTML = `
-            <div class="error">
-              <i class="fas fa-exclamation-triangle"></i>
-              <p>加载失败: ${error.message}</p>
-              <p>文件: ${file}</p>
-            </div>
-          `;
-        });
+      } else if (['jpg', 'jpeg', 'png', 'gif', 'svg', 'bmp', 'webp'].includes(fileExtension)) {
+        // 处理图片文件
+        contentArea.innerHTML = `
+          <div class="image-viewer">
+            <img src="${file}" alt="${pathParts[pathParts.length - 1]}">
+            <p style="margin-top: 20px; color: #a0a0a0;">${pathParts[pathParts.length - 1]}</p>
+          </div>
+        `;
+      } else if (['html', 'htm'].includes(fileExtension)) {
+        // 处理HTML文件，使用iframe加载
+        contentArea.innerHTML = `
+          <div class="html-viewer">
+            <iframe src="${file}" style="width: 100%; height: 80vh; border: none; border-radius: 8px; box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);"></iframe>
+            <p style="margin-top: 15px; color: #a0a0a0;">${pathParts[pathParts.length - 1]}</p>
+          </div>
+        `;
+      } else if (['txt', 'text', 'log', 'md', 'markdown', 'css', 'js', 'json', 'xml', 'yml', 'yaml', 'ini', 'conf', 'sh', 'py', 'java', 'c', 'cpp', 'h', 'hpp', 'go', 'rs', 'php', 'rb', 'swift', 'kt', 'ts', 'jsx', 'tsx'].includes(fileExtension)) {
+        // 处理文本文件
+        fetch(file)
+          .then(response => {
+            if (!response.ok) {
+              throw new Error('文件不存在');
+            }
+            return response.text();
+          })
+          .then(text => {
+            contentArea.innerHTML = `
+              <div class="text-viewer">
+                <pre>${escapeHtml(text)}</pre>
+              </div>
+            `;
+          })
+          .catch(error => {
+            contentArea.innerHTML = `
+              <div class="error">
+                <i class="fas fa-exclamation-triangle"></i>
+                <p>加载失败: ${error.message}</p>
+                <p>文件: ${file}</p>
+              </div>
+            `;
+          });
+      } else {
+        // 处理二进制文件
+        contentArea.innerHTML = `
+          <div class="binary-file">
+            <div class="icon"><i class="fas fa-file-binary"></i></div>
+            <h3>${pathParts[pathParts.length - 1]}</h3>
+            <p style="margin: 20px 0; color: #a0a0a0;">这是一个二进制文件</p>
+            <a href="${file}" class="btn">下载</a>
+          </div>
+        `;
+      }
+    }
+    
+    // 转义HTML特殊字符
+    function escapeHtml(text) {
+      return text
+        .replace(/&/g, '&amp;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;')
+        .replace(/"/g, '&quot;')
+        .replace(/'/g, '&#039;');
     }
   </script>
 </body>

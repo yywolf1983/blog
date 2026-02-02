@@ -1,0 +1,78 @@
+# 网站结构配置文件
+# 手动编辑此文件来管理网站的所有内容
+
+# 网站基本信息
+name: "YY's Blog"
+description: "个人博客网站 - 分享知识与感悟"
+base_url: "/"
+footer: "&copy; 2026 YY's Blog. All rights reserved."
+logo: "assets/images/nones.png"
+
+# 网站分类
+categories:
+  - title: "文化"
+    icon: "book"
+    link: "culture/"
+  - title: "技术"
+    icon: "code"
+    link: "tech/"
+  - title: "资源"
+    icon: "folder"
+    link: "assets/"
+  - title: "24节气"
+    icon: "sun"
+    link: "assets/jieqi.html"
+  - title: "关于"
+    icon: "info-circle"
+    link: "notes/me.md"
+
+# 页面内容区块
+sections:
+
+  - title: "爱好相关"
+    content:
+      - type: "paragraph"
+        text: "文化是民族的灵魂，包含了丰富的传统知识和智慧。"
+      - type: "list"
+        listType: "unordered"
+        items:
+          - { text: "棋类文化：围棋、象棋等传统棋类", link: "culture/chess/README.md" }
+          - { text: "中医文化：传统医学理论和实践", link: "culture/medicine/README.md" }
+          - { text: "音乐文化：古琴等传统音乐", link: "culture/music/README.md" }
+          - { text: "道教文化：道教基础知识和神仙谱系", link: "culture/taoism/README.md" }
+      
+
+  - title: "技术分享"
+    content:
+      - type: "paragraph"
+        text: "技术是推动社会发展的动力，这里分享各种技术知识和经验。"
+      - type: "list"
+        listType: "unordered"
+        items:
+          - { text: "Linux系统：使用技巧和命令教程", link: "tech/linux.md" }
+          - { text: "编程技术：各种编程语言学习资料", link: "tech/programming/README.md" }
+          - { text: "系统优化：性能调优和配置指南", link: "tech/optimization/README.md" }
+          - { text: "运维技术：服务器管理和自动化", link: "tech/operation/README.md" }
+      
+
+  - title: "资源中心"
+    content:
+      - type: "paragraph"
+        text: "提供各种实用资源，方便大家学习和使用。"
+      - type: "list"
+        listType: "unordered"
+        items:
+          - { text: "图片资源：网站使用的各种图片素材", link: "assets/images/README.md" }
+          - { text: "文档资源：各种实用的文档资料和教程", link: "assets/docs/README.md" }
+      
+
+# 静态资源配置
+assets:
+  css:
+    - "assets/css/theme.css"
+    - "assets/css/index.css"
+  js:
+    - "assets/data-years.js"
+  images:
+    - "assets/images/nones.png"
+    - "assets/images/nones2.png"
