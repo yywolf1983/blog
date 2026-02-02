@@ -4,6 +4,7 @@
 
 - **[CmakeLists.txt](viewer.html?file=tech/programming/code/CmakeLists.txt)**
 - **[btcwif.py](viewer.html?file=tech/programming/code/btcwif.py)**
+- **[code.md](viewer.html?file=tech/programming/code/code.md)**
 - **[hash_check.c](viewer.html?file=tech/programming/code/hash_check.c)**
 - **[htpasswd.py](viewer.html?file=tech/programming/code/htpasswd.py)**
 - **[md5/](viewer.html?file=tech/programming/code/md5/README.md)**
