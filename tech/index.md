@@ -10,7 +10,6 @@
 - **[images/](viewer.html?file=tech/images/index.md)**
 - **[kernel/](viewer.html?file=tech/kernel/index.md)**
 - **[linux/](viewer.html?file=tech/linux/index.md)**
-- **[linux.md](viewer.html?file=tech/linux.md)**
 - **[operation/](viewer.html?file=tech/operation/index.md)**
 - **[optimization/](viewer.html?file=tech/optimization/index.md)**
 - **[other/](viewer.html?file=tech/other/index.md)**

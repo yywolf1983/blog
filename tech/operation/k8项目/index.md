@@ -25,6 +25,7 @@
 - **[k8s_裸奔安装.txt](viewer.html?file=tech/operation/k8项目/k8s_裸奔安装.txt)**
 - **[k8概念.txt](viewer.html?file=tech/operation/k8项目/k8概念.txt)**
 - **[kubectl.md](viewer.html?file=tech/operation/k8项目/kubectl.md)**
+- **[kubernetes_k8s.md](viewer.html?file=tech/operation/k8项目/kubernetes_k8s.md)**
 - **[minikube.txt](viewer.html?file=tech/operation/k8项目/minikube.txt)**
 - **[mysql/](viewer.html?file=tech/operation/k8项目/mysql/index.md)**
 - **[mysql-cluster.yaml](viewer.html?file=tech/operation/k8项目/mysql-cluster.yaml)**
