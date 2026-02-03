@@ -10,6 +10,7 @@
 - **[linux-io-stack-diagram.jpg](viewer.html?file=tech/linux/linux-io-stack-diagram.jpg)**
 - **[linux_kernel.png](viewer.html?file=tech/linux/linux_kernel.png)**
 - **[linux_perf_tools_full.png](viewer.html?file=tech/linux/linux_perf_tools_full.png)**
+- **[linux系统调用列表.md](viewer.html?file=tech/linux/linux系统调用列表.md)**
 - **[logo.webp](viewer.html?file=tech/linux/logo.webp)**
 - **[sar.jpg](viewer.html?file=tech/linux/sar.jpg)**
 - **[启动过程.jpg](viewer.html?file=tech/linux/启动过程.jpg)**
