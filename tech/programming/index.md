@@ -12,7 +12,6 @@
 - **[java学习路径.md](viewer.html?file=tech/programming/java学习路径.md)**
 - **[jvm-options.sh.md](viewer.html?file=tech/programming/jvm-options.sh.md)**
 - **[jvm.md](viewer.html?file=tech/programming/jvm.md)**
-- **[linux系统调用列表.md](viewer.html?file=tech/programming/linux系统调用列表.md)**
 - **[maven.md](viewer.html?file=tech/programming/maven.md)**
 - **[node/](viewer.html?file=tech/programming/node/index.md)**
 - **[python.md](viewer.html?file=tech/programming/python.md)**

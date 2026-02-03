@@ -11,7 +11,6 @@
 - **[images/](viewer.html?file=tech/optimization/base_inst/docker/images/index.md)**
 - **[ingress.md](viewer.html?file=tech/optimization/base_inst/docker/ingress.md)**
 - **[kubeconfig文件.md](viewer.html?file=tech/optimization/base_inst/docker/kubeconfig文件.md)**
-- **[kubernetes_k8s.md](viewer.html?file=tech/optimization/base_inst/docker/kubernetes_k8s.md)**
 - **[non-root.md](viewer.html?file=tech/optimization/base_inst/docker/non-root.md)**
 - **[podman.md](viewer.html?file=tech/optimization/base_inst/docker/podman.md)**
 - **[portainer.md](viewer.html?file=tech/optimization/base_inst/docker/portainer.md)**
