@@ -1,0 +1,133 @@
+#!/bin/zsh
+
+# 颜色定义
+GREEN="\e[32m"
+YELLOW="\e[33m"
+RED="\e[31m"
+RESET="\e[0m"
+
+# 设置环境变量
+export CLICOLOR=1
+export LSCOLORS=gxfxaxdxcxegedabagacad
+
+# SSH agent 检查和初始化
+check_ssh_agent() {
+    # 检查 SSH agent 是否已运行
+    if [ -n "$SSH_AUTH_SOCK" ] && [ -S "$SSH_AUTH_SOCK" ]; then
+        # 检查是否已添加密钥
+        ssh-add -l &>/dev/null
+        if [ $? -eq 0 ]; then
+            echo "${GREEN}SSH agent 已运行且密钥已加载${RESET}"
+            return 0
+        elif [ $? -eq 1 ]; then
+            echo "${YELLOW}SSH agent 已运行但没有密钥，正在添加...${RESET}"
+        else
+            echo "${YELLOW}SSH agent 连接失败，重新启动...${RESET}"
+            eval "$(ssh-agent -s)"
+        fi
+    else
+        echo "${YELLOW}启动 SSH agent...${RESET}"
+        eval "$(ssh-agent -s)"
+    fi
+
+    # 添加常用的 SSH 密钥
+    local ssh_keys=(
+        "~/.ssh/new_rsa"
+    )
+
+    for key in "${ssh_keys[@]}"; do
+        key=$(eval echo "$key")
+        if [ -f "$key" ]; then
+            if [[ "$(uname)" == "Darwin" ]]; then
+                ssh-add --apple-use-keychain "$key" 2>/dev/null || ssh-add "$key"
+            else
+                ssh-add "$key" 2>/dev/null
+            fi
+            if [ $? -eq 0 ]; then
+                echo "${GREEN}已添加密钥: $key${RESET}"
+            else
+                echo "${RED}添加密钥失败: $key${RESET}"
+            fi
+        fi
+    done
+}
+
+# Git 仓库更新
+update_git_repo() {
+    local dir="$1"
+    local current_path="$2"
+    
+    cd "$dir"
+    echo "${RED}正在检查: $dir ${RESET}"
+    
+    # 检查本地变更
+    if [[ $(git status --porcelain) ]]; then
+        echo "${YELLOW}发现本地变更:${RESET}"
+        git status --porcelain | awk '{print $2}'
+        
+        # 提示用户是否要提交变更
+        echo -n "${YELLOW}是否要提交这些变更? (y/N): ${RESET}"
+        read answer
+        
+        if [[ "$answer" =~ ^[Yy]$ ]]; then
+            echo "${YELLOW}请输入提交信息: ${RESET}"
+            read commit_message
+            
+            # 添加所有变更并提交
+            git add .
+            git commit -m "$commit_message"
+            
+            # 推送到远程仓库
+            echo "${YELLOW}正在推送到远程仓库...${RESET}"
+            if git push; then
+                echo "${GREEN}变更已成功推送${RESET}"
+            else
+                echo "${RED}推送失败${RESET}"
+            fi
+        else
+            echo "${YELLOW}跳过提交${RESET}"
+        fi
+    else
+        echo "${GREEN}没有本地变更${RESET}"
+    fi
+    
+    # 检查并拉取远程更新
+    echo "${YELLOW}查远程更新...${RESET}"
+    git fetch
+    
+    local behind=$(git rev-list HEAD..origin/$(git branch --show-current) --count)
+    if [ $behind -gt 0 ]; then
+        echo "${YELLOW}本地落后远程 $behind 个提交，正在更新...${RESET}"
+        if git pull; then
+            echo "${GREEN}已成功更新到最新版本${RESET}"
+        else
+            echo "${RED}更新失败${RESET}"
+        fi
+    else
+        echo "${GREEN}本地已是最新版本${RESET}"
+    fi
+    
+    cd ..
+}
+
+# 主函数
+main() {
+    # 检查 SSH agent
+    check_ssh_agent
+    
+    # 获取当前路径
+    local current_path=$(pwd)
+    
+    # 遍历并更新 Git 仓库
+    for dir in */; do
+        if [ -d "$dir/.git" ]; then
+            update_git_repo "$dir" "$current_path"
+        fi
+    done
+}
+
+# 执行主函数
+main
+
+
+

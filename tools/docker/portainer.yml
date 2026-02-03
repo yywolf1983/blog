@@ -1,0 +1,24 @@
+services:
+  portainer:
+    image: portainer/portainer-ce
+    ports:
+      - "8000:8000"
+      - "9000:9000"
+    restart: always
+    volumes:
+      - "/var/run/docker.sock:/var/run/docker.sock"  # 主机卷挂载
+      - "/Users/yy/docker/portainer_data:/data"      # 命名卷挂载
+    networks:                        # 可选：自定义网络
+      - portainer-network
+    healthcheck:                   # 可选：健康检查
+      test: ["CMD", "curl", "-f", "http://localhost:9000"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+
+volumes:                            # 必须在 services 外部定义命名卷
+  portainer_data:
+
+networks:                          # 可选：定义网络
+  portainer-network:
+    driver: bridge
