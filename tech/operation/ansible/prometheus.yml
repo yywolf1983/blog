@@ -1,4 +1,0 @@
-- hosts: ccex-01
-  remote_user: root
-  roles:
-     - prometheus
