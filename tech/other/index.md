@@ -12,6 +12,7 @@
 - **[letsencrypt免费证书.md](viewer.html?file=tech/other/letsencrypt免费证书.md)**
 - **[linux_color.md](viewer.html?file=tech/other/linux_color.md)**
 - **[mac_base.md](viewer.html?file=tech/other/mac_base.md)**
+- **[mac自动启动.md](viewer.html?file=tech/other/mac自动启动.md)**
 - **[mkisofs.md](viewer.html?file=tech/other/mkisofs.md)**
 - **[ngrok.md](viewer.html?file=tech/other/ngrok.md)**
 - **[openvpn.md](viewer.html?file=tech/other/openvpn.md)**

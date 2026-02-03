@@ -20,6 +20,5 @@
 - **[resources/](viewer.html?file=resources/index.md)**
 - **[skills/](viewer.html?file=skills/index.md)**
 - **[tech/](viewer.html?file=tech/index.md)**
-- **[tools/](viewer.html?file=tools/index.md)**
 - **[viewer.html](viewer.html?file=viewer.html)**
 - **[website.yaml](viewer.html?file=website.yaml)**
