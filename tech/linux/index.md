@@ -6,6 +6,7 @@
 - **[Linux性能测评工具.jpg](viewer.html?file=tech/linux/Linux性能测评工具.jpg)**
 - **[Linux性能观测工具.jpg](viewer.html?file=tech/linux/Linux性能观测工具.jpg)**
 - **[Linux性能调优工具.jpg](viewer.html?file=tech/linux/Linux性能调优工具.jpg)**
+- **[README.md](viewer.html?file=tech/linux/README.md)**
 - **[Unix_timeline.en.svg.png](viewer.html?file=tech/linux/Unix_timeline.en.svg.png)**
 - **[linux-io-stack-diagram.jpg](viewer.html?file=tech/linux/linux-io-stack-diagram.jpg)**
 - **[linux_kernel.png](viewer.html?file=tech/linux/linux_kernel.png)**
