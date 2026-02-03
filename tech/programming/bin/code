@@ -1,6 +1,0 @@
-
-
-source ~/.zshrc
-agent
-alias code="/Applications/Visual\ Studio\ Code.app/Contents/MacOS/Electron  > /dev/null 2>&1"
-code &
