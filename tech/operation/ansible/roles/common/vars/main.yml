@@ -1,0 +1,60 @@
+---
+# 通用角色变量
+
+# 系统相关
+common_services:
+  - name: firewalld
+    state: stopped
+    enabled: false
+  - name: selinux
+    state: stopped
+    enabled: false
+
+# 目录相关
+common_dirs:
+  - /data
+  - /data/soft
+  - /data/logs
+  - /data/services
+
+# 包相关
+common_packages:
+  centos:
+    - tcl
+    - make
+    - gcc-c++
+    - gcc
+    - cmake
+    - bison-devel
+    - ncurses-devel
+    - readline-devel
+    - libaio-devel
+    - perl
+    - libaio
+    - wget
+    - lrzsz
+    - vim
+    - libnuma*
+    - bzip2
+    - xz
+    - curl
+    - unzip
+  ubuntu:
+    - tcl
+    - make
+    - build-essential
+    - cmake
+    - bison
+    - libncurses5-dev
+    - libreadline-dev
+    - libaio-dev
+    - perl
+    - libaio1
+    - wget
+    - lrzsz
+    - vim
+    - numactl
+    - bzip2
+    - xz-utils
+    - curl
+    - unzip

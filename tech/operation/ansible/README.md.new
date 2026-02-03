@@ -1,0 +1,78 @@
+# ansible 目录 - 模块化结构
+
+## 目录结构
+
+```
+ansible/
+├── roles/
+│   ├── common/                  # 通用角色
+│   │   ├── tasks/
+│   │   │   ├── main.yml         # 主任务
+│   │   │   ├── base_packages.yml # 基础包安装
+│   │   │   ├── directories.yml   # 目录创建
+│   │   │   └── services.yml      # 服务管理
+│   │   ├── templates/
+│   │   │   └── common/           # 通用模板
+│   │   └── vars/
+│   │       └── main.yml         # 通用变量
+│   ├── base/                    # 基础配置（继承common）
+│   ├── docker/                  # Docker配置（继承common）
+│   ├── nginx/                   # Nginx配置（继承common）
+│   ├── mysql/                   # MySQL配置（继承common）
+│   └── redis/                   # Redis配置（继承common）
+├── vars/
+│   └── global_vars.yml         # 全局变量
+├── playbooks/
+│   ├── base.yml                 # 基础配置剧本
+│   ├── docker.yml               # Docker部署剧本
+│   ├── nginx.yml                # Nginx部署剧本
+│   └── full_stack.yml           # 完整栈部署剧本
+├── inventory/
+│   └── hosts.yml                # 主机清单
+└── README.md                    # 说明文档
+```
+
+## 模块化说明
+
+### 1. 通用角色 (common)
+- **base_packages.yml**: 统一管理所有基础包安装
+- **directories.yml**: 统一管理目录结构创建
+- **services.yml**: 统一管理系统服务配置
+
+### 2. 角色继承
+- 所有具体服务角色（docker、nginx、mysql等）都继承common角色
+- 通过`dependencies`配置自动包含通用任务
+
+### 3. 全局变量
+- **global_vars.yml**: 集中管理所有服务的版本、路径等配置
+- 各角色可以覆盖特定变量
+
+### 4. 剧本模块化
+- **基础剧本**: 只执行基础配置
+- **服务剧本**: 针对特定服务的部署
+- **完整栈剧本**: 一次性部署所有服务
+
+## 优势
+
+1. **减少重复**: 通用任务只定义一次，多处复用
+2. **一致性**: 确保所有服务使用相同的基础配置
+3. **可维护性**: 配置变更只需修改一处
+4. **灵活性**: 可以单独部署特定服务或完整栈
+5. **可扩展性**: 新增服务只需创建新角色，自动继承通用配置
+
+## 使用方法
+
+### 部署基础配置
+```bash
+ansible-playbook -i inventory/hosts.yml playbooks/base.yml -e "hosts=all"
+```
+
+### 部署Docker
+```bash
+ansible-playbook -i inventory/hosts.yml playbooks/docker.yml -e "hosts=docker_servers"
+```
+
+### 部署完整栈
+```bash
+ansible-playbook -i inventory/hosts.yml playbooks/full_stack.yml -e "hosts=all"
+```

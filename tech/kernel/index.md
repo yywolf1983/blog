@@ -1,18 +1,7 @@
+# kernel 目录
 
+## 文件列表
 
-## linux I/O
-
-<img src="images/kernel_io.png" style="zoom:50%" />
-
-## linux kernel map
-
-<img src="images/kernel_map.png" style="zoom:50%" />
-
-
-## linux存储结构
-
-<img src="images/LinuxStorage.jpg" style="zoom:50%" />
-
-sudo apt install libncurses flex bison libssl-dev bc libelf-dev
-
-
+- **[README.md](viewer.html?file=tech/kernel/README.md)**
+- **[images/](viewer.html?file=tech/kernel/images/index.md)**
+- **[lfs.md](viewer.html?file=tech/kernel/lfs.md)**

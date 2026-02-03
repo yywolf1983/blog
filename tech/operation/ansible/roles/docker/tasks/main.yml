@@ -1,0 +1,75 @@
+---
+# Docker角色任务文件
+
+# 继承common角色
+- name: 包含通用任务
+  include_role:
+    name: common
+
+# Docker安装任务
+- name: 安装Docker依赖包 (CentOS)
+  yum:
+    name: "{{ item }}"
+    state: present
+  loop:
+    - yum-utils
+    - device-mapper-persistent-data
+    - lvm2
+  when: ansible_distribution == 'CentOS'
+
+- name: 安装Docker依赖包 (Ubuntu)
+  apt:
+    name: "{{ item }}"
+    state: present
+    update_cache: yes
+  loop:
+    - apt-transport-https
+    - ca-certificates
+    - curl
+    - gnupg-agent
+    - software-properties-common
+  when: ansible_distribution == 'Ubuntu'
+
+- name: 添加Docker GPG密钥
+  shell: |
+    curl -fsSL https://download.docker.com/linux/{{ ansible_distribution|lower }}/gpg | sudo apt-key add -
+  when: ansible_distribution == 'Ubuntu'
+
+- name: 添加Docker仓库 (CentOS)
+  shell: |
+    yum-config-manager --add-repo https://download.docker.com/linux/centos/docker-ce.repo
+  when: ansible_distribution == 'CentOS'
+
+- name: 添加Docker仓库 (Ubuntu)
+  shell: |
+    add-apt-repository "deb [arch=amd64] https://download.docker.com/linux/ubuntu $(lsb_release -cs) stable"
+  when: ansible_distribution == 'Ubuntu'
+
+- name: 安装Docker
+  package:
+    name: "docker-ce={{ docker.version }}"
+    state: present
+
+- name: 安装Docker Compose
+  get_url:
+    url: "https://github.com/docker/compose/releases/download/{{ docker.compose_version }}/docker-compose-{{ ansible_system }}-{{ ansible_userspace_architecture }}"
+    dest: /usr/local/bin/docker-compose
+    mode: '0755'
+
+- name: 配置Docker
+  template:
+    src: daemon.json.j2
+    dest: "{{ docker.config_dir }}/daemon.json"
+    mode: 0644
+
+- name: 启动Docker服务
+  service:
+    name: docker
+    state: started
+    enabled: yes
+
+- name: 添加用户到docker组
+  user:
+    name: "{{ ansible_user }}"
+    groups: docker
+    append: yes

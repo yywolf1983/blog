@@ -1,0 +1,17 @@
+---
+# 目录创建任务
+
+- name: 创建通用目录结构
+  file:
+    path: "{{ item }}"
+    state: directory
+    owner: root
+    group: root
+    mode: 0755
+  loop:
+    - /data
+    - /data/soft
+    - /data/logs
+    - /data/services
+    - /etc/ansible
+    - /var/log/ansible
