@@ -362,7 +362,7 @@
     }
     
     /* 目录项特殊样式 */
-    .markdown-body ul li a[href$="/README.md"] {
+    .markdown-body ul li a[href$="/index.md"] {
       font-weight: 600;
       color: #00d9ff;
       display: block;
@@ -370,7 +370,7 @@
       padding: 4px 0;
     }
     
-    .markdown-body ul li a[href$="/README.md"]:before {
+    .markdown-body ul li a[href$="/index.md"]:before {
       content: "📁";
       margin-right: 12px;
       font-size: 18px;
@@ -379,16 +379,16 @@
       transition: transform 0.3s ease;
     }
     
-    .markdown-body ul li a[href$="/README.md"]:hover:before {
+    .markdown-body ul li a[href$="/index.md"]:hover:before {
       transform: scale(1.1) rotate(5deg);
     }
     
     /* 文件项样式 */
-    .markdown-body ul li:not(:has(a[href$="/README.md"])) {
+    .markdown-body ul li:not(:has(a[href$="/index.md"])) {
       display: block;
     }
     
-    .markdown-body ul li:not(:has(a[href$="/README.md"])):before {
+    .markdown-body ul li:not(:has(a[href$="/index.md"])):before {
       content: "📄";
       margin-right: 12px;
       font-size: 18px;
@@ -397,7 +397,7 @@
       transition: transform 0.3s ease;
     }
     
-    .markdown-body ul li:not(:has(a[href$="/README.md"])):hover:before {
+    .markdown-body ul li:not(:has(a[href$="/index.md"])):hover:before {
       transform: scale(1.1);
     }
     
@@ -505,7 +505,7 @@
     }
     
     /* 默认文件图标 */
-    .markdown-body ul li a:not([href$="/README.md"]):not([href$=".md"]):not([href$=".markdown"]):not([href$=".html"]):not([href$=".htm"]):not([href$=".css"]):not([href$=".js"]):not([href$=".jsx"]):not([href$=".ts"]):not([href$=".tsx"]):not([href$=".py"]):not([href$=".json"]):not([href$=".yaml"]):not([href$=".yml"]):not([href$=".png"]):not([href$=".jpg"]):not([href$=".jpeg"]):not([href$=".gif"]):not([href$=".svg"]):not([href$=".pdf"]):not([href$=".zip"]):not([href$=".tar"]):not([href$=".gz"]):before {
+    .markdown-body ul li a:not([href$="/index.md"]):not([href$=".md"]):not([href$=".markdown"]):not([href$=".html"]):not([href$=".htm"]):not([href$=".css"]):not([href$=".js"]):not([href$=".jsx"]):not([href$=".ts"]):not([href$=".tsx"]):not([href$=".py"]):not([href$=".json"]):not([href$=".yaml"]):not([href$=".yml"]):not([href$=".png"]):not([href$=".jpg"]):not([href$=".jpeg"]):not([href$=".gif"]):not([href$=".svg"]):not([href$=".pdf"]):not([href$=".zip"]):not([href$=".tar"]):not([href$=".gz"]):before {
       content: "📄";
       margin-right: 14px;
       font-size: 18px;
@@ -515,7 +515,7 @@
     }
     
     /* 默认文件图标悬停效果 */
-    .markdown-body ul li a:not([href$="/README.md"]):not([href$=".md"]):not([href$=".markdown"]):not([href$=".html"]):not([href$=".htm"]):not([href$=".css"]):not([href$=".js"]):not([href$=".jsx"]):not([href$=".ts"]):not([href$=".tsx"]):not([href$=".py"]):not([href$=".json"]):not([href$=".yaml"]):not([href$=".yml"]):not([href$=".png"]):not([href$=".jpg"]):not([href$=".jpeg"]):not([href$=".gif"]):not([href$=".svg"]):not([href$=".pdf"]):not([href$=".zip"]):not([href$=".tar"]):not([href$=".gz"]):hover:before {
+    .markdown-body ul li a:not([href$="/index.md"]):not([href$=".md"]):not([href$=".markdown"]):not([href$=".html"]):not([href$=".htm"]):not([href$=".css"]):not([href$=".js"]):not([href$=".jsx"]):not([href$=".ts"]):not([href$=".tsx"]):not([href$=".py"]):not([href$=".json"]):not([href$=".yaml"]):not([href$=".yml"]):not([href$=".png"]):not([href$=".jpg"]):not([href$=".jpeg"]):not([href$=".gif"]):not([href$=".svg"]):not([href$=".pdf"]):not([href$=".zip"]):not([href$=".tar"]):not([href$=".gz"]):hover:before {
       transform: scale(1.1);
     }
     
@@ -539,7 +539,7 @@
       text-shadow: 0 0 10px rgba(0, 217, 255, 0.5);
     }
     
-    .markdown-body ul li a[href$="/README.md"]:hover {
+    .markdown-body ul li a[href$="/index.md"]:hover {
       color: #a855f7;
       text-shadow: 0 0 10px rgba(168, 85, 247, 0.5);
     }
@@ -880,7 +880,7 @@
       let breadcrumbHTML = '<a href="index.html">首页</a>';
       pathParts.forEach((part, index) => {
         if (index < pathParts.length - 1) {
-          breadcrumbHTML += `<span>/</span><a href="viewer.html?file=${pathParts.slice(0, index + 1).join('/')}/README.md">${part}</a>`;
+          breadcrumbHTML += `<span>/</span><a href="viewer.html?file=${pathParts.slice(0, index + 1).join('/')}/index.md">${part}</a>`;
         } else {
           breadcrumbHTML += `<span>/</span><span>${part}</span>`;
         }
@@ -900,8 +900,8 @@
           })
           .then(markdown => {
             const html = marked.parse(markdown);
-            // 检测是否是README.md文件
-            const isReadme = file.includes('README.md');
+            // 检测是否是index.md文件
+            const isReadme = file.includes('index.md');
             const className = isReadme ? 'markdown-body readme-file' : 'markdown-body regular-md-file';
             contentArea.innerHTML = `<div class="${className}">${html}</div>`;
           })

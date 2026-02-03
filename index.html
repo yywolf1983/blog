@@ -376,7 +376,7 @@
         `;
         config.categories.forEach(category => {
           headerHTML += `
-            <a href="viewer.html?file=${category.link}${category.link.endsWith('/') ? 'README.md' : ''}" class="category-item">
+            <a href="viewer.html?file=${category.link}${category.link.endsWith('/') ? 'index.md' : ''}" class="category-item">
               <i class="fas fa-${category.icon || 'folder'}"></i>
               ${category.title}
             </a>

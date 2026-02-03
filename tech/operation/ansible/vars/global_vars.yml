@@ -1,0 +1,62 @@
+---
+# 全局变量配置
+
+# 通用配置
+common:
+  user: root
+  home_dir: /root
+  data_dir: /data
+  soft_dir: /data/soft
+  logs_dir: /data/logs
+  services_dir: /data/services
+
+# Java配置
+java:
+  version: 'jdk-11.0.5'
+  package: 'jdk-11.0.5_linux-x64_bin.tar.gz'
+  install_dir: /usr/local/java
+  path: /usr/local/java/jdk-11.0.5
+
+# Nginx配置
+nginx:
+  version: 'nginx-1.20.2'
+  package: 'nginx-1.20.2.tar.gz'
+  install_dir: /data/nginx
+  config_dir: /data/nginx/conf
+  vhost_dir: /data/nginx/conf/vhost
+  port: 80
+  ssl_port: 443
+
+# Docker配置
+docker:
+  version: '20.10.17'
+  compose_version: '1.29.2'
+  config_dir: /etc/docker
+  data_dir: /var/lib/docker
+  port: 2375
+
+# MySQL配置
+mysql:
+  version: '8.0.28'
+  package: 'mysql-8.0.28-linux-glibc2.12-x86_64.tar.xz'
+  install_dir: /data/mysql
+  data_dir: /data/mysql/data
+  config_dir: /data/mysql/conf
+  port: 3306
+
+# Redis配置
+redis:
+  version: '6.2.6'
+  package: 'redis-6.2.6.tar.gz'
+  install_dir: /data/redis
+  config_dir: /data/redis/conf
+  data_dir: /data/redis/data
+  port: 6379
+
+# 下载源配置
+download:
+  base_url: 'http://13.214.254.61:8095/api/public/dl'
+  nginx_url: '{{ download.base_url }}/upJUwueZ'
+  java_url: '{{ download.base_url }}/java'
+  mysql_url: '{{ download.base_url }}/mysql'
+  redis_url: '{{ download.base_url }}/redis'

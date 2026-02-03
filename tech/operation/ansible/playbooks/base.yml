@@ -1,0 +1,11 @@
+---
+# 基础配置剧本
+
+- hosts: '{{ hosts | default("all") }}'
+  remote_user: '{{ common.user }}'
+  become: yes
+  vars_files:
+    - ../vars/global_vars.yml
+  
+  roles:
+    - base

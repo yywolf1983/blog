@@ -1,0 +1,42 @@
+---
+# base角色任务文件
+
+# 继承common角色
+- name: 包含通用任务
+  include_role:
+    name: common
+
+# 基础配置任务
+- name: 配置系统limits
+  template:
+    src: limits.conf.j2
+    dest: /etc/security/limits.conf
+    mode: 0644
+
+- name: 配置sysctl
+  template:
+    src: sysctl.conf.j2
+    dest: /etc/sysctl.conf
+    mode: 0644
+
+- name: 应用sysctl配置
+  shell: sysctl -p
+  when: ansible_os_family == 'RedHat'
+
+- name: 配置时区
+  timezone:
+    name: Asia/Shanghai
+
+- name: 配置NTP
+  service:
+    name: chronyd
+    state: started
+    enabled: yes
+  when: ansible_os_family == 'RedHat'
+
+- name: 配置NTP (Ubuntu)
+  service:
+    name: ntp
+    state: started
+    enabled: yes
+  when: ansible_os_family == 'Debian'

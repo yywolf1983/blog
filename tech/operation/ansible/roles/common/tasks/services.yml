@@ -1,0 +1,10 @@
+---
+# 服务管理任务
+
+- name: 管理系统服务
+  service:
+    name: "{{ item.name }}"
+    state: "{{ item.state }}"
+    enabled: "{{ item.enabled | default(false) }}"
+  loop: "{{ common_services }}"
+  when: common_services is defined
