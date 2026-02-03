@@ -1,4 +1,0 @@
-- hosts: rabbitmq
-  roles:
-    - geerlingguy.rabbitmq
-    - rabbitmq.base 
