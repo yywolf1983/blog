@@ -6,12 +6,11 @@ services:
     ports:
       - "80:80"    # 将宿主机的80端口映射到容器的80端口（HTTP）
       - "443:443"  # 将宿主机的443端口映射到容器的443端口（HTTPS）
-      - "9095:9095"
     environment:
       - TZ=Asia/Shanghai  # 设置容器时区，避免日志时间错误[1](@ref)
     volumes:
       - /Users/yy/docker/nginx/conf.d:/etc/nginx/conf.d
-      - /Users/yy/docker/nginx/html:/usr/share/nginx/html
+      - /Users/yy/aaa/blog:/usr/share/nginx/html
       - /Users/yy/docker/nginx/ssl:/etc/nginx/ssl
       - /Users/yy/docker/nginx/logs:/var/log/nginx
       # （可选）挂载主配置文件，首次可先将容器内文件复制出来再挂载
