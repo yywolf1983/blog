@@ -1,0 +1,54 @@
+---
+# 基础包安装任务
+
+- name: 安装基础包 (CentOS)
+  yum:
+    name: "{{ item }}"
+    state: present
+  loop:
+    - tcl
+    - make
+    - gcc-c++
+    - gcc
+    - cmake
+    - bison-devel
+    - ncurses-devel
+    - readline-devel
+    - libaio-devel
+    - perl
+    - libaio
+    - wget
+    - lrzsz
+    - vim
+    - libnuma*
+    - bzip2
+    - xz
+    - curl
+    - unzip
+  when: ansible_distribution == 'CentOS'
+
+- name: 安装基础包 (Ubuntu/Debian)
+  apt:
+    name: "{{ item }}"
+    state: present
+    update_cache: yes
+  loop:
+    - tcl
+    - make
+    - build-essential
+    - cmake
+    - bison
+    - libncurses5-dev
+    - libreadline-dev
+    - libaio-dev
+    - perl
+    - libaio1
+    - wget
+    - lrzsz
+    - vim
+    - numactl
+    - bzip2
+    - xz-utils
+    - curl
+    - unzip
+  when: ansible_distribution == 'Ubuntu' or ansible_distribution == 'Debian'

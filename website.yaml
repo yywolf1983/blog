@@ -36,10 +36,10 @@ sections:
       - type: "list"
         listType: "unordered"
         items:
-          - { text: "棋类文化：围棋、象棋等传统棋类", link: "culture/chess/README.md" }
-          - { text: "中医文化：传统医学理论和实践", link: "culture/medicine/README.md" }
-          - { text: "音乐文化：古琴等传统音乐", link: "culture/music/README.md" }
-          - { text: "道教文化：道教基础知识和神仙谱系", link: "culture/taoism/README.md" }
+          - { text: "棋类文化：围棋、象棋等传统棋类", link: "culture/index.md" }
+          - { text: "中医文化：传统医学理论和实践", link: "culture/medicine/index.md" }
+          - { text: "音乐文化：古琴等传统音乐", link: "culture/music/index.md" }
+          - { text: "道教文化：道教基础知识和神仙谱系", link: "culture/taoism/index.md" }
       
 
   - title: "技术分享"
@@ -50,9 +50,9 @@ sections:
         listType: "unordered"
         items:
           - { text: "Linux系统：使用技巧和命令教程", link: "tech/linux.md" }
-          - { text: "编程技术：各种编程语言学习资料", link: "tech/programming/README.md" }
-          - { text: "系统优化：性能调优和配置指南", link: "tech/optimization/README.md" }
-          - { text: "运维技术：服务器管理和自动化", link: "tech/operation/README.md" }
+          - { text: "编程技术：各种编程语言学习资料", link: "tech/programming/index.md" }
+          - { text: "系统优化：性能调优和配置指南", link: "tech/optimization/index.md" }
+          - { text: "运维技术：服务器管理和自动化", link: "tech/operation/index.md" }
       
 
   - title: "资源中心"
@@ -62,8 +62,8 @@ sections:
       - type: "list"
         listType: "unordered"
         items:
-          - { text: "图片资源：网站使用的各种图片素材", link: "assets/images/README.md" }
-          - { text: "文档资源：各种实用的文档资料和教程", link: "assets/docs/README.md" }
+          - { text: "图片资源：网站使用的各种图片素材", link: "assets/images/index.md" }
+          - { text: "文档资源：各种实用的文档资料和教程", link: "assets/index.md" }
       
 
 # 静态资源配置
@@ -76,3 +76,4 @@ assets:
   images:
     - "assets/images/nones.png"
     - "assets/images/nones2.png"
+

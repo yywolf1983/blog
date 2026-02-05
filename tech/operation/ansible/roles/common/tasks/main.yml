@@ -1,0 +1,7 @@
+---
+# 通用角色主任务文件
+
+# 包含通用子任务
+- include_tasks: base_packages.yml
+- include_tasks: directories.yml
+- include_tasks: services.yml

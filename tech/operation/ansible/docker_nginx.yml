@@ -1,4 +1,0 @@
-- hosts: devops
-  remote_user: root
-  roles:
-     - docker_nginx
