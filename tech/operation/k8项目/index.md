@@ -2,7 +2,6 @@
 
 ## 文件列表
 
-- **[.DS_Store](viewer.html?file=tech/operation/k8项目/.DS_Store)**
 - **[Dockerfile](viewer.html?file=tech/operation/k8项目/Dockerfile)**
 - **[HA_master.txt](viewer.html?file=tech/operation/k8项目/HA_master.txt)**
 - **[Istio/](viewer.html?file=tech/operation/k8项目/Istio/index.md)**

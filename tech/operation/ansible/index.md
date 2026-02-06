@@ -2,7 +2,6 @@
 
 ## 文件列表
 
-- **[.DS_Store](viewer.html?file=tech/operation/ansible/.DS_Store)**
 - **[base/](viewer.html?file=tech/operation/ansible/base/index.md)**
 - **[docker/](viewer.html?file=tech/operation/ansible/docker/index.md)**
 - **[docker_nginx/](viewer.html?file=tech/operation/ansible/docker_nginx/index.md)**

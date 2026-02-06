@@ -2,7 +2,6 @@
 
 ## 文件列表
 
-- **[.DS_Store](viewer.html?file=tech/operation/doc/.DS_Store)**
 - **[CloudFlare批量添加.txt](viewer.html?file=tech/operation/doc/CloudFlare批量添加.txt)**
 - **[Git分支管理实践.md](viewer.html?file=tech/operation/doc/Git分支管理实践.md)**
 - **[WebSocket 协议.docx](viewer.html?file=tech/operation/doc/WebSocket 协议.docx)**

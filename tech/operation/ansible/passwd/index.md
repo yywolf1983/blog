@@ -2,7 +2,6 @@
 
 ## 文件列表
 
-- **[.DS_Store](viewer.html?file=tech/operation/ansible/passwd/.DS_Store)**
 - **[handlers/](viewer.html?file=tech/operation/ansible/passwd/handlers/index.md)**
 - **[tasks/](viewer.html?file=tech/operation/ansible/passwd/tasks/index.md)**
 - **[vars/](viewer.html?file=tech/operation/ansible/passwd/vars/index.md)**

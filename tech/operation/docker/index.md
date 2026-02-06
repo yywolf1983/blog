@@ -2,7 +2,6 @@
 
 ## 文件列表
 
-- **[.DS_Store](viewer.html?file=tech/operation/docker/.DS_Store)**
 - **[Dockerfile](viewer.html?file=tech/operation/docker/Dockerfile)**
 - **[ceph/](viewer.html?file=tech/operation/docker/ceph/index.md)**
 - **[docker-elk/](viewer.html?file=tech/operation/docker/docker-elk/index.md)**

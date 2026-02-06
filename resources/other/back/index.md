@@ -2,7 +2,6 @@
 
 ## 文件列表
 
-- **[.gitignore](viewer.html?file=resources/other/back/.gitignore)**
 - **[149492531024459.jpg](viewer.html?file=resources/other/back/149492531024459.jpg)**
 - **[2024-02-20_17-22.png](viewer.html?file=resources/other/back/2024-02-20_17-22.png)**
 - **[8_strokes_of_永-zh.svg.png](viewer.html?file=resources/other/back/8_strokes_of_永-zh.svg.png)**

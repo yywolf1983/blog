@@ -2,10 +2,6 @@
 
 ## 文件列表
 
-- **[.DS_Store](viewer.html?file=.DS_Store)**
-- **[.git/](viewer.html?file=.git/index.md)**
-- **[.gitattributes](viewer.html?file=.gitattributes)**
-- **[.gitignore](viewer.html?file=.gitignore)**
 - **[CNAME](viewer.html?file=CNAME)**
 - **[assets/](viewer.html?file=assets/index.md)**
 - **[culture/](viewer.html?file=culture/index.md)**
@@ -20,6 +16,5 @@
 - **[resources/](viewer.html?file=resources/index.md)**
 - **[skills/](viewer.html?file=skills/index.md)**
 - **[tech/](viewer.html?file=tech/index.md)**
-- **[tools/](viewer.html?file=tools/index.md)**
 - **[viewer.html](viewer.html?file=viewer.html)**
 - **[website.yaml](viewer.html?file=website.yaml)**
