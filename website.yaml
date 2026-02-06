@@ -3,9 +3,9 @@
 
 # 网站基本信息
 name: "YY's Blog"
-description: "个人博客网站 - 分享知识与感悟"
+description: "个人博客网站"
 base_url: "/"
-footer: "&copy; 2026 YY's Blog. All rights reserved."
+footer: "&copy; 2026 YY's Blog. All rights reserved. <br/> This website was created by AI."
 logo: "assets/images/nones.png"
 
 # 网站分类
