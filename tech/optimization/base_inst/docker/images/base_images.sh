@@ -9,8 +9,8 @@
 set -e
 
 # ---------- 可配置参数 ----------
-DEBIAN_SUITE="${DEBIAN_SUITE:-bookworm}"      # Debian 12 的代号
-MIRROR_URL="${MIRROR_URL:-http://mirrors.aliyun.com/debian}"
+DEBIAN_SUITE="${DEBIAN_SUITE:-bookworm}"      # 修正为 bookworm
+MIRROR_URL="${MIRROR_URL:-https://mirrors.tuna.tsinghua.edu.cn/debian}"
 ROOTFS_DIR="${ROOTFS_DIR:-/tmp/debian12-rootfs}"
 OUTPUT_TAR="${1:-/tmp/debian12-rootfs.tar.gz}"
 # --------------------------------
@@ -51,11 +51,8 @@ sudo debootstrap \
 
 echo "=> rootfs 创建完成。"
 
-# 4. (可选) 进入 chroot 环境进行自定义
-# 例如安装常用工具：bash、iproute2、procps、net-tools、vim、less 等
-# 如果不需要，可直接注释或删除以下代码块
-# ----------------------------------------------------
-echo "[4/5] (可选) 进入 chroot 环境安装额外软件包 ..."
+# 4. 配置安全更新源
+echo "[4/5] 配置安全更新源和安装软件包..."
 sudo mount --bind /proc "${ROOTFS_DIR}/proc"
 sudo mount --bind /sys  "${ROOTFS_DIR}/sys"
 sudo mount --bind /dev  "${ROOTFS_DIR}/dev"
@@ -63,7 +60,17 @@ sudo mount --bind /dev  "${ROOTFS_DIR}/dev"
 sudo chroot "${ROOTFS_DIR}" /bin/bash <<'EOF'
 set -e
 export DEBIAN_FRONTEND=noninteractive
+
+# 配置完整的源列表（包括安全更新）
+cat > /etc/apt/sources.list <<'SOURCES_EOF'
+deb http://deb.debian.org/debian/ bookworm main contrib non-free
+deb http://deb.debian.org/debian/ bookworm-updates main contrib non-free
+deb http://deb.debian.org/debian-security/ bookworm-security main contrib non-free
+SOURCES_EOF
+
+# 更新并安装软件包
 apt-get update
+apt-get upgrade -y
 apt-get install -y --no-install-recommends \
     bash \
     coreutils \
@@ -74,14 +81,15 @@ apt-get install -y --no-install-recommends \
     curl \
     wget \
     less \
-    vim
-rm -rf /var/lib/apt/lists/*
+    vim \
+    ca-certificates
+
+# 清理
+rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
 EOF
 
-
 sudo umount "${ROOTFS_DIR}/proc" "${ROOTFS_DIR}/sys" "${ROOTFS_DIR}/dev"
-echo "=> 额外软件包安装完成。"
-# ----------------------------------------------------
+echo "=> 软件包安装和配置完成。"
 
 # 5. 打包 rootfs
 echo "[5/5] 打包 rootfs 为 ${OUTPUT_TAR} ..."
