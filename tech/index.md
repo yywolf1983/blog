@@ -2,7 +2,6 @@
 
 ## 文件列表
 
-- **[.DS_Store](viewer.html?file=tech/.DS_Store)**
 - **[ai/](viewer.html?file=tech/ai/index.md)**
 - **[algorithm/](viewer.html?file=tech/algorithm/index.md)**
 - **[crypto/](viewer.html?file=tech/crypto/index.md)**

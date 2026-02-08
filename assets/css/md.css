@@ -1,0 +1,905 @@
+/* Markdown 专用样式 - 暗色主题风格 */
+
+/* 基础样式重置 */
+.markdown-body {
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji";
+  font-size: 16px;
+  line-height: 1.6;
+  color: var(--color-text);
+  background-color: var(--color-sidebar);
+  padding: var(--spacing-xl);
+  border-radius: var(--radius-xl);
+  box-shadow: var(--shadow-md);
+  border: 1px solid var(--color-border);
+  max-width: 100%;
+  margin: 0 auto;
+}
+
+/* 标题样式 - 符合标准 Markdown 格式 */
+
+/* 普通 md 文件标题样式 */
+.markdown-body.regular-md-file h1,
+.markdown-body.regular-md-file h2,
+.markdown-body.regular-md-file h3,
+.markdown-body.regular-md-file h4,
+.markdown-body.regular-md-file h5,
+.markdown-body.regular-md-file h6 {
+  color: var(--color-text);
+  margin-top: 16px;
+  margin-bottom: 8px;
+  font-weight: normal;
+  line-height: 1.4;
+  font-family: 'Courier New', Courier, monospace;
+}
+
+.markdown-body.regular-md-file h1 {
+  font-size: 1.4em;
+  padding-bottom: 0;
+  border-bottom: none;
+}
+
+.markdown-body.regular-md-file h2 {
+  font-size: 1.3em;
+  padding-bottom: 0;
+  border-bottom: none;
+}
+
+.markdown-body.regular-md-file h3 {
+  font-size: 1.2em;
+  color: var(--color-text);
+}
+
+.markdown-body.regular-md-file h4 {
+  font-size: 1.1em;
+  color: var(--color-text);
+}
+
+.markdown-body.regular-md-file h5 {
+  font-size: 1em;
+  color: var(--color-text);
+}
+
+.markdown-body.regular-md-file h6 {
+  font-size: 0.9em;
+  color: var(--color-text);
+}
+
+/* index.md 文件标题样式 */
+.markdown-body.readme-file h1,
+.markdown-body.readme-file h2,
+.markdown-body.readme-file h3,
+.markdown-body.readme-file h4,
+.markdown-body.readme-file h5,
+.markdown-body.readme-file h6 {
+  color: var(--color-heading);
+  margin-top: 24px;
+  margin-bottom: 16px;
+  font-weight: 600;
+  line-height: 1.25;
+}
+
+.markdown-body.readme-file h1 {
+  font-size: 2em;
+  padding-bottom: 0.3em;
+  border-bottom: 1px solid var(--color-border);
+}
+
+.markdown-body.readme-file h2 {
+  font-size: 1.5em;
+  padding-bottom: 0.3em;
+  border-bottom: 1px solid var(--color-border);
+}
+
+.markdown-body.readme-file h3 {
+  font-size: 1.25em;
+}
+
+.markdown-body.readme-file h4 {
+  font-size: 1em;
+}
+
+.markdown-body.readme-file h5 {
+  font-size: 0.875em;
+}
+
+.markdown-body.readme-file h6 {
+  font-size: 0.85em;
+  color: var(--color-text-secondary);
+}
+
+/* 段落样式 */
+.markdown-body p {
+  margin-top: 0;
+  margin-bottom: 12px;
+  line-height: 1.5;
+}
+
+/* 普通 md 文件段落样式 */
+.markdown-body.regular-md-file p {
+  font-family: 'Courier New', Courier, monospace;
+}
+
+/* 链接样式 */
+.markdown-body a {
+  color: var(--color-link);
+  text-decoration: none;
+  transition: all 0.3s ease;
+}
+
+.markdown-body a:hover {
+  text-shadow: 0 0 10px var(--color-accent);
+}
+
+/* 普通 md 文件链接样式 */
+.markdown-body.regular-md-file a {
+  color: var(--color-text);
+  text-decoration: underline;
+  transition: none;
+}
+
+.markdown-body.regular-md-file a:hover {
+  text-shadow: none;
+}
+
+/* 列表样式 - 符合标准 Markdown 格式 */
+
+/* 普通 md 文件列表样式 */
+.markdown-body.regular-md-file ul,
+.markdown-body.regular-md-file ol {
+  margin-top: 0;
+  margin-bottom: 12px;
+  padding-left: 2em;
+  font-family: 'Courier New', Courier, monospace;
+}
+
+.markdown-body.regular-md-file ul ul,
+.markdown-body.regular-md-file ul ol,
+.markdown-body.regular-md-file ol ul,
+.markdown-body.regular-md-file ol ol {
+  margin-top: 0;
+  margin-bottom: 0;
+  padding-left: 2em;
+}
+
+/* 普通 md 文件列表项样式 - 使用更具体的选择器以覆盖theme.css中的样式 */
+.markdown-body.regular-md-file ul li,
+.markdown-body.regular-md-file ol li {
+  position: static;
+  margin-top: 0.3em;
+  margin-bottom: 0.3em;
+  padding: 0;
+  border: none !important;
+  border-radius: 0 !important;
+  background-color: transparent !important;
+  box-shadow: none !important;
+  transition: none !important;
+  overflow: visible !important;
+  height: auto !important;
+  box-sizing: content-box !important;
+  border-left: none;
+  padding-left: 0;
+}
+
+.markdown-body.regular-md-file ul li:hover,
+.markdown-body.regular-md-file ol li:hover {
+  border: none !important;
+  border-left-color: transparent !important;
+  padding-left: 0 !important;
+  background-color: transparent !important;
+  transform: none !important;
+  box-shadow: none !important;
+}
+
+/* 取消普通 md 文件中列表项的伪元素内容 */
+.markdown-body.regular-md-file ul li::before,
+.markdown-body.regular-md-file ol li::before {
+  content: '' !important;
+  display: none !important;
+  position: static !important;
+  left: auto !important;
+  top: auto !important;
+  transform: none !important;
+  width: auto !important;
+  text-align: left !important;
+  font-size: 1em !important;
+  line-height: 1 !important;
+  color: inherit !important;
+  font-weight: normal !important;
+  margin-left: 0 !important;
+  background-color: transparent !important;
+}
+
+/* index.md 文件列表样式 */
+.markdown-body.readme-file ul,
+.markdown-body.readme-file ol {
+  margin-top: 0;
+  margin-bottom: 16px;
+  padding-left: 2em;
+}
+
+.markdown-body.readme-file ul ul,
+.markdown-body.readme-file ul ol,
+.markdown-body.readme-file ol ul,
+.markdown-body.readme-file ol ol {
+  margin-top: 0;
+  margin-bottom: 0;
+  padding-left: 2em;
+}
+
+.markdown-body.readme-file li {
+  margin-top: 0.25em;
+}
+
+/* 代码样式 */
+.markdown-body pre {
+  background-color: var(--color-code);
+  border-radius: var(--radius-lg);
+  padding: 16px;
+  overflow: auto;
+  font-size: 85%;
+  line-height: 1.45;
+  margin-top: 0;
+  margin-bottom: 16px;
+  border: 1px solid var(--color-border);
+}
+
+.markdown-body code {
+  background-color: var(--color-code);
+  border-radius: 3px;
+  padding: 0.2em 0.4em;
+  font-size: 85%;
+  border: 1px solid var(--color-border);
+}
+
+.markdown-body pre code {
+  background-color: transparent;
+  border: none;
+  padding: 0;
+}
+
+/* 普通 md 文件代码样式 */
+.markdown-body.regular-md-file pre {
+  background-color: var(--color-background);
+  border-radius: 0;
+  padding: 12px;
+  font-size: 1em;
+  line-height: 1.4;
+  margin-bottom: 12px;
+  border: 1px solid var(--color-border);
+  font-family: 'Courier New', Courier, monospace;
+  white-space: pre-wrap;
+  word-wrap: break-word;
+  overflow-wrap: break-word;
+}
+
+.markdown-body.regular-md-file code {
+  background-color: var(--color-background);
+  border-radius: 0;
+  padding: 0.1em 0.3em;
+  font-size: 1em;
+  border: 1px solid var(--color-border);
+  font-family: 'Courier New', Courier, monospace;
+}
+
+.markdown-body.regular-md-file pre code {
+  background-color: transparent;
+  border: none;
+  padding: 0;
+}
+
+/* 引用样式 */
+.markdown-body blockquote {
+  border-left: 4px solid var(--color-accent);
+  padding: 0 1em;
+  color: var(--color-text-secondary);
+  margin: 0 0 16px 0;
+  background-color: var(--color-background-secondary);
+  border-radius: 0 6px 6px 0;
+}
+
+.markdown-body blockquote > :first-child {
+  margin-top: 0;
+}
+
+.markdown-body blockquote > :last-child {
+  margin-bottom: 0;
+}
+
+/* 普通 md 文件引用样式 */
+.markdown-body.regular-md-file blockquote {
+  border-left: 2px solid var(--color-border);
+  padding: 0 1em;
+  color: var(--color-text);
+  margin: 0 0 12px 0;
+  background-color: var(--color-background);
+  border-radius: 0;
+  font-family: 'Courier New', Courier, monospace;
+}
+
+/* 表格样式 */
+.markdown-body table {
+  border-collapse: collapse;
+  border-spacing: 0;
+  display: block;
+  width: 100%;
+  overflow: auto;
+  margin-top: 0;
+  margin-bottom: 16px;
+}
+
+.markdown-body table th {
+  font-weight: 600;
+  background-color: var(--color-background-secondary);
+  border: 1px solid var(--color-border);
+  padding: 6px 13px;
+}
+
+.markdown-body table td {
+  border: 1px solid var(--color-border);
+  padding: 6px 13px;
+}
+
+/* 普通 md 文件表格样式 */
+.markdown-body.regular-md-file table {
+  margin-bottom: 12px;
+  font-family: 'Courier New', Courier, monospace;
+}
+
+.markdown-body.regular-md-file table th {
+  font-weight: normal;
+  background-color: var(--color-background);
+  border: 1px solid var(--color-border);
+  padding: 4px 8px;
+}
+
+.markdown-body.regular-md-file table td {
+  border: 1px solid var(--color-border);
+  padding: 4px 8px;
+}
+
+/* 图片样式 */
+.markdown-body img {
+  max-width: 100%;
+  box-sizing: content-box;
+  background-color: var(--color-background);
+  border-radius: 4px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+/* 普通 md 文件图片样式 */
+.markdown-body.regular-md-file img {
+  border-radius: 0;
+  box-shadow: none;
+}
+
+/* 分割线样式 */
+.markdown-body hr {
+  border: 0;
+  border-top: 1px solid var(--color-border);
+  margin: 24px 0;
+}
+
+/* 普通 md 文件分割线样式 */
+.markdown-body.regular-md-file hr {
+  margin: 16px 0;
+}
+
+/* 强调样式 */
+.markdown-body strong {
+  font-weight: 600;
+  color: var(--color-text);
+}
+
+/* 斜体样式 */
+.markdown-body em {
+  color: var(--color-text-secondary);
+}
+
+/* 任务列表样式 */
+.markdown-body input[type="checkbox"] {
+  margin-right: 8px;
+}
+
+/* 普通 md 文件强调样式 */
+.markdown-body.regular-md-file strong {
+  font-weight: bold;
+  color: var(--color-text);
+}
+
+/* 普通 md 文件斜体样式 */
+.markdown-body.regular-md-file em {
+  color: var(--color-text);
+  font-style: italic;
+}
+
+/* 普通 md 文件任务列表样式 */
+.markdown-body.regular-md-file input[type="checkbox"] {
+  margin-right: 6px;
+}
+
+/* 特殊文件类型的样式调整 */
+
+/* index.md 文件样式 (.readme-file) */
+.markdown-body.readme-file {
+  background-color: var(--color-sidebar);
+  box-shadow: var(--shadow-lg);
+  border: 1px solid var(--color-accent);
+}
+
+/* README文件的多列布局 - 仅用于文件列表 */
+.readme-file ul.file-list {
+  list-style: none;
+  padding-left: 0;
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: var(--spacing-md);
+  margin: var(--spacing-xl) 0;
+}
+
+/* 普通 md 文件样式 (.regular-md-file) - 简洁文本格式 */
+.markdown-body.regular-md-file {
+  background-color: var(--color-background);
+  box-shadow: none;
+  border: none;
+  padding: var(--spacing-lg);
+  font-family: 'Courier New', Courier, monospace;
+  line-height: 1.5;
+  white-space: pre-wrap;
+  word-wrap: break-word;
+  overflow-wrap: break-word;
+  hyphens: auto;
+  max-width: 100%;
+  margin: 0 auto;
+  border-radius: 0;
+  transition: all 0.3s ease;
+}
+
+/* 普通MD文件的线性布局 - 仅用于文件列表 */
+.regular-md-file ul.file-list {
+  list-style: none;
+  padding-left: 0;
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-xs);
+  margin: var(--spacing-xl) 0;
+}
+
+/* 文件列表项通用样式 */
+ul.file-list li {
+  position: relative;
+  padding: var(--spacing-sm) var(--spacing-md);
+  margin: var(--spacing-xs) 0;
+  border-radius: var(--radius-lg);
+  transition: all 0.3s ease;
+  border: 1px solid var(--color-border);
+  background: var(--color-sidebar);
+  box-shadow: var(--shadow-sm);
+}
+
+ul.file-list li:hover {
+  background: rgba(243, 156, 18, 0.05);
+  border-color: var(--color-accent);
+  transform: translateX(4px);
+  box-shadow: var(--shadow-md);
+}
+
+/* 目录项特殊样式 */
+ul.file-list li a[href$="/index.md"] {
+  display: flex;
+  align-items: center;
+  color: var(--color-text);
+  text-decoration: none;
+  transition: all 0.3s ease;
+  font-size: 16px;
+  font-weight: 400;
+  line-height: 1.5;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+ul.file-list li a[href$="/index.md"]:before {
+  content: "📁";
+  margin-right: 14px;
+  font-size: 18px;
+  vertical-align: middle;
+  opacity: 0.7;
+  transition: transform 0.3s ease;
+}
+
+ul.file-list li a[href$="/index.md"]:hover:before {
+  transform: scale(1.1);
+}
+
+/* 不同文件类型的图标 */
+ul.file-list li a[href$=".md"]:before,
+ul.file-list li a[href$=".markdown"]:before {
+  content: "📝";
+  margin-right: 14px;
+  font-size: 18px;
+  vertical-align: middle;
+  opacity: 0.7;
+  transition: transform 0.3s ease;
+}
+
+ul.file-list li a[href$=".html"]:before,
+ul.file-list li a[href$=".htm"]:before {
+  content: "🌐";
+  margin-right: 14px;
+  font-size: 18px;
+  vertical-align: middle;
+  opacity: 0.7;
+  transition: transform 0.3s ease;
+}
+
+ul.file-list li a[href$=".css"]:before {
+  content: "🎨";
+  margin-right: 14px;
+  font-size: 18px;
+  vertical-align: middle;
+  opacity: 0.7;
+  transition: transform 0.3s ease;
+}
+
+ul.file-list li a[href$=".js"]:before,
+ul.file-list li a[href$=".jsx"]:before,
+ul.file-list li a[href$=".ts"]:before,
+ul.file-list li a[href$=".tsx"]:before {
+  content: "⚙️";
+  margin-right: 14px;
+  font-size: 18px;
+  vertical-align: middle;
+  opacity: 0.7;
+  transition: transform 0.3s ease;
+}
+
+ul.file-list li a[href$=".py"]:before {
+  content: "🐍";
+  margin-right: 14px;
+  font-size: 18px;
+  vertical-align: middle;
+  opacity: 0.7;
+  transition: transform 0.3s ease;
+}
+
+ul.file-list li a[href$=".png"]:before,
+ul.file-list li a[href$=".jpg"]:before,
+ul.file-list li a[href$=".jpeg"]:before,
+ul.file-list li a[href$=".gif"]:before,
+ul.file-list li a[href$=".svg"]:before {
+  content: "🖼️";
+  margin-right: 14px;
+  font-size: 18px;
+  vertical-align: middle;
+  opacity: 0.7;
+  transition: transform 0.3s ease;
+}
+
+/* 默认文件图标 */
+ul.file-list li a:not([href$="/index.md"]):not([href$=".md"]):not([href$=".markdown"]):not([href$=".html"]):not([href$=".htm"]):not([href$=".css"]):not([href$=".js"]):not([href$=".jsx"]):not([href$=".ts"]):not([href$=".tsx"]):not([href$=".py"]):not([href$=".png"]):not([href$=".jpg"]):not([href$=".jpeg"]):not([href$=".gif"]):not([href$=".svg"]):before {
+  content: "📄";
+  margin-right: 14px;
+  font-size: 18px;
+  vertical-align: middle;
+  opacity: 0.7;
+  transition: transform 0.3s ease;
+}
+
+/* 文件链接样式 */
+ul.file-list li a {
+  display: flex;
+  align-items: center;
+  color: var(--color-text);
+  text-decoration: none;
+  transition: all 0.3s ease;
+  font-size: 16px;
+  font-weight: 400;
+  line-height: 1.5;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+ul.file-list li a:hover {
+  color: var(--color-accent);
+  text-shadow: 0 0 15px rgba(243, 156, 18, 0.8);
+}
+
+/* 普通 md 文件的文件列表项样式 - 简洁文本格式 */
+.regular-md-file ul.file-list li {
+  position: relative;
+  padding: var(--spacing-xs) var(--spacing-sm);
+  margin: var(--spacing-xs) 0;
+  border-radius: 0;
+  transition: all 0.3s ease;
+  border: none;
+  background: var(--color-background);
+  box-shadow: none;
+  border-left: 2px solid transparent;
+}
+
+.regular-md-file ul.file-list li:hover {
+  background: rgba(243, 156, 18, 0.05);
+  border-color: var(--color-accent);
+  transform: translateX(2px);
+  box-shadow: none;
+  border-left: 2px solid var(--color-accent);
+}
+
+/* 普通 md 文件的文件链接样式 */
+.regular-md-file ul.file-list li a {
+  display: block;
+  color: var(--color-text);
+  text-decoration: underline;
+  transition: none;
+  font-size: 14px;
+  font-weight: normal;
+  line-height: 1.4;
+  white-space: normal;
+  overflow: visible;
+  text-overflow: clip;
+  font-family: 'Courier New', Courier, monospace;
+}
+
+.regular-md-file ul.file-list li a:hover {
+  color: var(--color-text);
+  text-shadow: none;
+}
+
+/* 普通 md 文件的目录项特殊样式 */
+.regular-md-file ul.file-list li a[href$="/index.md"]:before {
+  content: "[DIR] ";
+  margin-right: 8px;
+  font-size: 14px;
+  vertical-align: middle;
+  opacity: 1;
+  transition: none;
+}
+
+.regular-md-file ul.file-list li a[href$="/index.md"]:hover:before {
+  transform: none;
+}
+
+/* 普通 md 文件的不同文件类型图标 */
+.regular-md-file ul.file-list li a[href$=".md"]:before,
+.regular-md-file ul.file-list li a[href$=".markdown"]:before {
+  content: "[MD] ";
+  margin-right: 8px;
+  font-size: 14px;
+  vertical-align: middle;
+  opacity: 1;
+  transition: none;
+}
+
+.regular-md-file ul.file-list li a[href$=".html"]:before,
+.regular-md-file ul.file-list li a[href$=".htm"]:before {
+  content: "[HTML] ";
+  margin-right: 8px;
+  font-size: 14px;
+  vertical-align: middle;
+  opacity: 1;
+  transition: none;
+}
+
+.regular-md-file ul.file-list li a[href$=".css"]:before {
+  content: "[CSS] ";
+  margin-right: 8px;
+  font-size: 14px;
+  vertical-align: middle;
+  opacity: 1;
+  transition: none;
+}
+
+.regular-md-file ul.file-list li a[href$=".js"]:before,
+.regular-md-file ul.file-list li a[href$=".jsx"]:before,
+.regular-md-file ul.file-list li a[href$=".ts"]:before,
+.regular-md-file ul.file-list li a[href$=".tsx"]:before {
+  content: "[JS] ";
+  margin-right: 8px;
+  font-size: 14px;
+  vertical-align: middle;
+  opacity: 1;
+  transition: none;
+}
+
+.regular-md-file ul.file-list li a[href$=".py"]:before {
+  content: "[PY] ";
+  margin-right: 8px;
+  font-size: 14px;
+  vertical-align: middle;
+  opacity: 1;
+  transition: none;
+}
+
+.regular-md-file ul.file-list li a[href$=".png"]:before,
+.regular-md-file ul.file-list li a[href$=".jpg"]:before,
+.regular-md-file ul.file-list li a[href$=".jpeg"]:before,
+.regular-md-file ul.file-list li a[href$=".gif"]:before,
+.regular-md-file ul.file-list li a[href$=".svg"]:before {
+  content: "[IMG] ";
+  margin-right: 8px;
+  font-size: 14px;
+  vertical-align: middle;
+  opacity: 1;
+  transition: none;
+}
+
+/* 普通 md 文件的默认文件图标 */
+.regular-md-file ul.file-list li a:not([href$="/index.md"]):not([href$=".md"]):not([href$=".markdown"]):not([href$=".html"]):not([href$=".htm"]):not([href$=".css"]):not([href$=".js"]):not([href$=".jsx"]):not([href$=".ts"]):not([href$=".tsx"]):not([href$=".py"]):not([href$=".png"]):not([href$=".jpg"]):not([href$=".jpeg"]):not([href$=".gif"]):not([href$=".svg"]):before {
+  content: "[FILE] ";
+  margin-right: 8px;
+  font-size: 14px;
+  vertical-align: middle;
+  opacity: 1;
+  transition: none;
+}
+
+/* 滚动条样式 */
+.markdown-body pre::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+.markdown-body pre::-webkit-scrollbar-track {
+  background: var(--color-background-secondary);
+  border-radius: 4px;
+}
+
+.markdown-body pre::-webkit-scrollbar-thumb {
+  background: var(--color-border);
+  border-radius: 4px;
+}
+
+.markdown-body pre::-webkit-scrollbar-thumb:hover {
+  background: var(--color-accent);
+}
+
+/* 动画效果 */
+.markdown-body {
+  animation: fadeIn 0.3s ease-in-out;
+}
+
+/* 淡入动画 */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* 响应式调整 - 确保在不同屏幕尺寸上的良好显示 */
+@media (max-width: 768px) {
+  /* 普通 md 文件响应式调整 - 简洁文本格式 */
+  .markdown-body.regular-md-file {
+    padding: 12px;
+    font-size: 13px;
+    line-height: 1.4;
+  }
+  
+  .markdown-body.regular-md-file h1 {
+    font-size: 1.6em;
+    margin-top: 12px;
+    margin-bottom: 6px;
+  }
+  
+  .markdown-body.regular-md-file h2 {
+    font-size: 1.3em;
+    margin-top: 10px;
+    margin-bottom: 5px;
+  }
+  
+  .markdown-body.regular-md-file h3 {
+    font-size: 1.1em;
+    margin-top: 8px;
+    margin-bottom: 4px;
+  }
+  
+  /* 普通 md 文件列表响应式调整 */
+  .markdown-body.regular-md-file ul,
+  .markdown-body.regular-md-file ol {
+    padding-left: 1.5em;
+    margin-bottom: 10px;
+  }
+  
+  .markdown-body.regular-md-file ul ul,
+  .markdown-body.regular-md-file ul ol,
+  .markdown-body.regular-md-file ol ul,
+  .markdown-body.regular-md-file ol ol {
+    padding-left: 1.5em;
+  }
+  
+  /* 普通 md 文件代码块响应式调整 */
+  .markdown-body.regular-md-file pre {
+    padding: 10px;
+    font-size: 0.9em;
+    margin-bottom: 10px;
+  }
+  
+  /* 普通 md 文件引用响应式调整 */
+  .markdown-body.regular-md-file blockquote {
+    padding: 0 0.8em;
+    margin-bottom: 10px;
+  }
+  
+  /* 普通 md 文件表格响应式调整 */
+  .markdown-body.regular-md-file table th,
+  .markdown-body.regular-md-file table td {
+    padding: 3px 6px;
+    font-size: 0.9em;
+  }
+  
+  /* 普通 md 文件文件列表响应式调整 */
+  .regular-md-file ul.file-list {
+    gap: var(--spacing-xs);
+    margin: var(--spacing-lg) 0;
+  }
+  
+  .regular-md-file ul.file-list li {
+    padding: var(--spacing-xs);
+    margin: var(--spacing-xs) 0;
+  }
+  
+  .regular-md-file ul.file-list li a {
+    font-size: 13px;
+    line-height: 1.3;
+  }
+  
+  /* 普通 md 文件文件类型图标响应式调整 */
+  .regular-md-file ul.file-list li a[href$="/index.md"]:before,
+  .regular-md-file ul.file-list li a[href$=".md"]:before,
+  .regular-md-file ul.file-list li a[href$=".markdown"]:before,
+  .regular-md-file ul.file-list li a[href$=".html"]:before,
+  .regular-md-file ul.file-list li a[href$=".htm"]:before,
+  .regular-md-file ul.file-list li a[href$=".css"]:before,
+  .regular-md-file ul.file-list li a[href$=".js"]:before,
+  .regular-md-file ul.file-list li a[href$=".jsx"]:before,
+  .regular-md-file ul.file-list li a[href$=".ts"]:before,
+  .regular-md-file ul.file-list li a[href$=".tsx"]:before,
+  .regular-md-file ul.file-list li a[href$=".py"]:before,
+  .regular-md-file ul.file-list li a[href$=".png"]:before,
+  .regular-md-file ul.file-list li a[href$=".jpg"]:before,
+  .regular-md-file ul.file-list li a[href$=".jpeg"]:before,
+  .regular-md-file ul.file-list li a[href$=".gif"]:before,
+  .regular-md-file ul.file-list li a[href$=".svg"]:before,
+  .regular-md-file ul.file-list li a:not([href$="/index.md"]):not([href$=".md"]):not([href$=".markdown"]):not([href$=".html"]):not([href$=".htm"]):not([href$=".css"]):not([href$=".js"]):not([href$=".jsx"]):not([href$=".ts"]):not([href$=".tsx"]):not([href$=".py"]):not([href$=".png"]):not([href$=".jpg"]):not([href$=".jpeg"]):not([href$=".gif"]):not([href$=".svg"]):before {
+    font-size: 13px;
+    margin-right: 6px;
+  }
+  
+  /* index.md 文件响应式调整 */
+  .markdown-body.readme-file {
+    padding: 16px;
+    font-size: 14px;
+  }
+  
+  .markdown-body.readme-file h1 {
+    font-size: 1.8em;
+  }
+  
+  .markdown-body.readme-file h2 {
+    font-size: 1.4em;
+  }
+  
+  .markdown-body.readme-file h3 {
+    font-size: 1.2em;
+  }
+  
+  /* README文件在小屏幕上切换为单列 */
+  .readme-file ul.file-list {
+    grid-template-columns: 1fr;
+    gap: var(--spacing-xs);
+  }
+}
+
+/* 中等屏幕响应式调整 */
+@media (min-width: 769px) and (max-width: 1200px) {
+  /* README文件在中等屏幕上的布局 */
+  .readme-file ul.file-list {
+    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+    gap: var(--spacing-sm);
+  }
+}

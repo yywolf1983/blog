@@ -2,7 +2,6 @@
 
 ## 文件列表
 
-- **[.DS_Store](viewer.html?file=tech/operation/.DS_Store)**
 - **[README.txt](viewer.html?file=tech/operation/README.txt)**
 - **[ansible/](viewer.html?file=tech/operation/ansible/index.md)**
 - **[base/](viewer.html?file=tech/operation/base/index.md)**

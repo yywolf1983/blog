@@ -19,8 +19,9 @@ def generate_index(directory):
     # 获取目录下的所有文件和子目录
     items = os.listdir(directory)
     
-    # 过滤掉index.md文件本身
-    items = [item for item in items if item != 'index.md']
+    # 过滤掉index.md文件本身和系统专用文件/目录
+    ignore_items = ['index.md', '.DS_Store', 'Thumbs.db', '.git', '.gitattributes', '.gitignore']
+    items = [item for item in items if item not in ignore_items]
     
     # 按名称排序
     items.sort()
@@ -44,7 +45,7 @@ def generate_index(directory):
     
     # 写入index.md文件
     index_path = os.path.join(directory, "index.md")
-    with open(index_path, "w", encoding="utf-8") as f:
+    with open(index_path, "w", encoding="utf-8", newline='\n') as f:
         f.write(index_content)
     
     print(f"生成了 {index_path}")

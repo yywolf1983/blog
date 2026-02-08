@@ -2,8 +2,6 @@
 
 ## 文件列表
 
-- **[Bitcoin.docx](viewer.html?file=other/Bitcoin.docx)**
-- **[Bitcoin.md](viewer.html?file=other/Bitcoin.md)**
 - **[中国区域划分.md](viewer.html?file=other/中国区域划分.md)**
 - **[五花八门意思.md](viewer.html?file=other/五花八门意思.md)**
 - **[备忘.md](viewer.html?file=other/备忘.md)**
