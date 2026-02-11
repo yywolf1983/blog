@@ -51,6 +51,7 @@ Another-Redis-Desktop-Manager
 
 easy new file
 fliqlo    屏幕保护
+XnViewMP
 
 brew install freerdp 
 安装 XQuartz
