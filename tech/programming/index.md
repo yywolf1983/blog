@@ -2,7 +2,6 @@
 
 ## 文件列表
 
-- **[.DS_Store](viewer.html?file=tech/programming/.DS_Store)**
 - **[Solidity.md](viewer.html?file=tech/programming/Solidity.md)**
 - **[asm.md](viewer.html?file=tech/programming/asm.md)**
 - **[bottle.py/](viewer.html?file=tech/programming/bottle.py/index.md)**
