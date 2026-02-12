@@ -18,9 +18,9 @@
 - **[encrypt.md](viewer.html?file=tech/algorithm/encrypt.md)**
 - **[huffman.md](viewer.html?file=tech/algorithm/huffman.md)**
 - **[images/](viewer.html?file=tech/algorithm/images/index.md)**
-- **[important_math_formulas.md](viewer.html?file=tech/algorithm/important_math_formulas.md)**
 - **[libp2p.md](viewer.html?file=tech/algorithm/libp2p.md)**
 - **[link.css](viewer.html?file=tech/algorithm/link.css)**
+- **[math_formulas.md](viewer.html?file=tech/algorithm/math_formulas.md)**
 - **[polkadot/](viewer.html?file=tech/algorithm/polkadot/index.md)**
 - **[sha2.md](viewer.html?file=tech/algorithm/sha2.md)**
 - **[计算中国农历.md](viewer.html?file=tech/algorithm/计算中国农历.md)**
