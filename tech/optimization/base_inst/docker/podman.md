@@ -194,6 +194,58 @@ net.ipv4.ip_unprivileged_port_start=80
 sudo sysctl -p
 ```
 
+### 2. IPv6 配置
+```bash
+# 创建 IPv6 网络
+podman network create --subnet fd00:1234:5678::/64 --ipv6 docker_nginx-ipv6-net
+
+# 运行支持 IPv6 的容器
+podman run -d --name my-nginx --network nginx-ipv6-net --ip6 fd00:1234:5678::10  -p '0.0.0.0:80:80'  -p '[::]:8080:80' my-nginx:1.0
+
+# 查看容器状态和端口映射
+podman ps -f name=my-nginx
+podman port my-nginx
+
+# 启用 IPv6 转发
+echo "net.ipv6.conf.all.forwarding = 1" | sudo tee -a /etc/sysctl.conf
+echo "net.ipv6.conf.default.forwarding=1" | sudo tee -a /etc/sysctl.conf
+sudo sysctl -p
+
+# 检查 IPv6 转发状态
+if [ $(cat /proc/sys/net/ipv6/conf/all/forwarding 2>/dev/null) -eq 1 ]; then 
+    echo "IPv6 转发已启用"; 
+else 
+    echo "IPv6 转发已禁用"; 
+fi
+
+# 检查是否有默认路由
+ip -6 route | grep default
+
+# 如果没有输出，需要添加默认路由
+# 先获取网关地址（通常以 fe80:: 开头）
+ip -6 neigh show
+
+# 添加默认路由（示例，实际网关可能不同）
+sudo ip -6 route add default via fe80::1 dev eth0
+
+# 查看 IPv6 地址
+ip -6 addr show | grep inet6
+# 如果只有 fe80:: 开头的地址，说明只有链路本地地址
+# 需要获取全局 IPv6 地址
+
+# 启用 IPv6
+sudo sysctl -w net.ipv6.conf.all.disable_ipv6=0
+sudo sysctl -w net.ipv6.conf.default.disable_ipv6=0
+sudo sysctl -w net.ipv6.conf.eth0.disable_ipv6=0
+
+# 重启网络
+sudo systemctl restart systemd-networkd
+
+# 手动添加 IPv6 地址和默认路由（示例）
+sudo ip addr add 2409:8a70:1033:3fa1::your_suffix/64 dev eth0
+sudo ip -6 route add default via 2409:8a70:1033:3fa1::1
+```
+
 ## 八、Docker 兼容配置
 ```bash
 # 设置 DOCKER_HOST 环境变量，使 Docker 命令兼容 Podman
