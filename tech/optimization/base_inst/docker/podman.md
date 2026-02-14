@@ -63,6 +63,16 @@ podman version
 # 查看系统信息
 podman info
 ```
+### 3.添加其他源
+``` yaml
+sudo tee /etc/containers/registries.conf.d/xuanyuan.conf <<EOF
+[[registry]]
+location = "docker.io"
+
+[[registry.mirror]]
+location = "docker.xuanyuan.me/docker.io"
+EOF
+```
 
 ## 三、容器管理
 
