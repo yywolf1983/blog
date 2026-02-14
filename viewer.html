@@ -27,7 +27,25 @@
     </div>
   </div>
   
+  <script>
+    window.MathJax = {
+      tex: {
+        inlineMath: [['$', '$'], ['\\(', '\\)']],
+        displayMath: [['$$', '$$'], ['\\[', '\\]']],
+        processEscapes: true
+      },
+      svg: {
+        fontCache: 'global',
+        mtextInheritFont: true,
+        scale: 1.5
+      },
+      mathml: {
+        extensions: ['+core', '+base']
+      }
+    };
+  </script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/marked/9.1.2/marked.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg-full.js" id="MathJax-script"></script>
   <script>
     const urlParams = new URLSearchParams(window.location.search);
     const file = urlParams.get('file');
@@ -74,6 +92,14 @@
             const isReadme = file.includes('index.md');
             const className = isReadme ? 'markdown-body readme-file' : 'markdown-body regular-md-file';
             contentArea.innerHTML = `<div class="${className}">${html}</div>`;
+            // 触发MathJax渲染
+            if (window.MathJax) {
+              if (MathJax.typeset) {
+                MathJax.typeset();
+              } else if (MathJax.typesetPromise) {
+                MathJax.typesetPromise();
+              }
+            }
           })
           .catch(error => {
             contentArea.innerHTML = `

@@ -19,7 +19,6 @@
 - **[情绪周期.jpeg](viewer.html?file=resources/other/man/情绪周期.jpeg)**
 - **[指令执行顺序.jpg](viewer.html?file=resources/other/man/指令执行顺序.jpg)**
 - **[日柱计算.jpg](viewer.html?file=resources/other/man/日柱计算.jpg)**
-- **[棋盘img/](viewer.html?file=resources/other/man/棋盘img/index.md)**
 - **[死锁条件.gif](viewer.html?file=resources/other/man/死锁条件.gif)**
 - **[终端分辨率.jpg](viewer.html?file=resources/other/man/终端分辨率.jpg)**
 - **[网络七层.png](viewer.html?file=resources/other/man/网络七层.png)**

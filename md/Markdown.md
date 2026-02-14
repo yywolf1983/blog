@@ -141,41 +141,38 @@ gantt
 #### 数学公式
 
 Inline math: 
-`$\tfrac{1}{N}=s_n^\kappa$`
+$\tfrac{1}{N}=s_n^\kappa$
 
-```math
-E = mc^2
+$E = mc^2$
 
-\left[<\right]
+$\left[<\right]$
 
-\tfrac{1}{2}
+$\tfrac{1}{2}$
 
-1\,2
+$1\,2$
 
+$\left[\left(\tfrac{2\times2-(a-x)}{a^2-X}\right)\right]$
 
-\left[\left(\tfrac{2\times2-(a-x)}{a^2-X}\right)\right]
+1. $\sum^\infty_{m-1}$ 
 
-1. \sum^\infty_{m-1} 
+2. $\oint$
 
-2. \oint
+3. $\phi_i$ 
 
-3. \phi_i 
+4. $\pi^2$ 
 
-4. \pi^2 
+5. $\kappa_1$
 
-5. \kappa_1
+6. $\int_1$
 
-6. \int_1
+7. $\partial$
 
-7. \partial
+8. $\infty$
 
-8. \infty
+$\sin(a)$
 
-sin(a)
+$\sqrt{a}$
 
-\sqrt{a}
-
-```
 
 mathjax 使用的这个引擎
 mermaid 甘特图插件

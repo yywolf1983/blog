@@ -17,7 +17,7 @@
 
 ## 连续代币模型的单键曲线
 
-<font size=7>$y=m\big(1+a\%) ^{\log_cx} +b$</font>
+<font size=5>$y=m\big(1+a\%) ^{\log_cx} +b$</font>
 
 ```text
 其中 a 代表每个要素增加的价格增长百分比， b 是根据 y = mx + b 的调整函数的常数， c 是要素增加的基数（例如 2 表示翻倍），并且 m 是一个乘法因子，用于调整所定义曲线的“斜率​​”。
@@ -29,7 +29,7 @@
 
 ## Curve V2
 
-<font size=7>$KD^{N-1}\sum x_i + \prod x_i=KD^N+(\frac D N)^N$</font>
+<font size=5>$KD^{N-1}\sum x_i + \prod x_i=KD^N+(\frac D N)^N$</font>
 
 <font size=5>$K_0=\frac{\prod{x_i}N^N}{D^N}, K=AK_0\frac{\gamma^2}{(\gamma+1-K_0)^2},$</font>
 
