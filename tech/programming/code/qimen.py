@@ -1,6 +1,8 @@
 import datetime
 from datetime import datetime as dt
 import sys
+import subprocess
+import os
 
 class QiMenDunJia:
     def __init__(self, year_ganzhi, month_ganzhi, day_ganzhi, hour_ganzhi, 
@@ -165,7 +167,7 @@ class QiMenDunJia:
             ju = self.get_ju_from_jieqi(self.jieqi)
             return yinyang, ju
             
-        # 如果没有节气信息，根据月份大致判断（立春后为阳遁，立秋后为阴遁）
+        # 如果没有节气信息，根据月份判断
         if self.month:
             if 2 <= self.month <= 7:  # 立春到立秋之间为阳遁
                 yinyang = '阳'
@@ -175,14 +177,16 @@ class QiMenDunJia:
             # 最终默认
             yinyang = '阳'
         
-        # 用局数计算也需要修复
+        # 根据月份确定用局数（传统方法）
         if self.ju_input:
             ju = self.ju_input
         else:
-            # 简化计算：根据日地支
-            ri_zhi = self.ganzhi_info.get('day_zhi', '子')
-            ri_zhi_num = self.dizhi.index(ri_zhi) if ri_zhi in self.dizhi else 0
-            ju = (ri_zhi_num % 9) or 9  # 确保1-9
+            # 月份对应用局表
+            month_ju_map = {
+                1: 1, 2: 8, 3: 1, 4: 3, 5: 4, 6: 6,
+                7: 9, 8: 2, 9: 9, 10: 7, 11: 6, 12: 4
+            }
+            ju = month_ju_map.get(self.month, 1)
             
         return yinyang, ju
     
@@ -447,80 +451,60 @@ class QiMenDunJia:
         }
     
     def pai_bamen(self, ju, yinyang, shi_zhi):
-        """排八门 - 修复版"""
+        """排八门 - 传统方法"""
         bamen_order = ["休", "生", "伤", "杜", "景", "死", "惊", "开"]
-        bamen = [None] * 9  # 创建9个位置的数组
+        bamen = [""] * 9
         
         if not shi_zhi:
-            return [None] * 9
+            return bamen
             
-        bamen_order = ["休", "生", "伤", "杜", "景", "死", "惊", "开"]
+        # 时支对应当起始门
         shizhi_men = {
             "子": 0, "丑": 1, "寅": 2, "卯": 3, "辰": 4, "巳": 5,
             "午": 6, "未": 7, "申": 0, "酉": 1, "戌": 2, "亥": 3
         }
         
         start_men = shizhi_men.get(shi_zhi, 0)
-        bamen = [None] * 9
         
-         # 创建宫位顺序（排除中五宫）
-        gong_positions = []
+        # 按宫位顺序排八门
         for i in range(9):
-            if i != 4:  # 跳过中五宫
-                gong_positions.append(i)
-        
-        # 分配八门到8个宫位
-        for i, gong_pos in enumerate(gong_positions):
+            if i == 4:  # 中五宫
+                bamen[i] = "生"  # 传统规则：中五宫借用生门
+                continue
+                
             if yinyang == '阳':
+                # 阳遁顺排
                 men_idx = (start_men + i) % 8
             else:
-                men_idx = (start_men - i) % len(bamen_order)
+                # 阴遁逆排
+                men_idx = (start_men - i) % 8
                 if men_idx < 0:
                     men_idx += 8
             
-            if 0 <= gong_pos < 9 and 0 <= men_idx < len(bamen_order):
-                bamen[gong_pos] = bamen_order[men_idx]
-        
-        # 特殊处理离宫
-        if bamen[8] is None:
-            if yinyang == '阳':
-                men_idx = (start_men + 8) % len(bamen_order)
-            else:
-                men_idx = (start_men - 8) % len(bamen_order)
-                if men_idx < 0:
-                    men_idx += len(bamen_order)
-            bamen[8] = bamen_order[men_idx]
-        
-        # 中宫借用坤宫的门
-        if bamen[4] is None:
-            bamen[4] = bamen[1] if bamen[1] else bamen_order[start_men % len(bamen_order)]
-        
-        # 中五宫借用生门（传统规则）
-        bamen[4] = "生"  # 中五宫通常借用生门
+            bamen[i] = bamen_order[men_idx]
         
         return bamen
 
     def pai_jiuxing(self, ju, yinyang, shi_gan):
-        jiuxing_order = ["天蓬", "天芮", "天冲", "天辅", "天英", "天柱", "天心", "天任"]
+        """排九星 - 使用传统顺序"""
+        # 传统九星顺序
+        jiuxing_order = ["天蓬", "天芮", "天冲", "天辅", "天禽", "天心", "天柱", "天任", "天英"]
         jiuxing = [""] * 9
         
-        # 传统排法：按用局数确定起始星
-        start_index = (ju - 1) % 8
+        # 按用局数确定起始宫位
+        start_gong = ju - 1
         
         for i in range(9):
-            if i == 4:  # 中五宫固定为天禽
-                jiuxing[i] = "天禽"
-                continue
-                
-            # 计算实际宫位（跳过中五宫）
-            actual_pos = i if i < 4 else i - 1
-            
             if yinyang == '阳':
-                star_idx = (start_index + actual_pos) % 8
+                # 阳遁顺排
+                gong_pos = (start_gong + i) % 9
             else:
-                star_idx = (start_index - actual_pos) % 8
-                
-            jiuxing[i] = jiuxing_order[star_idx]
+                # 阴遁逆排
+                gong_pos = (start_gong - i) % 9
+                if gong_pos < 0:
+                    gong_pos += 9
+            
+            jiuxing[gong_pos] = jiuxing_order[i]
         
         return jiuxing
         
@@ -613,21 +597,39 @@ class QiMenDunJia:
         return ke_wo_map.get(other_wuxing) == wo_wuxing
     
     def determine_zhifu_zhishi(self, jiuxing, bamen, shi_gan):
-        """确定值符值使"""
-        # 值符通常取中宫的星
-        self.zhifu = jiuxing[4] if jiuxing[4] else "天禽"
+        """确定值符值使 - 传统方法"""
+        # 根据时干确定旬首
+        xunshou = self.get_xunshou_simple(shi_gan, self.ganzhi_info.get('hour_zhi', '子'))
         
-        # 值使通常取中宫的门
-        self.zhishi = bamen[4] if bamen[4] else (bamen[1] if bamen[1] else "生")
+        # 根据旬首确定值符（九星）
+        xunshou_zhifu_map = {
+            "甲子": "天蓬", "甲戌": "天芮", "甲申": "天冲", 
+            "甲午": "天辅", "甲辰": "天禽", "甲寅": "天心"
+        }
+        self.zhifu = xunshou_zhifu_map.get(xunshou, "天蓬")
         
-        # 备用逻辑：根据时干确定
-        if self.zhifu == "天禽" and shi_gan:
-            shigan_zhifu = {
-                "甲": "天蓬", "乙": "天芮", "丙": "天冲", "丁": "天辅", 
-                "戊": "天禽", "己": "天心", "庚": "天柱", "辛": "天任", 
-                "壬": "天英", "癸": "天蓬"
-            }
-            self.zhifu = shigan_zhifu.get(shi_gan, "天禽")
+        # 根据旬首确定值使（八门）
+        xunshou_zhishi_map = {
+            "甲子": "休", "甲戌": "生", "甲申": "伤", 
+            "甲午": "杜", "甲辰": "景", "甲寅": "死"
+        }
+        self.zhishi = xunshou_zhishi_map.get(xunshou, "休")
+        
+        # 确定值符值使的位置
+        self.zhifu_pos = -1
+        self.zhishi_pos = -1
+        
+        for i in range(9):
+            if jiuxing[i] == self.zhifu:
+                self.zhifu_pos = i
+            if bamen[i] == self.zhishi:
+                self.zhishi_pos = i
+        
+        # 如果没找到，使用默认位置
+        if self.zhifu_pos == -1:
+            self.zhifu_pos = 4  # 中五宫
+        if self.zhishi_pos == -1:
+            self.zhishi_pos = 4  # 中五宫
     
     def print_jiugong_layout(self):
         """打印九宫格布局"""
@@ -968,13 +970,42 @@ class QiMenDunJia:
             traceback.print_exc()
             print("建议检查输入参数和排盘数据")
 
+def get_four_pillars():
+    """调用shizhu.py获取当前时间的四柱信息"""
+    try:
+        # 获取当前目录
+        current_dir = os.path.dirname(os.path.abspath(__file__))
+        shizhu_path = os.path.join(current_dir, 'shizhu.py')
+        
+        # 调用shizhu.py获取简化输出
+        result = subprocess.run(
+            [sys.executable, shizhu_path, '--simple'],
+            capture_output=True,
+            text=True,
+            check=True
+        )
+        
+        # 解析输出
+        output = result.stdout.strip()
+        pillars = output.split()
+        
+        if len(pillars) != 4:
+            raise ValueError(f"shizhu.py返回的四柱信息格式错误: {output}")
+        
+        return pillars
+    except Exception as e:
+        print(f"获取四柱信息失败: {e}")
+        return None
+
 def print_help():
     """打印帮助信息"""
     print()
     print("奇门遁甲排盘系统 - 使用说明")
     print("=" * 50)
     print()
-    print("用法: python qimen.py 年柱 月柱 日柱 时柱 [节气] [阴阳] [用局] [方法]")
+    print("用法:")
+    print("  1. python qimen.py 年柱 月柱 日柱 时柱 [节气] [阴阳] [用局] [方法]")
+    print("  2. python qimen.py            # 自动使用当前时间")
     print()
     print("参数说明:")
     print("  年柱月柱日柱时柱: 必须参数，如 甲子 丙子 甲子 庚午")
@@ -986,21 +1017,46 @@ def print_help():
     print("示例:")
     print("  python qimen.py 甲子 丙子 甲子 庚午")
     print("  python qimen.py 甲子 丙子 甲子 庚午 冬至 阳 1 zhebu")
+    print("  python qimen.py            # 自动使用当前时间")
     print()
 
 def main():
     """主函数 - 修复参数处理"""
     if len(sys.argv) == 1:
-        print_help()
-        return
-    
-    # 基本参数检查
-    if len(sys.argv) < 5:
-        print("错误: 需要至少4个参数（年柱 月柱 日柱 时柱）")
-        print_help()
-        sys.exit(1)
-    
-    try:
+        # 自动使用当前时间
+        print("正在获取当前时间的四柱信息...")
+        print()
+        
+        # 获取当前时间
+        now = dt.now()
+        year = now.year
+        month = now.month
+        day = now.day
+        hour = now.hour
+        minute = now.minute
+        
+        pillars = get_four_pillars()
+        if not pillars:
+            print("无法获取四柱信息，请手动输入")
+            print_help()
+            return
+        
+        year_ganzhi, month_ganzhi, day_ganzhi, hour_ganzhi = pillars
+        print(f"获取到四柱信息: {year_ganzhi} {month_ganzhi} {day_ganzhi} {hour_ganzhi}")
+        print()
+        
+        # 默认参数
+        jieqi = None
+        yinyang = None
+        ju = None
+        method = 'zhebu'
+    else:
+        # 基本参数检查
+        if len(sys.argv) < 5:
+            print("错误: 需要至少4个参数（年柱 月柱 日柱 时柱）")
+            print_help()
+            sys.exit(1)
+        
         # 安全获取参数
         year_ganzhi = sys.argv[1]
         month_ganzhi = sys.argv[2]
@@ -1028,7 +1084,8 @@ def main():
         if method not in ['zhebu', 'zhirun', 'maoshan']:
             print("警告: 起局方法无效，使用默认的拆补法")
             method = 'zhebu'
-        
+    
+    try:
         print("正在排盘...")
         print()
         
@@ -1040,7 +1097,12 @@ def main():
             jieqi=jieqi,
             yinyang=yinyang,
             ju=ju,
-            method=method
+            method=method,
+            year=year,
+            month=month,
+            day=day,
+            hour=hour,
+            minute=minute
         )
         
         qmdj.pai_pan()
