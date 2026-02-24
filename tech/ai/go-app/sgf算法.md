@@ -24,8 +24,8 @@ SGF 处理流程包括以下几个主要步骤：
 
 ### 3.1 节点对象结构
 
-```javascript
-{
+```
+NodeObject {
   id: <Primitive>,           // 节点唯一标识符
   data: {
     [property]: <Array<String>>  // 节点属性，如 B、W、C 等
@@ -37,8 +37,8 @@ SGF 处理流程包括以下几个主要步骤：
 
 ### 3.2 标记结构
 
-```javascript
-{
+```
+Token {
   type: <String>,      // 标记类型：parenthesis, semicolon, prop_ident, c_value_type, invalid
   value: <String>,     // 标记值
   row: <Integer>,      // 标记起始行号（从 0 开始）
@@ -218,47 +218,38 @@ function parseTokens(tokens, options = {}):
 
 **伪代码**：
 
-```javascript
-// 导入必要的库
-import GameTree from '@sabaki/immutable-gametree'
-import {getId} from './utils.js'
-
+```
 // 节点合并策略：用于合并具有相同走子的节点
-function nodeMerger(node, data) {
+function nodeMerger(node, data):
   if (
-    (data.B == null || node.data.B == null || data.B[0] !== node.data.B[0]) &&
-    (data.W == null || node.data.W == null || data.W[0] !== node.data.W[0])
+    (data.B == null or node.data.B == null or data.B[0] != node.data.B[0]) and
+    (data.W == null or node.data.W == null or data.W[0] != node.data.W[0])
   )
     return null
 
-  return {...data, ...node.data}
-}
+  return merged(data, node.data)
 
 // 创建游戏树实例
-function createGameTree(options = {}) {
+function createGameTree(options = {}):
   return new GameTree({
     ...options,
     getId,          // ID 生成器函数
     merger: nodeMerger,  // 节点合并策略
   })
-}
 
 // 将根节点转换为游戏树
-function toGameTrees(rootNodes) {
+function toGameTrees(rootNodes):
   return rootNodes.map(root => createGameTree({root}))
-}
 
 // 解析 SGF 字符串
-function parse(content, onProgress = () => {}) {
+function parse(content, onProgress = (): void => {}):
   let rootNodes = sgf.parse(content, {getId, onProgress})
   return toGameTrees(rootNodes)
-}
 
 // 解析 SGF 文件
-function parseFile(filename, onProgress = () => {}) {
+function parseFile(filename, onProgress = (): void => {}):
   let rootNodes = sgf.parseFile(filename, {getId, onProgress})
   return toGameTrees(rootNodes)
-}
 ```
 
 ## 5. 序列化算法
@@ -273,81 +264,70 @@ function parseFile(filename, onProgress = () => {}) {
 
 **伪代码**：
 
-```javascript
-function stringify(nodes, options = {}) {
-  let linebreak = options.linebreak || "\n"
-  let indent = options.indent || " "
+```
+function stringify(nodes, options = {}):
+  let linebreak = options.linebreak or "\n"
+  let indent = options.indent or " "
   
-  function serializeNode(node, level = 0) {
+  function serializeNode(node, level = 0):
     let result = ""
     
     // 添加缩进
-    if (level > 0) {
+    if level > 0:
       result += indent.repeat(level - 1)
-    }
     
     // 添加分号
     result += ";"
     
     // 序列化属性
-    for (let [key, values] of Object.entries(node.data)) {
-      for (let value of values) {
+    for key, values in node.data:
+      for value in values:
         result += key + "[" + escapeString(value) + "]"
-      }
-    }
     
     // 序列化子节点
-    if (node.children.length > 0) {
+    if node.children.length > 0:
       result += linebreak
       
-      for (let i = 0; i < node.children.length; i++) {
+      for i from 0 to node.children.length - 1:
         let child = node.children[i]
         
         // 如果有多个子节点，添加括号表示变体
-        if (node.children.length > 1) {
+        if node.children.length > 1:
           result += indent.repeat(level) + "(" + linebreak
           result += serializeNode(child, level + 1)
           result += indent.repeat(level) + ")" + linebreak
-        } else {
+        else:
           // 单个子节点直接序列化
           result += serializeNode(child, level + 1)
-        }
-      }
-    }
     
     return result
-  }
   
   let result = ""
   
   // 序列化每个游戏树
-  for (let node of nodes) {
+  for node in nodes:
     result += "(" + linebreak
     result += serializeNode(node, 1)
     result += ")" + linebreak
-  }
   
   return result
-}
 
-function escapeString(input) {
+function escapeString(input):
   // 转义特殊字符
   return input.replace(/[\\\[\]]/g, match => {
-    if (match == '\\') return '\\\\'
-    if (match == ']') return '\\]'
+    if match == '\\': return '\\\\'
+    if match == ']': return '\\]'
     return match
   })
-}
 
 // Sabaki 项目中的实际使用
-function saveGameTrees(gameTrees) {
+function saveGameTrees(gameTrees):
   return sgf.stringify(
-    gameTrees.map((tree) => tree.root),
+    gameTrees.map(tree => tree.root),
     {
       linebreak: setting.get('sgf.format_code') ? '\n' : '',
     },
   )
-}
 ```
 
 ## 6. 辅助函数
@@ -360,115 +340,99 @@ function saveGameTrees(gameTrees) {
 - SGF 格式使用字母表示坐标，如 "aa" 表示左上角，"pd" 表示(15,3)位置
 - 内部使用数字坐标，如 [0,0] 表示左上角，[15,3] 表示 "pd" 位置
 
-```javascript
+```
 // 将 SGF 顶点字符串解析为坐标 [x, y]
-function parseVertex(input) {
-  if (input.length < 2) return [-1, -1]  // 无效输入
+function parseVertex(input):
+  if input.length < 2: return [-1, -1]  // 无效输入
   
   let x = input.charCodeAt(0) - 97  // 'a' = 97，转换为 0-based 坐标
   let y = input.charCodeAt(1) - 97
   
-  if (x < 0 || y < 0) return [-1, -1]  // 无效坐标
+  if x < 0 or y < 0: return [-1, -1]  // 无效坐标
   return [x, y]
-}
 
 // 将坐标 [x, y] 转换为 SGF 顶点字符串
-function stringifyVertex(vertex) {
-  if (!Array.isArray(vertex) || vertex.length < 2) return ""
+function stringifyVertex(vertex):
+  if not isArray(vertex) or vertex.length < 2: return ""
   
   let x = vertex[0]
   let y = vertex[1]
   
-  if (x < 0 || y < 0) return ""  // 无效坐标
+  if x < 0 or y < 0: return ""  // 无效坐标
   
   return String.fromCharCode(x + 97) + String.fromCharCode(y + 97)
-}
 
 // 解析压缩顶点字符串（用于标记、注释等）
-function parseCompressedVertices(input) {
+function parseCompressedVertices(input):
   let vertices = []
   let i = 0
   
-  while (i < input.length) {
-    if (i + 1 < input.length && input[i + 1] == ':') {
+  while i < input.length:
+    if i + 1 < input.length and input[i + 1] == ':':
       // 范围表示，如 "aa:bb" 表示从 aa 到 bb 的矩形区域
       let start = parseVertex(input.substring(i, i + 2))
       let end = parseVertex(input.substring(i + 3, i + 5))
       
-      if (start[0] != -1 && end[0] != -1) {
-        for (let x = start[0]; x <= end[0]; x++) {
-          for (let y = start[1]; y <= end[1]; y++) {
+      if start[0] != -1 and end[0] != -1:
+        for x from start[0] to end[0]:
+          for y from start[1] to end[1]:
             vertices.push([x, y])
-          }
-        }
-      }
       
       i += 5  // 跳过 "aa:bb" 格式
-    } else if (i + 1 < input.length) {
+    else if i + 1 < input.length:
       // 单个顶点，如 "aa"
       let vertex = parseVertex(input.substring(i, i + 2))
-      if (vertex[0] != -1) {
+      if vertex[0] != -1:
         vertices.push(vertex)
-      }
       i += 2  // 跳过单个顶点
-    } else {
+    else:
       i++  // 跳过无效字符
-    }
-  }
   
   return vertices
-}
 
 // Sabaki 项目中的实际使用
-function getHandicapStones(size, handicap) {
+function getHandicapStones(size, handicap):
   let board = Board.fromDimensions(size[0], size[1])
   return board.getHandicapPlacement(handicap)
     .map(sgf.stringifyVertex)  // 转换为 SGF 格式
-}
 ```
 
 ### 6.2 日期处理
 
 日期处理函数用于在 SGF 日期格式和 JavaScript 日期对象之间进行转换。SGF 日期格式为 YYYYMMDD，如 "20231225" 表示 2023 年 12 月 25 日。
 
-```javascript
+```
 // 解析 SGF 日期字符串
-function parseDates(input) {
+function parseDates(input):
   let dates = []
   let parts = input.split('\n')  // 支持多个日期，每行一个
   
-  for (let part of parts) {
-    if (part.length >= 8) {
+  for part in parts:
+    if part.length >= 8:
       let year = parseInt(part.substring(0, 4))
       let month = parseInt(part.substring(4, 6))
       let day = parseInt(part.substring(6, 8))
       
-      if (!isNaN(year) && !isNaN(month) && !isNaN(day)) {
+      if not isNaN(year) and not isNaN(month) and not isNaN(day):
         dates.push([year, month, day])
-      }
-    }
-  }
   
   return dates
-}
 
 // 将日期数组转换为 SGF 日期字符串
-function stringifyDates(dates) {
+function stringifyDates(dates):
   return dates.map(date => {
     let [year, month, day] = date
     return year.toString().padStart(4, '0') + 
            month.toString().padStart(2, '0') + 
            day.toString().padStart(2, '0')
   }).join('\n')
-}
 
 // Sabaki 项目中的实际使用
-function getCurrentDate() {
+function getCurrentDate():
   let date = new Date()
   return sgf.stringifyDates([
     [date.getFullYear(), date.getMonth() + 1, date.getDate()],
   ])
-}
 ```
 
 ## 7. 性能优化
@@ -583,7 +547,7 @@ SGF 解析过程中可能遇到各种错误，算法采用了以下错误处理�
 ```
 
 输出：
-```javascript
+```
 [
   {
     id: 0,
@@ -637,7 +601,7 @@ SGF 解析过程中可能遇到各种错误，算法采用了以下错误处理�
 ```
 
 输出：
-```javascript
+```
 [
   {
     id: 0,
@@ -687,7 +651,7 @@ SGF 解析过程中可能遇到各种错误，算法采用了以下错误处理�
 **基本示例**：
 
 输入：
-```javascript
+```
 [
   {
     id: 0,
@@ -724,7 +688,7 @@ SGF 解析过程中可能遇到各种错误，算法采用了以下错误处理�
 **包含变体和注释的示例**：
 
 输入：
-```javascript
+```
 [
   {
     id: 0,
@@ -831,61 +795,53 @@ function renderBoard(board, gameTree, treePosition, options) {
 
 **核心导航方法**：
 
-```javascript
+```
 // 单步导航
-function goStep(step) {
+function goStep(step):
   let {gameTrees, gameIndex, gameCurrents, treePosition} = this.state
   let tree = gameTrees[gameIndex]
   let node = tree.navigate(treePosition, step, gameCurrents[gameIndex])
-  if (node != null) {
+  if node != null:
     this.setCurrentTreePosition(tree, node.id)
     this.events.emit('navigate')
-  }
-}
 
 // 上一步
-function goToPrevious() {
+function goToPrevious():
   this.goStep(-1)
-}
 
 // 下一步
-function goToNext() {
+function goToNext():
   this.goStep(1)
-}
 
 // 跳转到指定步数
-function goToMoveNumber(number) {
+function goToMoveNumber(number):
   let {gameTrees, gameIndex, gameCurrents} = this.state
   let tree = gameTrees[gameIndex]
   let current = gameCurrents[gameIndex]
   let history = [...tree.getSequence(this.state.treePosition)]
   
-  if (number <= 0) {
+  if number <= 0:
     // 跳转到根节点
     this.setCurrentTreePosition(tree, tree.root.id)
-  } else if (number >= history.length) {
+  else if number >= history.length:
     // 跳转到最后
     this.goToEnd()
-  } else {
+  else:
     // 跳转到指定步数
     this.setCurrentTreePosition(tree, history[number].id)
-  }
-}
 
 // 跳转到游戏结束
-function goToEnd() {
+function goToEnd():
   let {gameTrees, gameIndex, gameCurrents} = this.state
   let tree = gameTrees[gameIndex]
   let current = gameCurrents[gameIndex]
   let node = tree.get(this.state.treePosition)
   
   // 一直导航到没有子节点的节点
-  while (node.children.length > 0) {
+  while node.children.length > 0:
     node = tree.navigate(node.id, 1, current)
-  }
   
   this.setCurrentTreePosition(tree, node.id)
-}
 ```
 
 ### 11.3 多分支处理
@@ -902,98 +858,83 @@ function goToEnd() {
 
 #### 1. 分支预览机制
 
-```javascript
+```
 // 显示分支预览（幽灵棋子）
-function showBranchPreviews(board, options) {
+function showBranchPreviews(board, options):
   let ghostStoneMap = board.signMap.map(row => row.map(() => null))
   
   // 显示兄弟节点（同一父节点的其他子节点）
-  if (options.showSiblings) {
-    for (let v in board.siblingsInfo) {
+  if options.showSiblings:
+    for v in board.siblingsInfo:
       let [x, y] = v.split(',').map(Number)
       let {sign} = board.siblingsInfo[v]
       ghostStoneMap[y][x] = {sign, faint: options.showNextMoves}
-    }
-  }
   
   // 显示子节点（下一步可能的走法）
-  if (options.showNextMoves) {
-    for (let v in board.childrenInfo) {
+  if options.showNextMoves:
+    for v in board.childrenInfo:
       let [x, y] = v.split(',').map(Number)
       let {sign, type} = board.childrenInfo[v]
       ghostStoneMap[y][x] = {sign, type: options.showMoveColorization ? type : null}
-    }
-  }
   
   return ghostStoneMap
-}
 
 // 生成分支信息
-function generateBranchInfo(node, gameTree) {
+function generateBranchInfo(node, gameTree):
   let siblingsInfo = {}
   let childrenInfo = {}
   
   // 生成兄弟节点信息
-  if (node.parentId) {
+  if node.parentId:
     let parent = gameTree.get(node.parentId)
-    if (parent) {
-      for (let sibling of parent.children) {
-        if (sibling.id !== node.id) {
+    if parent:
+      for sibling in parent.children:
+        if sibling.id !== node.id:
           let vertex = null
           let sign = 0
           
           // 获取兄弟节点的走法
-          if (sibling.data.B) {
+          if sibling.data.B:
             vertex = sgf.parseVertex(sibling.data.B[0])
             sign = 1
-          } else if (sibling.data.W) {
+          else if sibling.data.W:
             vertex = sgf.parseVertex(sibling.data.W[0])
             sign = -1
-          }
           
-          if (vertex && (vertex[0] !== -1 && vertex[1] !== -1)) {
+          if vertex and (vertex[0] !== -1 and vertex[1] !== -1):
             siblingsInfo[vertex] = {sign}
-          }
-        }
-      }
-    }
-  }
   
   // 生成子节点信息
-  for (let child of node.children) {
+  for child in node.children:
     let vertex = null
     let sign = 0
     let type = null
     
     // 获取子节点的走法
-    if (child.data.B) {
+    if child.data.B:
       vertex = sgf.parseVertex(child.data.B[0])
       sign = 1
-    } else if (child.data.W) {
+    else if child.data.W:
       vertex = sgf.parseVertex(child.data.W[0])
       sign = -1
-    }
     
     // 获取走法类型（好棋、坏棋等）
-    if (child.data.BM) type = 'bad'
-    else if (child.data.DO) type = 'doubtful'
-    else if (child.data.IT) type = 'interesting'
-    else if (child.data.TE) type = 'good'
+    if child.data.BM: type = 'bad'
+    else if child.data.DO: type = 'doubtful'
+    else if child.data.IT: type = 'interesting'
+    else if child.data.TE: type = 'good'
     
-    if (vertex && (vertex[0] !== -1 && vertex[1] !== -1)) {
+    if vertex and (vertex[0] !== -1 and vertex[1] !== -1):
       childrenInfo[vertex] = {sign, type}
-    }
-  }
   
   return {siblingsInfo, childrenInfo}
-}
 ```
 
 #### 2. 分支创建机制
 
-```javascript
+```
 // 打开变体菜单
-function openVariationMenu(sign, moves, {x, y, appendSibling = false, startNodeProperties = {}} = {}) {
+function openVariationMenu(sign, moves, {x, y, appendSibling = false, startNodeProperties = {}} = {}):
   let {treePosition} = this.state
   let tree = this.inferredState.gameTree
   
@@ -1006,7 +947,7 @@ function openVariationMenu(sign, moves, {x, y, appendSibling = false, startNodeP
           let isRootNode = tree.get(treePosition).parentId == null
           
           // 根节点不能有兄弟节点
-          if (appendSibling && isRootNode) {
+          if appendSibling and isRootNode:
             await dialog.showMessageBox(
               'The root node cannot have sibling nodes.',
               'warning'
@@ -1036,9 +977,8 @@ function openVariationMenu(sign, moves, {x, y, appendSibling = false, startNodeP
             )
             
             // 逐个添加节点
-            for (let data of variationData) {
+            for data in variationData:
               parentId = draft.appendNode(parentId, data)
-            }
           })
           
           // 更新当前位置
@@ -1049,10 +989,9 @@ function openVariationMenu(sign, moves, {x, y, appendSibling = false, startNodeP
     x,
     y,
   )
-}
 
 // 创建单个分支节点
-function createBranchNode(move) {
+function createBranchNode(move):
   let {gameTrees, gameIndex, treePosition} = this.state
   let tree = gameTrees[gameIndex]
   
@@ -1064,9 +1003,8 @@ function createBranchNode(move) {
     })
     
     // 如果需要，添加注释或其他属性
-    if (move.comment) {
+    if move.comment:
       draft.updateProperty(newNodeId, 'C', [move.comment])
-    }
   })
   
   // 更新状态
@@ -1075,79 +1013,69 @@ function createBranchNode(move) {
   // 获取新节点ID并导航到该节点
   let newNode = newTree.get(treePosition).children[newTree.get(treePosition).children.length - 1]
   this.setCurrentTreePosition(newTree, newNode.id)
-}
 ```
 
 #### 3. 分支导航机制
 
-```javascript
+```
 // 导航到分支
-function navigateToBranch(branchIndex) {
+function navigateToBranch(branchIndex):
   let {gameTrees, gameIndex, treePosition} = this.state
   let tree = gameTrees[gameIndex]
   let currentNode = tree.get(treePosition)
   let parentNode = tree.get(currentNode.parentId)
   
-  if (parentNode && parentNode.children[branchIndex]) {
+  if parentNode and parentNode.children[branchIndex]:
     let targetNode = parentNode.children[branchIndex]
     this.setCurrentTreePosition(tree, targetNode.id)
-  }
-}
 
 // 查找分支点
-function findBranchPoint(step) {
+function findBranchPoint(step):
   let {gameTrees, gameIndex, gameCurrents, treePosition} = this.state
   let tree = gameTrees[gameIndex]
   let newTreePosition = null
   
   // 遍历节点，查找有多个子节点的节点
-  for (let node of tree.listNodesVertically(
+  for node in tree.listNodesVertically(
     treePosition,
     step,
     gameCurrents[gameIndex],
-  )) {
-    if (node.id !== treePosition && node.children.length > 1) {
+  ):
+    if node.id !== treePosition and node.children.length > 1:
       newTreePosition = node.id
       break
-    }
-  }
   
-  if (newTreePosition != null) {
+  if newTreePosition != null:
     this.setCurrentTreePosition(tree, newTreePosition)
-  }
-}
 
 // 导航到下一个变体
-function goToNextVariation() {
+function goToNextVariation():
   let {gameTrees, gameIndex, treePosition} = this.state
   let tree = gameTrees[gameIndex]
   let currentNode = tree.get(treePosition)
   
   // 如果当前节点有多个子节点，导航到下一个子节点
-  if (currentNode.parentId) {
+  if currentNode.parentId:
     let parentNode = tree.get(currentNode.parentId)
     let currentIndex = parentNode.children.findIndex(child => child.id === treePosition)
     
     // 如果不是最后一个子节点，导航到下一个
-    if (currentIndex < parentNode.children.length - 1) {
+    if currentIndex < parentNode.children.length - 1:
       let nextNode = parentNode.children[currentIndex + 1]
       this.setCurrentTreePosition(tree, nextNode.id)
-    }
-  }
-}
 ```
 
 #### 4. 分支管理机制
 
-```javascript
+```
 // 删除分支
-function deleteBranch(branchIndex) {
+function deleteBranch(branchIndex):
   let {gameTrees, gameIndex, treePosition} = this.state
   let tree = gameTrees[gameIndex]
   let currentNode = tree.get(treePosition)
   
   // 如果当前节点是分支点
-  if (currentNode.children.length > 1 && branchIndex < currentNode.children.length) {
+  if currentNode.children.length > 1 and branchIndex < currentNode.children.length:
     let newTree = tree.mutate((draft) => {
       // 删除指定分支
       draft.removeNode(currentNode.children[branchIndex].id)
@@ -1155,39 +1083,33 @@ function deleteBranch(branchIndex) {
     
     this.setState({gameTrees: gameTrees.map((t, i) => i === gameIndex ? newTree : t)})
     this.setCurrentTreePosition(newTree, treePosition)
-  }
-}
 
 // 复制分支
-function copyBranch(branchIndex) {
+function copyBranch(branchIndex):
   let {gameTrees, gameIndex, treePosition} = this.state
   let tree = gameTrees[gameIndex]
   let currentNode = tree.get(treePosition)
   
-  if (currentNode.children.length > branchIndex) {
+  if currentNode.children.length > branchIndex:
     let branchToCopy = currentNode.children[branchIndex]
     
     // 复制分支
     let newTree = tree.mutate((draft) => {
       // 递归复制节点
-      function copyNode(node, parentId) {
+      function copyNode(node, parentId):
         let newNodeId = draft.appendNode(parentId, node.data)
         
         // 复制子节点
-        for (let child of node.children) {
+        for child in node.children:
           copyNode(child, newNodeId)
-        }
         
         return newNodeId
-      }
       
       copyNode(branchToCopy, treePosition)
     })
     
     this.setState({gameTrees: gameTrees.map((t, i) => i === gameIndex ? newTree : t)})
     this.setCurrentTreePosition(newTree, treePosition)
-  }
-}
 ```
 
 **分支处理的算法流程**：
@@ -1242,11 +1164,11 @@ function copyBranch(branchIndex) {
 
 **伪代码**：
 
-```javascript
-function playVariation(sign, moves, sibling = false) {
+```
+function playVariation(sign, moves, sibling = false):
   let replayMode = setting.get('board.variation_replay_mode')
   
-  if (replayMode === 'instantly') {
+  if replayMode === 'instantly':
     // 立即显示完整变体
     this.setState({
       variationMoves: moves,
@@ -1254,7 +1176,7 @@ function playVariation(sign, moves, sibling = false) {
       variationSibling: sibling,
       variationIndex: moves.length,
     })
-  } else if (replayMode === 'move_by_move') {
+  else if replayMode === 'move_by_move':
     // 逐步播放变体
     let intervalId = setInterval(() => {
       this.setState(({variationIndex = -1}) => ({
@@ -1266,17 +1188,14 @@ function playVariation(sign, moves, sibling = false) {
     }, setting.get('board.variation_replay_interval'))
     
     this.variationIntervalId = intervalId
-  }
-}
 
-function replayVariation(board, moves, sign, index) {
+function replayVariation(board, moves, sign, index):
   return moves
     .slice(0, index + 1)
     .reduce((board, [x, y], i) => {
       let currentSign = i % 2 === 0 ? sign : -sign
       return board.makeMove(currentSign, [x, y])
     }, board)
-}
 ```
 
 ## 12. SGF 加载与保存
@@ -1293,14 +1212,14 @@ Sabaki 项目实现了完整的 SGF 加载和保存功能，支持从文件或�
 
 **核心方法**：
 
-```javascript
+```
 // 加载文件
-async function loadFile(filename = null, {suppressAskForSave = false, clearHistory = true} = {}) {
+async function loadFile(filename = null, {suppressAskForSave = false, clearHistory = true} = {}):
   // 询问是否保存当前文件
-  if (!suppressAskForSave && !(await this.askForSave())) return
+  if not suppressAskForSave and not (await this.askForSave()): return
 
   // 显示文件选择对话框
-  if (!filename) {
+  if not filename:
     let result = await dialog.showOpenDialog({
       properties: ['openFile'],
       filters: [
@@ -1309,12 +1228,11 @@ async function loadFile(filename = null, {suppressAskForSave = false, clearHisto
       ],
     })
 
-    if (result) filename = result[0]
-    if (filename)
+    if result: filename = result[0]
+    if filename:
       this.loadFile(filename, {suppressAskForSave: true, clearHistory})
 
     return
-  }
 
   // 开始加载
   this.setBusy(true)
@@ -1324,81 +1242,73 @@ async function loadFile(filename = null, {suppressAskForSave = false, clearHisto
   let success = true
   let lastProgress = -1
 
-  try {
+  try:
     // 获取文件格式模块
     let fileFormatModule = fileformats.getModuleByExtension(extension)
 
     // 解析文件，显示进度
     gameTrees = fileFormatModule.parseFile(filename, (evt) => {
-      if (evt.progress - lastProgress < 0.1) return
+      if evt.progress - lastProgress < 0.1: return
       this.window.setProgressBar(evt.progress)
       lastProgress = evt.progress
     })
 
-    if (gameTrees.length == 0) throw true
-  } catch (err) {
+    if gameTrees.length == 0: throw true
+  catch err:
     await dialog.showMessageBox('This file is unreadable.', 'warning')
     success = false
-  } finally {
+  finally:
     this.window.setProgressBar(-1)
-  }
 
-  if (success) {
+  if success:
     // 更新状态
     this.setState({gameTrees, representedFilename: filename})
     this.fileHash = this.generateFileHash()
 
     // 跳转到游戏结束（如果设置）
-    if (setting.get('game.goto_end_after_loading')) {
+    if setting.get('game.goto_end_after_loading'):
       this.goToEnd()
-    }
-  }
 
   this.setBusy(false)
-}
 
 // 加载内容
-async function loadContent(content, extension, options = {}) {
+async function loadContent(content, extension, options = {}):
   this.setBusy(true)
 
   let gameTrees = []
   let success = true
   let lastProgress = -1
 
-  try {
+  try:
     // 获取文件格式模块
     let fileFormatModule = fileformats.getModuleByExtension(extension)
 
     // 解析内容，显示进度
     gameTrees = fileFormatModule.parse(content, (evt) => {
-      if (evt.progress - lastProgress < 0.1) return
+      if evt.progress - lastProgress < 0.1: return
       this.window.setProgressBar(evt.progress)
       lastProgress = evt.progress
     })
 
-    if (gameTrees.length == 0) throw true
-  } catch (err) {
+    if gameTrees.length == 0: throw true
+  catch err:
     await dialog.showMessageBox('This file is unreadable.', 'warning')
     success = false
-  } finally {
+  finally:
     this.window.setProgressBar(-1)
-  }
 
-  if (success) {
+  if success:
     // 更新状态
     this.setState({gameTrees, representedFilename: null})
     this.clearHistory()
 
     // 打开游戏选择器（如果有多个游戏）
-    if (gameTrees.length > 1 && !options.suppressGameChooser) {
+    if gameTrees.length > 1 and not options.suppressGameChooser:
       await helper.wait(setting.get('gamechooser.show_delay'))
       this.openDrawer('gamechooser')
-    }
-  }
 
   this.setBusy(false)
   return success
-}
 ```
 
 ### 12.2 保存功能
@@ -1411,11 +1321,11 @@ async function loadContent(content, extension, options = {}) {
 
 **核心方法**：
 
-```javascript
+```
 // 保存文件
-async function saveFile(filename = null, confirmExtension = true) {
+async function saveFile(filename = null, confirmExtension = true):
   // 显示保存对话框
-  if (!filename || (confirmExtension && extname(filename) !== '.sgf')) {
+  if not filename or (confirmExtension and extname(filename) !== '.sgf'):
     let cancel = false
     let result = await dialog.showSaveDialog({
       filters: [
@@ -1424,11 +1334,10 @@ async function saveFile(filename = null, confirmExtension = true) {
       ],
     })
 
-    if (result) await this.saveFile(result, false)
-    cancel = !result
+    if result: await this.saveFile(result, false)
+    cancel = not result
 
-    return !cancel
-  }
+    return not cancel
 
   // 写入文件
   this.setBusy(true)
@@ -1442,10 +1351,9 @@ async function saveFile(filename = null, confirmExtension = true) {
   this.fileHash = this.generateFileHash()
 
   return true
-}
 
 // 生成 SGF 字符串
-function getSGF() {
+function getSGF():
   let {gameTrees} = this.state
 
   // 添加应用程序信息和编码信息
@@ -1469,7 +1377,6 @@ function getSGF() {
       linebreak: setting.get('sgf.format_code') ? helper.linebreak : '',
     },
   )
-}
 ```
 
 ### 12.3 文件格式管理
@@ -1478,7 +1385,7 @@ Sabaki 项目通过 `fileformats` 模块统一管理不同的文件格式，包�
 
 **文件格式模块结构**：
 
-```javascript
+```
 // 文件格式模块示例
 const sgfModule = {
   meta: {
@@ -1487,14 +1394,12 @@ const sgfModule = {
   },
   
   // 解析文件
-  parseFile(filename, onProgress) {
+  parseFile(filename, onProgress):
     // 实现文件解析
-  },
   
   // 解析内容
-  parse(content, onProgress) {
+  parse(content, onProgress):
     // 实现内容解析
-  }
 }
 
 // 文件格式管理
@@ -1506,19 +1411,15 @@ const fileformats = {
   gib: gibModule,
   
   // 获取所有格式元数据
-  get meta() {
+  get meta():
     return Object.values(this).filter(mod => mod.meta).map(mod => mod.meta)
-  },
   
   // 根据扩展名获取格式模块
-  getModuleByExtension(extension) {
-    for (let mod of Object.values(this)) {
-      if (mod.meta && mod.meta.extensions.includes(extension.toLowerCase())) {
+  getModuleByExtension(extension):
+    for mod in Object.values(this):
+      if mod.meta and mod.meta.extensions.includes(extension.toLowerCase()):
         return mod
-      }
-    }
     return this.sgf // 默认使用 SGF 格式
-  }
 }
 ```
 
@@ -1554,9 +1455,9 @@ const fileformats = {
 
 **伪代码**：
 
-```javascript
+```
 // 获取节点注释
-function getComment(treePosition) {
+function getComment(treePosition):
   let {data} = gameTree.get(treePosition)
 
   return {
@@ -1565,55 +1466,47 @@ function getComment(treePosition) {
     hotspot: data.HO != null,
     moveAnnotation: getMoveAnnotation(data)
   }
-}
 
 // 设置节点注释
-function setComment(treePosition, data) {
+function setComment(treePosition, data):
   let newTree = gameTree.mutate((draft) => {
-    for (let [key, prop] of [
+    for key, prop in [
       ['title', 'N'],
       ['comment', 'C'],
-    ]) {
-      if (key in data) {
-        if (data[key] && data[key] !== '') {
+    ]:
+      if key in data:
+        if data[key] and data[key] !== '':
           draft.updateProperty(treePosition, prop, [data[key]])
-        } else {
+        else:
           draft.removeProperty(treePosition, prop)
-        }
-      }
-    }
   })
 
   setCurrentTreePosition(newTree, treePosition)
-}
 
 // 注释导航
-function goToComment(step) {
+function goToComment(step):
   let {gameTrees, gameIndex, gameCurrents, treePosition} = this.state
   let tree = gameTrees[gameIndex]
   let commentProps = setting.get('sgf.comment_properties')
   let newTreePosition = null
 
-  for (let node of tree.listNodesVertically(
+  for node in tree.listNodesVertically(
     treePosition,
     step,
     gameCurrents[gameIndex],
-  )) {
+  ):
     if (
-      node.id !== treePosition &&
+      node.id !== treePosition and
       commentProps.some((prop) => node.data[prop] != null)
-    ) {
+    ):
       newTreePosition = node.id
       break
-    }
-  }
 
-  if (newTreePosition != null)
+  if newTreePosition != null:
     setCurrentTreePosition(tree, newTreePosition)
-}
 
 // 添加坐标到注释
-function addCoordinateToComment(vertex) {
+function addCoordinateToComment(vertex):
   let {treePosition} = this.state
   let node = gameTree.get(treePosition)
   let coord = board.stringifyVertex(vertex)
@@ -1628,7 +1521,6 @@ function addCoordinateToComment(vertex) {
   })
 
   setCurrentTreePosition(newTree, treePosition)
-}
 ```
 
 ### 13.2 标记处理
@@ -1652,9 +1544,9 @@ function addCoordinateToComment(vertex) {
 
 **伪代码**：
 
-```javascript
+```
 // 解析节点标记
-function parseMarkups(node, board) {
+function parseMarkups(node, board):
   // 基本标记
   let markups = {
     CR: 'circle',
@@ -1664,57 +1556,48 @@ function parseMarkups(node, board) {
   }
 
   // 解析基本标记
-  for (let prop in markups) {
-    if (node.data[prop] == null) continue
+  for prop in markups:
+    if node.data[prop] == null: continue
 
-    for (let value of node.data[prop]) {
-      for (let vertex of parseCompressedVertices(value)) {
-        if (!board.has(vertex)) continue
+    for value in node.data[prop]:
+      for vertex in parseCompressedVertices(value):
+        if not board.has(vertex): continue
         let [x, y] = vertex
         board.markers[y][x] = {type: markups[prop]}
-      }
-    }
-  }
 
   // 解析标签
-  if (node.data.LB != null) {
-    for (let composed of node.data.LB) {
+  if node.data.LB != null:
+    for composed in node.data.LB:
       let sep = composed.indexOf(':')
       let point = composed.slice(0, sep)
       let label = composed.slice(sep + 1)
       let vertex = parseVertex(point)
-      if (!board.has(vertex)) continue
+      if not board.has(vertex): continue
       let [x, y] = vertex
       board.markers[y][x] = {type: 'label', label}
-    }
-  }
 
   // 解析线条和箭头
-  if (node.data.AR != null || node.data.LN != null) {
-    for (let type of ['AR', 'LN']) {
-      if (node.data[type] == null) continue
+  if node.data.AR != null or node.data.LN != null:
+    for type in ['AR', 'LN']:
+      if node.data[type] == null: continue
 
-      for (let composed of node.data[type]) {
+      for composed in node.data[type]:
         let sep = composed.indexOf(':')
         let [v1, v2] = [composed.slice(0, sep), composed.slice(sep + 1)]
           .map(parseVertex)
         
-        if (!board.has(v1) || !board.has(v2)) continue
+        if not board.has(v1) or not board.has(v2): continue
         
         board.lines.push({
           v1,
           v2,
           type: type === 'AR' ? 'arrow' : 'line'
         })
-      }
-    }
-  }
 
   return board
-}
 
 // 添加标记
-function addMarkup(vertex, type, options = {}) {
+function addMarkup(vertex, type, options = {}):
   let {treePosition} = this.state
   let node = gameTree.get(treePosition)
   
@@ -1723,7 +1606,7 @@ function addMarkup(vertex, type, options = {}) {
     let prop = getMarkupProperty(type)
     
     // 获取现有标记值
-    let existingValues = node.data[prop] || []
+    let existingValues = node.data[prop] or []
     
     // 添加新标记
     let newValue = options.label 
@@ -1737,7 +1620,6 @@ function addMarkup(vertex, type, options = {}) {
   })
   
   setCurrentTreePosition(newTree, treePosition)
-}
 ```
 
 ### 13.3 让子处理
@@ -1756,15 +1638,14 @@ function addMarkup(vertex, type, options = {}) {
 
 **伪代码**：
 
-```javascript
+```
 // 计算让子位置
-function calculateHandicapStones(size, handicap) {
+function calculateHandicapStones(size, handicap):
   let board = Board.fromDimensions(size[0], size[1])
   return board.getHandicapPlacement(handicap)
-}
 
 // 设置让子
-function setHandicap(handicap) {
+function setHandicap(handicap):
   let {gameTrees, gameIndex} = this.state
   let tree = gameTrees[gameIndex]
   let size = getBoardSize(tree)
@@ -1772,41 +1653,36 @@ function setHandicap(handicap) {
   let handicapStones = calculateHandicapStones(size, handicap)
   
   let newTree = tree.mutate((draft) => {
-    if (handicapStones.length > 0) {
+    if handicapStones.length > 0:
       // 设置让子数
       draft.updateProperty(draft.root.id, 'HA', [handicap.toString()])
       // 设置让子位置
       draft.updateProperty(draft.root.id, 'AB', handicapStones.map(sgf.stringifyVertex))
-    } else {
+    else:
       // 清除让子信息
       draft.removeProperty(draft.root.id, 'HA')
       draft.removeProperty(draft.root.id, 'AB')
-    }
   })
   
   this.setState({gameTrees: gameTrees.map((t, i) => i === gameIndex ? newTree : t)})
-}
 
 // 解析让子信息
-function parseHandicap(data) {
+function parseHandicap(data):
   let handicap = 0
   let handicapStones = []
   
   // 解析让子数
-  if (data.HA != null) {
+  if data.HA != null:
     handicap = parseInt(data.HA[0])
-  }
   
   // 解析让子位置
-  if (data.AB != null) {
+  if data.AB != null:
     handicapStones = data.AB.map(sgf.parseVertex)
-  }
   
   return {
     handicap,
     handicapStones
   }
-}
 ```
 
 ### 13.4 时间控制处理
@@ -1828,9 +1704,9 @@ function parseHandicap(data) {
 
 **伪代码**：
 
-```javascript
+```
 // 解析时间控制信息
-function parseTimeControl(data) {
+function parseTimeControl(data):
   return {
     mainTime: data.TM != null ? parseInt(data.TM[0]) : null,
     overtime: data.OT != null ? parseInt(data.OT[0]) : null,
@@ -1839,10 +1715,9 @@ function parseTimeControl(data) {
     blackTimeLeft: data.OB != null ? parseInt(data.OB[0]) : null,
     whiteTimeLeft: data.OW != null ? parseInt(data.OW[0]) : null
   }
-}
 
 // 设置时间控制
-function setTimeControl(timeControl) {
+function setTimeControl(timeControl):
   let {gameTrees, gameIndex} = this.state
   let tree = gameTrees[gameIndex]
   
@@ -1853,19 +1728,15 @@ function setTimeControl(timeControl) {
       overtimeStones: 'OV'
     }
     
-    for (let [key, prop] of Object.entries(timeProps)) {
-      if (key in timeControl) {
-        if (timeControl[key] != null) {
+    for key, prop in Object.entries(timeProps):
+      if key in timeControl:
+        if timeControl[key] != null:
           draft.updateProperty(draft.root.id, prop, [timeControl[key].toString()])
-        } else {
+        else:
           draft.removeProperty(draft.root.id, prop)
-        }
-      }
-    }
   })
   
   this.setState({gameTrees: gameTrees.map((t, i) => i === gameIndex ? newTree : t)})
-}
 ```
 
 ### 13.5 分析结果处理
