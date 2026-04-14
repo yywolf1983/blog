@@ -6,7 +6,6 @@
 - **[NAS.md](viewer.html?file=tech/optimization/base_inst/NAS.md)**
 - **[NFS.md](viewer.html?file=tech/optimization/base_inst/NFS.md)**
 - **[PXE-LINUX.md](viewer.html?file=tech/optimization/base_inst/PXE-LINUX.md)**
-- **[docker/](viewer.html?file=tech/optimization/base_inst/docker/index.md)**
 - **[glusterfs.md](viewer.html?file=tech/optimization/base_inst/glusterfs.md)**
 - **[haproxy.cfg.md](viewer.html?file=tech/optimization/base_inst/haproxy.cfg.md)**
 - **[img/](viewer.html?file=tech/optimization/base_inst/img/index.md)**
@@ -22,4 +21,3 @@
 - **[vncserver.md](viewer.html?file=tech/optimization/base_inst/vncserver.md)**
 - **[vsftp.md](viewer.html?file=tech/optimization/base_inst/vsftp.md)**
 - **[安装tor.md](viewer.html?file=tech/optimization/base_inst/安装tor.md)**
-- **[搭建ELK日志分析平台.md](viewer.html?file=tech/optimization/base_inst/搭建ELK日志分析平台.md)**
