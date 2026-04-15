@@ -8,9 +8,6 @@
 - **[c.md](viewer.html?file=tech/programming/c.md)**
 - **[code/](viewer.html?file=tech/programming/code/index.md)**
 - **[java.md](viewer.html?file=tech/programming/java.md)**
-- **[java学习路径.md](viewer.html?file=tech/programming/java学习路径.md)**
-- **[jvm-options.sh.md](viewer.html?file=tech/programming/jvm-options.sh.md)**
-- **[jvm.md](viewer.html?file=tech/programming/jvm.md)**
 - **[maven.md](viewer.html?file=tech/programming/maven.md)**
 - **[node/](viewer.html?file=tech/programming/node/index.md)**
 - **[python.md](viewer.html?file=tech/programming/python.md)**

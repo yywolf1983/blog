@@ -3,6 +3,7 @@
 ## 文件列表
 
 - **[Kogo's Joseki Dictionary.sgf](viewer.html?file=culture/go/go/Kogo's Joseki Dictionary.sgf)**
+- **[Kogo's Joseki Dictionary_back.sgf](viewer.html?file=culture/go/go/Kogo's Joseki Dictionary_back.sgf)**
 - **[ai/](viewer.html?file=culture/go/go/ai/index.md)**
 - **[dh10/](viewer.html?file=culture/go/go/dh10/index.md)**
 - **[go.md](viewer.html?file=culture/go/go/go.md)**

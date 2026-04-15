@@ -1,1 +1,0 @@
-5 0 * * * sh -x /data/ubuntu/k8back/bin/k8s_backup.sh > /dev/null
