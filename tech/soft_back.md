@@ -41,6 +41,8 @@ Ventey u盘制作
 Tails (操作系统)
 snipaste  截图
 
+Winhance  一款win优化工具 
+
 Multipass  ubuntu虚拟软件
 ```
 
