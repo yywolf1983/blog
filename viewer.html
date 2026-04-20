@@ -122,10 +122,21 @@
         // 处理HTML文件，使用iframe加载
         contentArea.innerHTML = `
           <div class="html-viewer">
-            <iframe src="${file}" style="width: 100%; height: 80vh; border: none; border-radius: 8px; box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);"></iframe>
+            <iframe id="htmlIframe" src="${file}" scrolling="no" style="width: 100%; border: none; border-radius: 8px; box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3); overflow: hidden;"></iframe>
             <p style="margin-top: 15px; color: #a0a0a0;">${pathParts[pathParts.length - 1]}</p>
           </div>
         `;
+        // 动态调整iframe高度以适应内容
+        const iframe = document.getElementById('htmlIframe');
+        iframe.onload = function() {
+          try {
+            const contentHeight = iframe.contentWindow.document.body.scrollHeight;
+            iframe.style.height = contentHeight + 'px';
+          } catch (e) {
+            // 跨域安全限制，使用默认高度
+            iframe.style.height = '80vh';
+          }
+        };
       } else if (['txt', 'text', 'log', 'md', 'markdown', 'css', 'js', 'json', 'xml', 'yml', 'yaml', 'ini', 'conf', 'sh', 'py', 'java', 'c', 'cpp', 'h', 'hpp', 'go', 'rs', 'php', 'rb', 'swift', 'kt', 'ts', 'jsx', 'tsx'].includes(fileExtension)) {
         // 处理文本文件
         fetch(file)
