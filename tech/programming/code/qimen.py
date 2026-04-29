@@ -339,32 +339,39 @@ class QiMenDunJia:
         return xunshou_zhishi_map.get(xunshou, "休")
 
     def pai_tianpan(self, shi_gan, yinyang):
-        """排天盘：值符随时干，天盘随九星流转
+        """排天盘：值符随时干，天盘按阴阳遁方向排布
         传统规则：
-        - 时干落在哪个宫，该宫天盘显示时干
-        - 天盘的旋转与九星相同（值符落宫位置的变化量）
-        - 阳遁：天盘顺旋；阴遁：天盘逆旋
+        - 天盘天干顺序：戊己庚辛壬癸丁丙乙（与地盘相同）
+        - 值符落宫（时干所在宫）放置时干
+        - 其余天干按阴阳遁方向依次排布
+        - 阳遁：顺时针排布；阴遁：逆时针排布
         """
         tianpan = [""] * 9
-
+        
         if not shi_gan or not hasattr(self, 'dipan'):
             return [""] * 9
-
-        jiuxing_original = ["天蓬", "天芮", "天冲", "天辅", "天禽", "天心", "天柱", "天任", "天英"]
-        zhifu_original_pos = jiuxing_original.index(self.zhifu)
+        
+        # 天盘天干顺序（与地盘相同）
+        tianpan_order = ["戊", "己", "庚", "辛", "壬", "癸", "丁", "丙", "乙"]
+        
+        # 值符落宫位置（时干所在宫）
         zhifu_pos = self.zhifu_pos
-
-        offset = (zhifu_pos - zhifu_original_pos) % 9
-
+        
+        # 找到时干在天盘顺序中的位置
+        shi_gan_index = tianpan_order.index(shi_gan) if shi_gan in tianpan_order else 0
+        
+        # 根据阴阳遁方向排布天盘
         if yinyang == '阳':
+            # 阳遁：顺时针排布
             for i in range(9):
-                tianpan[i] = self.dipan[(i - offset) % 9]
+                pos = (zhifu_pos + i) % 9
+                tianpan[pos] = tianpan_order[(shi_gan_index + i) % 9]
         else:
+            # 阴遁：逆时针排布
             for i in range(9):
-                tianpan[i] = self.dipan[(i + offset) % 9]
-
-        tianpan[zhifu_pos] = shi_gan
-
+                pos = (zhifu_pos - i) % 9
+                tianpan[pos] = tianpan_order[(shi_gan_index + i) % 9]
+        
         return tianpan
     
     def pai_pan(self):
@@ -456,8 +463,8 @@ class QiMenDunJia:
         """排八门：从值使位置开始，按八门顺序排布
         传统规则：
         - 八门顺序：休生伤杜景死惊开
-        - 值使从旬首天干在地盘的位置开始
-        - 阳遁顺排八门，阴遁逆排八门
+        - 值使门落在值使落宫位置
+        - 阳遁顺时针排布，阴遁逆时针排布
         - 八门不入中五宫（中五宫寄坤二宫）
         """
         bamen = [""] * 9
@@ -477,27 +484,25 @@ class QiMenDunJia:
         # 值使落宫位置（已在determine_zhifu_zhishi中计算）
         start_pos = getattr(self, 'zhishi_pos', 0)
         
+        # 从值使位置开始排八门
         # 阳遁顺时针，阴遁逆时针
         if yinyang == '阳':
             direction = 1
         else:
             direction = -1
         
-        # 从值使位置开始排八门，只排8个宫（跳过中五宫）
-        assigned = 0
+        # 当前要放置的门索引
+        current_bamen_idx = zhishi_idx
         
-        for offset in range(9):
-            pos = (start_pos + offset * direction) % 9
+        # 从起始位置开始，按方向遍历九宫
+        for i in range(9):
+            pos = (start_pos + i * direction) % 9
             
             if pos == 4:  # 跳过中五宫
                 continue
             
-            bamen[pos] = bamen_order[zhishi_idx]
-            zhishi_idx = (zhishi_idx + 1) % 8
-            assigned += 1
-            
-            if assigned >= 8:
-                break
+            bamen[pos] = bamen_order[current_bamen_idx]
+            current_bamen_idx = (current_bamen_idx + 1) % 8
         
         return bamen
 
@@ -520,10 +525,17 @@ class QiMenDunJia:
 
         direction = 1 if yinyang == '阳' else -1
 
-        for offset in range(9):
-            pos = (zhifu_pos + offset * direction) % 9
-            star_idx = (zhifu_idx + offset) % 9
-            jiuxing[pos] = jiuxing_original[star_idx]
+        # 以值符落宫为起点，按方向依次放置九星
+        # 九星顺序保持不变，只是位置按方向旋转
+        for i in range(9):
+            if yinyang == '阳':
+                # 阳遁顺时针：值符星在zhifu_pos，然后依次向右
+                pos = (zhifu_pos + i) % 9
+                jiuxing[pos] = jiuxing_original[(zhifu_idx + i) % 9]
+            else:
+                # 阴遁逆时针：值符星在zhifu_pos，然后依次向左
+                pos = (zhifu_pos - i) % 9
+                jiuxing[pos] = jiuxing_original[(zhifu_idx + i) % 9]
 
         return jiuxing
     
@@ -620,7 +632,7 @@ class QiMenDunJia:
         核心逻辑：
         1. 旬首定值符：根据时柱确定旬首，再确定值符星和值使门
         2. 值符随时干：值符星落到时干所在的宫位
-        3. 值使从地盘：根据旬首天干在地盘的位置确定值使落宫
+        3. 值使落宫：从旬首宫位（六甲遁在戊己庚辛壬癸下）开始顺/逆数到时辰
         """
         if not hasattr(self, 'ganzhi_info'):
             self.ganzhi_info = self.parse_ganzhi(self.ganzhi_input)
@@ -653,12 +665,30 @@ class QiMenDunJia:
         except ValueError:
             self.zhifu_pos = 0
 
-        # 5. 值使从地盘：旬首天干在地盘的位置就是值使的起始位置
-        xunshou_gan = xunshou[0]
-        try:
-            self.zhishi_pos = self.dipan.index(xunshou_gan)
-        except ValueError:
-            self.zhishi_pos = 0
+        # 5. 值使落宫：从旬首天干所在宫位开始，按时辰数顺/逆数
+        # 六甲遁在戊己庚辛壬癸之下：甲子→戊(坎一)、甲戌→己(坤二)、甲申→庚(震三)
+        #                           甲午→辛(巽四)、甲辰→壬(中五)、甲寅→癸(乾六)
+        xunshou_gong_map = {
+            "甲子": 0,  # 戊在坎一宫
+            "甲戌": 1,  # 己在坤二宫
+            "甲申": 2,  # 庚在震三宫
+            "甲午": 3,  # 辛在巽四宫
+            "甲辰": 4,  # 壬在中五宫
+            "甲寅": 5   # 癸在乾六宫
+        }
+        xunshou_base_pos = xunshou_gong_map.get(xunshou, 0)
+        
+        # 计算时辰数（子=1, 丑=2, ..., 亥=12）
+        shi_zhi_index = self.dizhi.index(shi_zhi)
+        shi_cheng = (shi_zhi_index + 1) % 12
+        if shi_cheng == 0:
+            shi_cheng = 12
+        
+        # 值使落宫：阳遁顺时针数，阴遁逆时针数
+        if self.yinyang == '阳':
+            self.zhishi_pos = (xunshou_base_pos + shi_cheng - 1) % 9
+        else:
+            self.zhishi_pos = (xunshou_base_pos - shi_cheng + 1) % 9
     
     def print_jiugong_layout(self):
         """修正九宫打印顺序（洛书标准顺序：坎1、坤2、震3、巽4、中5、乾6、兑7、艮8、离9）"""
