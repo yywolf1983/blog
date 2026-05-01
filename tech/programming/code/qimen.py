@@ -200,7 +200,7 @@ class QiMenDunJia:
                 "立冬": 11, "小雪": 11, "大雪": 12, "冬至": 12, "小寒": 1, "大寒": 1
             }
             expected_month = jieqi_to_month.get(self.jieqi)
-            if expected_month and self.month != expected_month:
+            if expected_month and abs(self.month - expected_month) > 1:
                 errors.append(f"节气'{self.jieqi}'通常出现在{expected_month}月，但输入的月份是{self.month}月")
         
         return errors
