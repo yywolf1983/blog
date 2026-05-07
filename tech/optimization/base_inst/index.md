@@ -6,6 +6,7 @@
 - **[NAS.md](viewer.html?file=tech/optimization/base_inst/NAS.md)**
 - **[NFS.md](viewer.html?file=tech/optimization/base_inst/NFS.md)**
 - **[PXE-LINUX.md](viewer.html?file=tech/optimization/base_inst/PXE-LINUX.md)**
+- **[android-sdk.md](viewer.html?file=tech/optimization/base_inst/android-sdk.md)**
 - **[glusterfs.md](viewer.html?file=tech/optimization/base_inst/glusterfs.md)**
 - **[haproxy.cfg.md](viewer.html?file=tech/optimization/base_inst/haproxy.cfg.md)**
 - **[img/](viewer.html?file=tech/optimization/base_inst/img/index.md)**
