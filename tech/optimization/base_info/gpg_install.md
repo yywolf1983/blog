@@ -162,7 +162,7 @@ defaults read org.gpgtools.pinentry-mac DisableKeychain
 defaults write org.gpgtools.pinentry-mac DisableKeychain -bool YES  # 禁止写入钥匙串
 
 cat > ~/.gnupg/gpg-agent.conf << EOF
-#enable-ssh-support
+enable-ssh-support
 max-cache-ttl 1800
 default-cache-ttl 1800
 
@@ -172,6 +172,20 @@ max-cache-ttl-ssh 1800
 pinentry-program  /opt/homebrew/bin/pinentry-mac
 allow-preset-passphrase
 EOF
+
+~/.zshrc
+export SSH_AUTH_SOCK=$(gpgconf --list-dirs agent-ssh-socket)
+gpgconf --launch gpg-agent
+
+source ~/.zshrc
+
+重启 agent
+gpgconf --kill gpg-agent
+gpgconf --launch gpg-agent
+
+echo $SSH_AUTH_SOCK
+gpgconf --list-dirs agent-ssh-socket
+
 
 log加载
 debug-all
