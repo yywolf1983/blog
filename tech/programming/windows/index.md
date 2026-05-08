@@ -3,6 +3,7 @@
 ## 文件列表
 
 - **[auto_ip.md](viewer.html?file=tech/programming/windows/auto_ip.md)**
+- **[bw.ps1](viewer.html?file=tech/programming/windows/bw.ps1)**
 - **[close_win_oracle.md](viewer.html?file=tech/programming/windows/close_win_oracle.md)**
 - **[cygwin.md](viewer.html?file=tech/programming/windows/cygwin.md)**
 - **[nssm.md](viewer.html?file=tech/programming/windows/nssm.md)**

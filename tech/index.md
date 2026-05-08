@@ -14,6 +14,5 @@
 - **[other/](viewer.html?file=tech/other/index.md)**
 - **[programming/](viewer.html?file=tech/programming/index.md)**
 - **[soft_back.md](viewer.html?file=tech/soft_back.md)**
-- **[vim/](viewer.html?file=tech/vim/index.md)**
 - **[vim.md](viewer.html?file=tech/vim.md)**
 - **[运维组件.md](viewer.html?file=tech/运维组件.md)**

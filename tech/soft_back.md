@@ -43,6 +43,9 @@ snipaste  截图
 
 Winhance  一款win优化工具 
 
+zerobrew  代替 brew
+VSCodium  代替 vscode
+
 Multipass  ubuntu虚拟软件
 ```
 

@@ -15,6 +15,16 @@ class FourPillarsCalculator:
         self.tiangan = ["甲", "乙", "丙", "丁", "戊", "己", "庚", "辛", "壬", "癸"]
         self.dizhi = ["子", "丑", "寅", "卯", "辰", "巳", "午", "未", "申", "酉", "戌", "亥"]
         
+        # 60甲子序列
+        self.liujiazi = [
+            "甲子", "乙丑", "丙寅", "丁卯", "戊辰", "己巳", "庚午", "辛未", "壬申", "癸酉",
+            "甲戌", "乙亥", "丙子", "丁丑", "戊寅", "己卯", "庚辰", "辛巳", "壬午", "癸未",
+            "甲申", "乙酉", "丙戌", "丁亥", "戊子", "己丑", "庚寅", "辛卯", "壬辰", "癸巳",
+            "甲午", "乙未", "丙申", "丁酉", "戊戌", "己亥", "庚子", "辛丑", "壬寅", "癸卯",
+            "甲辰", "乙巳", "丙午", "丁未", "戊申", "己酉", "庚戌", "辛亥", "壬子", "癸丑",
+            "甲寅", "乙卯", "丙辰", "丁巳", "戊午", "己未", "庚申", "辛酉", "壬戌", "癸亥"
+        ]
+        
         # 十二生肖
         self.zodiac = ["鼠", "牛", "虎", "兔", "龙", "蛇", "马", "羊", "猴", "鸡", "狗", "猪"]
         
@@ -36,11 +46,13 @@ class FourPillarsCalculator:
         self.month_zhi_list = ["寅", "卯", "辰", "巳", "午", "未", 
                               "申", "酉", "戌", "亥", "子", "丑"]
         
-        # 五虎遁诀
+        # 五虎遁诀 - 甲己之年丙作首，乙庚之年戊作首，丙辛之年庚作首，丁壬之年壬作首，戊癸之年甲作首
         self.wuhudun = {
-            "甲": "丙", "己": "丙", "乙": "戊", "庚": "戊",
-            "丙": "庚", "辛": "庚", "丁": "壬", "壬": "壬",
-            "戊": "甲", "癸": "甲"
+            "甲": "丙", "己": "丙",  # 甲己之年丙作首
+            "乙": "戊", "庚": "戊",  # 乙庚之年戊作首
+            "丙": "庚", "辛": "庚",  # 丙辛之年庚作首
+            "丁": "壬", "壬": "壬",  # 丁壬之年壬作首
+            "戊": "甲", "癸": "甲"   # 戊癸之年甲作首
         }
         
         # 时辰对应表
@@ -59,9 +71,9 @@ class FourPillarsCalculator:
             ("亥", 21, 23, 11),  # 亥时: 21:00-23:00
         ]
         
-        # 基准日期（1900年1月1日为甲午日）
+        # 基准日期：1900年1月1日为甲戌日（60甲子索引10）
         self.base_date = datetime(1900, 1, 1)
-        self.base_ganzhi_index = 30  # 甲午日的索引（甲=0, 午=6, 但按60甲子序）
+        self.base_ganzhi_index = 10  # 甲戌在60甲子中的索引
     
     def calculate_year_pillar(self, year: int, month: int, day: int) -> Tuple[str, str]:
         """计算年柱"""
@@ -116,28 +128,11 @@ class FourPillarsCalculator:
         return f"{month_gan}{month_zhi}"
     
     def calculate_day_pillar(self, year: int, month: int, day: int) -> str:
-        """计算日柱 - 修正版"""
-        try:
-            # 创建目标日期
-            target_date = datetime(year, month, day)
-            
-            # 计算与基准日期的天数差
-            days_diff = (target_date - self.base_date).days
-            
-            # 计算干支索引
-            ganzhi_index = (self.base_ganzhi_index + days_diff) % 60
-            
-            # 计算天干地支
-            day_gan_index = ganzhi_index % 10
-            day_zhi_index = ganzhi_index % 12
-            
-            day_gan = self.tiangan[day_gan_index]
-            day_zhi = self.dizhi[day_zhi_index]
-            
-            return f"{day_gan}{day_zhi}"
-            
-        except Exception as e:
-            raise ValueError(f"计算日柱错误: {e}")
+        """计算日柱 - 使用60甲子序列查表"""
+        target_date = datetime(year, month, day)
+        days_diff = (target_date - self.base_date).days
+        ganzhi_index = (self.base_ganzhi_index + days_diff) % 60
+        return self.liujiazi[ganzhi_index]
     
     def calculate_hour_pillar(self, hour: int, minute: int, day_gan: str) -> str:
         """计算时柱 - 修正版"""
@@ -368,6 +363,7 @@ if __name__ == "__main__":
         calculator = FourPillarsCalculator()
         result = calculator.calculate_four_pillars(1983, 2, 28, 19, 30)
         print_detailed_result(result)
+        print("正确的是 癸亥　甲寅　丁亥　庚戌 ")
     else:
         main()
 
