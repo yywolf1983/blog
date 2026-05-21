@@ -6,6 +6,8 @@
 - **[data-years.js](viewer.html?file=assets/data-years.js)**
 - **[images/](viewer.html?file=assets/images/index.md)**
 - **[jieqi.html](viewer.html?file=assets/jieqi.html)**
+- **[jieqi2.html](viewer.html?file=assets/jieqi2.html)**
+- **[jieqi2.js](viewer.html?file=assets/jieqi2.js)**
 - **[juece.html](viewer.html?file=assets/juece.html)**
 - **[nones.xcf](viewer.html?file=assets/nones.xcf)**
 - **[棋盘img/](viewer.html?file=assets/棋盘img/index.md)**

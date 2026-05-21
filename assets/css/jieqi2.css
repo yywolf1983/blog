@@ -1,0 +1,398 @@
+/* ========================================
+   二十四节气圆形信息图 - 全局样式
+   ======================================== */
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+html, body {
+    width: 100%;
+    height: 100%;
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+    position: relative;
+    box-sizing: border-box;
+}
+
+body {
+    background: linear-gradient(135deg, #fdfcfb 0%, #e2d1c3 50%, #d0b48c 100%);
+    font-family: "PingFang SC", "Microsoft YaHei", "Hiragino Sans GB", sans-serif;
+    padding: 10px;
+}
+
+#app-container {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    min-width: 300px;
+    min-height: 300px;
+    max-width: calc(100vw - 20px);
+    max-height: calc(100vh - 20px);
+    box-sizing: border-box;
+}
+
+/* 背景装饰 */
+body::before {
+    content: '';
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-image: 
+        radial-gradient(circle at 20% 30%, rgba(255, 200, 100, 0.1) 0%, transparent 50%),
+        radial-gradient(circle at 80% 70%, rgba(139, 90, 43, 0.08) 0%, transparent 50%);
+    pointer-events: none;
+    z-index: 0;
+}
+
+/* 中央枢纽样式（更大更像太阳） */
+#central-hub {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    border-radius: 50%;
+    background: radial-gradient(circle at 30% 30%, #fff9e8 0%, #f5d68b 30%, #e6b550 70%, #d49a3c 100%);
+    box-shadow: 
+        0 0 30px rgba(245, 214, 139, 0.3),
+        0 0 60px rgba(230, 181, 80, 0.2),
+        inset 0 -8px 20px rgba(0, 0, 0, 0.08),
+        inset 0 8px 20px rgba(255, 255, 255, 0.25);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    z-index: 10;
+    border: 3px solid rgba(255, 255, 255, 0.4);
+    animation: sun-pulse 4s ease-in-out infinite;
+    padding: 20px;
+    box-sizing: border-box;
+}
+
+@keyframes sun-pulse {
+    0%, 100% { 
+        transform: translate(-50%, -50%) scale(1); 
+        box-shadow: 
+            0 0 30px rgba(245, 214, 139, 0.3),
+            0 0 60px rgba(230, 181, 80, 0.2),
+            inset 0 -8px 20px rgba(0, 0, 0, 0.08),
+            inset 0 8px 20px rgba(255, 255, 255, 0.25);
+    }
+    50% { 
+        transform: translate(-50%, -50%) scale(1.02); 
+        box-shadow: 
+            0 0 40px rgba(245, 214, 139, 0.4),
+            0 0 70px rgba(230, 181, 80, 0.25),
+            inset 0 -8px 20px rgba(0, 0, 0, 0.08),
+            inset 0 8px 20px rgba(255, 255, 255, 0.25);
+    }
+}
+
+/* 太阳光芒效果 */
+#central-hub::before {
+    content: '';
+    position: absolute;
+    width: 130%;
+    height: 130%;
+    border-radius: 50%;
+    background: conic-gradient(from 0deg, transparent 0deg, rgba(245, 214, 139, 0.08) 10deg, transparent 20deg);
+    animation: rotate-sun-rays 30s linear infinite;
+}
+
+@keyframes rotate-sun-rays {
+    from { transform: rotate(0deg); }
+    to { transform: rotate(360deg); }
+}
+
+/* 太阳图标 */
+#central-hub .sun-icon {
+    font-size: clamp(1.5rem, 5vw, 2.8rem);
+    margin-bottom: 0.3rem;
+    text-shadow: 0 0 20px rgba(255, 255, 200, 0.8);
+    animation: icon-float 2s ease-in-out infinite;
+}
+
+@keyframes icon-float {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-5px); }
+}
+
+#central-hub .title {
+    font-size: clamp(0.75rem, 2.5vw, 1.3rem);
+    font-weight: 700;
+    color: #5a3a10;
+    margin-bottom: 0.25rem;
+    letter-spacing: 0.08em;
+    text-shadow: 1px 1px 3px rgba(255, 255, 255, 0.5);
+}
+
+#central-hub .current-term {
+    font-size: clamp(0.85rem, 3.5vw, 1.6rem);
+    color: #4a2a00;
+    font-weight: 800;
+    margin-bottom: 0.3rem;
+    text-shadow: 1px 1px 4px rgba(255, 255, 255, 0.6);
+}
+
+#central-hub .ecliptic-info {
+    font-size: clamp(0.7rem, 2.8vw, 1.1rem);
+    color: #6a4a20;
+    font-weight: 600;
+    margin-bottom: 0.25rem;
+    background: rgba(255, 255, 255, 0.4);
+    padding: 3px 12px;
+    border-radius: 20px;
+}
+
+#central-hub .current-hou {
+    font-size: clamp(0.6rem, 2.3vw, 0.95rem);
+    color: #5a3a10;
+    font-weight: 600;
+    margin-bottom: 0.25rem;
+}
+
+#central-hub .current-phenomenon {
+    font-size: clamp(0.5rem, 1.8vw, 0.75rem);
+    color: #4a2a00;
+    line-height: 1.3;
+    margin-bottom: 0.2rem;
+}
+
+#central-hub .date-info {
+    font-size: clamp(0.45rem, 1.6vw, 0.7rem);
+    color: #5a3a10;
+    margin-top: 0.3rem;
+    opacity: 0.8;
+}
+
+/* 节点容器 */
+.node {
+    position: absolute;
+    border-radius: 50%;
+    background: linear-gradient(145deg, #ffffff 0%, #faf7f0 100%);
+    box-shadow: 
+        0 8px 25px rgba(0, 0, 0, 0.12),
+        0 2px 8px rgba(139, 90, 43, 0.1);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    cursor: pointer;
+    border: 2px solid transparent;
+}
+
+.node:hover {
+    transform: scale(1.15);
+    box-shadow: 
+        0 15px 40px rgba(139, 90, 43, 0.25),
+        0 5px 15px rgba(0, 0, 0, 0.15);
+    border-color: #c49a6c;
+}
+
+/* 节点内容样式 */
+.node .term-name {
+    font-size: clamp(0.55rem, 2.5vw, 1.3rem);
+    font-weight: 700;
+    color: #8b5a2b;
+    margin-bottom: 0.2rem;
+    letter-spacing: 0.05em;
+}
+
+.node .term-phenomenon {
+    font-size: clamp(0.4rem, 1.8vw, 0.7rem);
+    color: #7a6b5a;
+    line-height: 1.2;
+    margin-bottom: 0.1rem;
+}
+
+/* 当前节气特殊样式 */
+.node.current-term {
+    background: linear-gradient(145deg, #fff8e6 0%, #ffe3b3 100%);
+    border-color: #e6a23c;
+    box-shadow: 
+        0 8px 25px rgba(230, 162, 60, 0.3),
+        0 2px 8px rgba(230, 162, 60, 0.2);
+    animation: glow 2s ease-in-out infinite alternate;
+}
+
+@keyframes glow {
+    from { box-shadow: 0 8px 25px rgba(230, 162, 60, 0.3), 0 2px 8px rgba(230, 162, 60, 0.2); }
+    to { box-shadow: 0 8px 35px rgba(230, 162, 60, 0.45), 0 2px 12px rgba(230, 162, 60, 0.3); }
+}
+
+.node.current-term .term-name {
+    color: #d4872b;
+}
+
+/* 已过去节气样式 */
+.node.past-term {
+    background: linear-gradient(145deg, #e8e4e1 0%, #d4cfcb 100%);
+    opacity: 0.6;
+}
+
+.node.past-term .term-name {
+    color: #7a6b5a;
+}
+
+.node.past-term .term-phenomenon {
+    color: #8a7a6a;
+}
+
+/* 未来节气样式 */
+.node.future-term {
+    background: linear-gradient(145deg, #f5f7fa 0%, #e8ecf1 100%);
+}
+
+.node.future-term .term-name {
+    color: #6a8aaa;
+}
+
+.node.future-term .term-phenomenon {
+    color: #8a9aaa;
+}
+
+/* 候指示器 */
+.hou-indicator {
+    display: flex;
+    gap: clamp(2px, 0.8vw, 6px);
+    margin-top: 0.2rem;
+    justify-content: center;
+    align-items: center;
+}
+
+.hou-dot {
+    width: clamp(10px, 3.5vw, 22px);
+    height: clamp(10px, 3.5vw, 22px);
+    border-radius: 50%;
+    background: rgba(139, 90, 43, 0.15);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: clamp(0.35rem, 1.5vw, 0.7rem);
+    font-weight: 600;
+    color: rgba(139, 90, 43, 0.3);
+    transition: all 0.3s ease;
+}
+
+.hou-dot.active {
+    background: linear-gradient(135deg, #e6a23c 0%, #d4872b 100%);
+    color: white;
+    box-shadow: 0 0 10px rgba(230, 162, 60, 0.5);
+}
+
+.hou-dot.past {
+    background: rgba(139, 90, 43, 0.5);
+    color: white;
+}
+
+/* 悬浮提示框 */
+.term-tooltip {
+    position: fixed;
+    background: linear-gradient(145deg, #ffffff 0%, #faf7f0 100%);
+    border-radius: 16px;
+    padding: 20px 24px;
+    box-shadow: 
+        0 10px 40px rgba(0, 0, 0, 0.2),
+        0 4px 12px rgba(139, 90, 43, 0.15);
+    z-index: 1000;
+    max-width: 300px;
+    pointer-events: none;
+    opacity: 0;
+    transition: opacity 0.2s ease, transform 0.2s ease;
+    transform: translateY(-10px);
+    border: 2px solid #e0d0b8;
+}
+
+.term-tooltip.show {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+.term-tooltip .tooltip-term-name {
+    font-size: clamp(1.2rem, 4vw, 1.7rem);
+    font-weight: 700;
+    color: #8b5a2b;
+    margin-bottom: 12px;
+    text-align: center;
+}
+
+.term-tooltip .tooltip-hou-section {
+    margin-bottom: 12px;
+}
+
+.term-tooltip .tooltip-hou-title {
+    font-size: clamp(0.7rem, 2.5vw, 0.9rem);
+    font-weight: 600;
+    color: #a07040;
+    margin-bottom: 8px;
+}
+
+.term-tooltip .tooltip-hou-item {
+    font-size: clamp(0.65rem, 2.2vw, 0.85rem);
+    color: #5a4a3a;
+    padding: 4px 0;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.term-tooltip .tooltip-hou-dot {
+    width: clamp(12px, 3vw, 18px);
+    height: clamp(12px, 3vw, 18px);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: clamp(0.45rem, 1.8vw, 0.7rem);
+    font-weight: 600;
+}
+
+.term-tooltip .tooltip-hou-dot.past {
+    background: rgba(139, 90, 43, 0.5);
+    color: white;
+}
+
+.term-tooltip .tooltip-hou-dot.active {
+    background: linear-gradient(135deg, #e6a23c 0%, #d4872b 100%);
+    color: white;
+    box-shadow: 0 0 8px rgba(230, 162, 60, 0.4);
+}
+
+.term-tooltip .tooltip-hou-dot.future {
+    background: rgba(139, 90, 43, 0.15);
+    color: rgba(139, 90, 43, 0.3);
+}
+
+.term-tooltip .tooltip-date {
+    font-size: clamp(0.6rem, 2vw, 0.8rem);
+    color: #7a6a5a;
+    text-align: center;
+    padding-top: 10px;
+    border-top: 1px solid rgba(139, 90, 43, 0.1);
+}
+
+/* 小屏幕优化 */
+@media (max-width: 600px) {
+    /* 在超小屏幕上隐藏候指示器文字，只保留圆点 */
+    .node .term-phenomenon {
+        display: none;
+    }
+    
+    .hou-dot {
+        font-size: 0;
+    }
+}
+
+/* 横屏小屏幕优化 */
+@media (max-height: 500px) and (orientation: landscape) {
+    /* 可以进一步优化横屏显示 */
+}
