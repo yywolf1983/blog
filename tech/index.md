@@ -5,6 +5,7 @@
 - **[ai/](viewer.html?file=tech/ai/index.md)**
 - **[algorithm/](viewer.html?file=tech/algorithm/index.md)**
 - **[crypto/](viewer.html?file=tech/crypto/index.md)**
+- **[goose速查.md](viewer.html?file=tech/goose速查.md)**
 - **[hardware/](viewer.html?file=tech/hardware/index.md)**
 - **[images/](viewer.html?file=tech/images/index.md)**
 - **[kernel/](viewer.html?file=tech/kernel/index.md)**

@@ -9,7 +9,6 @@
 - **[code/](viewer.html?file=tech/programming/code/index.md)**
 - **[java.md](viewer.html?file=tech/programming/java.md)**
 - **[maven.md](viewer.html?file=tech/programming/maven.md)**
-- **[node/](viewer.html?file=tech/programming/node/index.md)**
 - **[python.md](viewer.html?file=tech/programming/python.md)**
 - **[rust.md](viewer.html?file=tech/programming/rust.md)**
 - **[shell.md](viewer.html?file=tech/programming/shell.md)**
