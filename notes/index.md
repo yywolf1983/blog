@@ -9,8 +9,10 @@
 - **[书写常用.md](viewer.html?file=notes/书写常用.md)**
 - **[云游清单.md](viewer.html?file=notes/云游清单.md)**
 - **[古诗19首.txt](viewer.html?file=notes/古诗19首.txt)**
+- **[奇门遁甲.md](viewer.html?file=notes/奇门遁甲.md)**
 - **[对联.md](viewer.html?file=notes/对联.md)**
 - **[我的ai.md](viewer.html?file=notes/我的ai.md)**
+- **[明心箴.txt](viewer.html?file=notes/明心箴.txt)**
 - **[春江花月夜.md](viewer.html?file=notes/春江花月夜.md)**
 - **[杂记1.md](viewer.html?file=notes/杂记1.md)**
 - **[杂记2.md](viewer.html?file=notes/杂记2.md)**
