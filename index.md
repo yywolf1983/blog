@@ -2,6 +2,7 @@
 
 ## 文件列表
 
+- **[.venv/](viewer.html?file=.venv/index.md)**
 - **[.vscode/](viewer.html?file=.vscode/index.md)**
 - **[CNAME](viewer.html?file=CNAME)**
 - **[assets/](viewer.html?file=assets/index.md)**
