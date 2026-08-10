@@ -44,6 +44,7 @@
       }
     };
   </script>
+  <link rel="stylesheet" href="assets/css/viewer-md.css">
   <script src="assets/vendor/marked/9.1.2/marked.min.js"></script>
   <script src="assets/vendor/mathjax/3/es5/tex-svg-full.js" id="MathJax-script"></script>
   <script>
@@ -87,11 +88,50 @@
             return response.text();
           })
           .then(markdown => {
+            // 自定义 slugify：保留中英文与数字，去除其余符号并转小写
+            function slugify(text) {
+              return String(text)
+                .trim()
+                .replace(/[`*_~]/g, '')
+                .replace(/[^\w一-龥]/g, '')
+                .toLowerCase();
+            }
+            // 给标题生成稳定 id（中文标题也能正确锚定）
+            const renderer = new marked.Renderer();
+            renderer.heading = function(text, level, raw) {
+              const id = slugify(raw || text);
+              return `<h${level} id="${id}">${text}</h${level}>\n`;
+            };
+            marked.setOptions({ renderer: renderer, headerIds: false, mangle: false });
+
             const html = marked.parse(markdown);
             // 检测是否是index.md文件
             const isReadme = file.includes('index.md');
             const className = isReadme ? 'markdown-body readme-file' : 'markdown-body regular-md-file';
             contentArea.innerHTML = `<div class="${className}">${html}</div>`;
+
+            // 统一页内锚点链接 href，使其与标题 id 完全匹配
+            // 注意：DOM 中 href 的中文会被 percent-encode，需先 decode 再 slugify
+            contentArea.querySelectorAll('a[href^="#"]').forEach(a => {
+              let hash = a.getAttribute('href').slice(1);
+              try { hash = decodeURIComponent(hash); } catch (e) {}
+              if (hash) a.setAttribute('href', '#' + slugify(hash));
+            });
+
+            // 平滑滚动 + 避免被固定头部遮挡
+            contentArea.querySelectorAll('a[href^="#"]').forEach(a => {
+              a.addEventListener('click', function(e) {
+                let id = this.getAttribute('href').slice(1);
+                try { id = decodeURIComponent(id); } catch (err) {}
+                const target = document.getElementById(id);
+                if (target) {
+                  e.preventDefault();
+                  target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                  history.replaceState(null, '', '#' + encodeURIComponent(id));
+                }
+              });
+            });
+
             // 触发MathJax渲染
             if (window.MathJax) {
               if (MathJax.typeset) {
