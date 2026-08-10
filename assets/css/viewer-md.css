@@ -1,0 +1,77 @@
+/* viewer.html 内 Markdown 阅读专用样式
+   仅作用于 viewer.html 渲染的 .markdown-body，不影响首页/分类页。
+   目的：修复页内锚点跳转偏移 + 消除标题/列表前奇怪的黄色光影。 */
+
+/* 1) 锚点跳转时为固定头部预留空间（header 约 56px + 卡片间距） */
+.markdown-body {
+  scroll-padding-top: 80px;
+}
+.markdown-body h1,
+.markdown-body h2,
+.markdown-body h3,
+.markdown-body h4,
+.markdown-body h5,
+.markdown-body h6 {
+  scroll-margin-top: 80px;
+}
+
+/* 2) 消除标签选中时的黄色/橙色高亮光影（::selection） */
+.markdown-body ::selection,
+.markdown-body::selection {
+  background: rgba(52, 152, 219, 0.35);
+  color: var(--color-text, #ECF0F1);
+}
+
+/* 3) 消除列表项 hover 时的黄色扫光与背景、位移闪烁（覆盖 theme.css 默认，作用于 viewer 内所有 .markdown-body 列表） */
+.markdown-body ul li,
+.markdown-body ol li {
+  position: static !important;
+  background: transparent !important;
+  border-color: transparent !important;
+  box-shadow: none !important;
+  transform: none !important;
+  overflow: visible !important;
+  transition: none !important;
+  animation: none !important;
+}
+/* 关键：禁用黄色横向扫光伪元素（theme.css 1443-1465 的 ::after 扫光） */
+.markdown-body ul li::before,
+.markdown-body ul li::after,
+.markdown-body ol li::before,
+.markdown-body ol li::after {
+  display: none !important;
+  content: none !important;
+  background: none !important;
+  box-shadow: none !important;
+  animation: none !important;
+  transition: none !important;
+}
+/* hover 状态同样取消位移/阴影/黄底，杜绝闪烁 */
+.markdown-body ul li:hover,
+.markdown-body ol li:hover {
+  background: transparent !important;
+  border-color: transparent !important;
+  box-shadow: none !important;
+  transform: none !important;
+}
+
+/* 4) readme 与 regular 列表项 hover 取消黄色光影，改为中性微描边 */
+.markdown-body ul li:hover,
+.markdown-body ol li:hover {
+  background: transparent !important;
+  border-color: var(--color-border, #34495e) !important;
+  box-shadow: none !important;
+  transform: none !important;
+}
+
+/* 5) 链接 hover 取消橙色 text-shadow 光晕（可选：保留下划线即可） */
+.markdown-body a:hover {
+  text-shadow: none !important;
+}
+
+/* 6) 锚点定位后的温和高亮（不再用黄色块，改为左侧细线 + 极淡底纹） */
+.markdown-body :target {
+  background: rgba(52, 152, 219, 0.08);
+  border-radius: 6px;
+  scroll-margin-top: 80px;
+}
