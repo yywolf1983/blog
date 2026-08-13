@@ -4,7 +4,7 @@
 
 - **[1七星聚会.pgn](viewer.html?file=culture/go/象棋/1七星聚会.pgn)**
 - **[20251229红胜.pgn](viewer.html?file=culture/go/象棋/20251229红胜.pgn)**
-- **[2正西.pgn](viewer.html?file=culture/go/象棋/2正西.pgn)**
+- **[2征西.pgn](viewer.html?file=culture/go/象棋/2征西.pgn)**
 - **[3野马操田.pgn](viewer.html?file=culture/go/象棋/3野马操田.pgn)**
 - **[4带子入朝.pgn](viewer.html?file=culture/go/象棋/4带子入朝.pgn)**
 - **[5九大连环.pgn](viewer.html?file=culture/go/象棋/5九大连环.pgn)**

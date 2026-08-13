@@ -64,7 +64,7 @@ sections:
         items:
           - { text: "图片资源：网站使用的各种图片素材", link: "assets/images/index.md" }
           - { text: "文档资源：各种实用的文档资料和教程", link: "assets/index.md" }
-      
+          - { text: "APP资源：各种实用的APP软件", link: "apk/index.md" }
 
 # 静态资源配置
 assets:

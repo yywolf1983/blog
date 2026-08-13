@@ -4,8 +4,7 @@
 
 - **[中医国标.txt](viewer.html?file=culture/medicine/中医国标.txt)**
 - **[中医基础/](viewer.html?file=culture/medicine/中医基础/index.md)**
-- **[中医基础.md](viewer.html?file=culture/medicine/中医基础.md)**
-- **[中医词汇.txt](viewer.html?file=culture/medicine/中医词汇.txt)**
+- **[内经速查.md](viewer.html?file=culture/medicine/内经速查.md)**
 - **[十二经络/](viewer.html?file=culture/medicine/十二经络/index.md)**
 - **[家庭常备中药.txt](viewer.html?file=culture/medicine/家庭常备中药.txt)**
 - **[岐黄新纲.md](viewer.html?file=culture/medicine/岐黄新纲.md)**

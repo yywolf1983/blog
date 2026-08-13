@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>File Viewer - YY's Blog</title>
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link rel="stylesheet" href="assets/vendor/font-awesome/6.4.0/css/all.min.css">
   <link rel="stylesheet" href="assets/css/theme.css">
   <link rel="stylesheet" href="assets/css/md.css">
 </head>
@@ -44,8 +44,9 @@
       }
     };
   </script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/marked/9.1.2/marked.min.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg-full.js" id="MathJax-script"></script>
+  <link rel="stylesheet" href="assets/css/viewer-md.css">
+  <script src="assets/vendor/marked/9.1.2/marked.min.js"></script>
+  <script src="assets/vendor/mathjax/3/es5/tex-svg-full.js" id="MathJax-script"></script>
   <script>
     const urlParams = new URLSearchParams(window.location.search);
     const file = urlParams.get('file');
@@ -87,11 +88,50 @@
             return response.text();
           })
           .then(markdown => {
+            // 自定义 slugify：保留中英文与数字，去除其余符号并转小写
+            function slugify(text) {
+              return String(text)
+                .trim()
+                .replace(/[`*_~]/g, '')
+                .replace(/[^\w一-龥]/g, '')
+                .toLowerCase();
+            }
+            // 给标题生成稳定 id（中文标题也能正确锚定）
+            const renderer = new marked.Renderer();
+            renderer.heading = function(text, level, raw) {
+              const id = slugify(raw || text);
+              return `<h${level} id="${id}">${text}</h${level}>\n`;
+            };
+            marked.setOptions({ renderer: renderer, headerIds: false, mangle: false });
+
             const html = marked.parse(markdown);
             // 检测是否是index.md文件
             const isReadme = file.includes('index.md');
             const className = isReadme ? 'markdown-body readme-file' : 'markdown-body regular-md-file';
             contentArea.innerHTML = `<div class="${className}">${html}</div>`;
+
+            // 统一页内锚点链接 href，使其与标题 id 完全匹配
+            // 注意：DOM 中 href 的中文会被 percent-encode，需先 decode 再 slugify
+            contentArea.querySelectorAll('a[href^="#"]').forEach(a => {
+              let hash = a.getAttribute('href').slice(1);
+              try { hash = decodeURIComponent(hash); } catch (e) {}
+              if (hash) a.setAttribute('href', '#' + slugify(hash));
+            });
+
+            // 平滑滚动 + 避免被固定头部遮挡
+            contentArea.querySelectorAll('a[href^="#"]').forEach(a => {
+              a.addEventListener('click', function(e) {
+                let id = this.getAttribute('href').slice(1);
+                try { id = decodeURIComponent(id); } catch (err) {}
+                const target = document.getElementById(id);
+                if (target) {
+                  e.preventDefault();
+                  target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                  history.replaceState(null, '', '#' + encodeURIComponent(id));
+                }
+              });
+            });
+
             // 触发MathJax渲染
             if (window.MathJax) {
               if (MathJax.typeset) {
@@ -122,10 +162,21 @@
         // 处理HTML文件，使用iframe加载
         contentArea.innerHTML = `
           <div class="html-viewer">
-            <iframe src="${file}" style="width: 100%; height: 80vh; border: none; border-radius: 8px; box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);"></iframe>
+            <iframe id="htmlIframe" src="${file}" scrolling="no" style="width: 100%; border: none; border-radius: 8px; box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3); overflow: hidden;"></iframe>
             <p style="margin-top: 15px; color: #a0a0a0;">${pathParts[pathParts.length - 1]}</p>
           </div>
         `;
+        // 动态调整iframe高度以适应内容
+        const iframe = document.getElementById('htmlIframe');
+        iframe.onload = function() {
+          try {
+            const contentHeight = iframe.contentWindow.document.body.scrollHeight;
+            iframe.style.height = contentHeight + 'px';
+          } catch (e) {
+            // 跨域安全限制，使用默认高度
+            iframe.style.height = '80vh';
+          }
+        };
       } else if (['txt', 'text', 'log', 'md', 'markdown', 'css', 'js', 'json', 'xml', 'yml', 'yaml', 'ini', 'conf', 'sh', 'py', 'java', 'c', 'cpp', 'h', 'hpp', 'go', 'rs', 'php', 'rb', 'swift', 'kt', 'ts', 'jsx', 'tsx'].includes(fileExtension)) {
         // 处理文本文件
         fetch(file)

@@ -5,6 +5,7 @@
 - **[ai/](viewer.html?file=tech/ai/index.md)**
 - **[algorithm/](viewer.html?file=tech/algorithm/index.md)**
 - **[crypto/](viewer.html?file=tech/crypto/index.md)**
+- **[goose速查.md](viewer.html?file=tech/goose速查.md)**
 - **[hardware/](viewer.html?file=tech/hardware/index.md)**
 - **[images/](viewer.html?file=tech/images/index.md)**
 - **[kernel/](viewer.html?file=tech/kernel/index.md)**
@@ -14,6 +15,5 @@
 - **[other/](viewer.html?file=tech/other/index.md)**
 - **[programming/](viewer.html?file=tech/programming/index.md)**
 - **[soft_back.md](viewer.html?file=tech/soft_back.md)**
-- **[vim/](viewer.html?file=tech/vim/index.md)**
 - **[vim.md](viewer.html?file=tech/vim.md)**
 - **[运维组件.md](viewer.html?file=tech/运维组件.md)**

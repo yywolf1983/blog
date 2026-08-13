@@ -1,0 +1,658 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>七维决策打分器｜点击选分自动计分</title>
+    <style>
+        :root {
+            --primary: #2196F3;
+            --primary-dark: #1976D2;
+            --primary-light: #E3F2FD;
+            --danger: #D32F2F;
+            --text: #222;
+            --text-secondary: #555;
+            --bg: #F5F7FA;
+            --card-bg: #fff;
+            --shadow: 0 2px 8px rgba(0,0,0,0.08);
+            --radius: 12px;
+            --transition: 0.2s ease;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: "Microsoft YaHei", "PingFang SC", -apple-system, sans-serif;
+            background: var(--bg);
+            padding: 20px 15px;
+            max-width: 900px;
+            margin: 0 auto;
+            line-height: 1.6;
+            color: var(--text);
+        }
+
+        header {
+            text-align: center;
+            margin-bottom: 24px;
+        }
+
+        header h1 {
+            font-size: clamp(1.4rem, 4vw, 1.8rem);
+            color: var(--text);
+            font-weight: 700;
+        }
+
+        header p {
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+            margin-top: 6px;
+        }
+
+        .item-card {
+            background: var(--card-bg);
+            border-radius: var(--radius);
+            padding: 18px;
+            margin-bottom: 16px;
+            box-shadow: var(--shadow);
+            transition: transform var(--transition), box-shadow var(--transition);
+        }
+
+        .item-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 16px rgba(0,0,0,0.12);
+        }
+
+        .item-card.completed {
+            border-left: 4px solid var(--primary);
+        }
+
+        .item-card.incomplete {
+            border-left: 4px solid #FF9800;
+            animation: blink 1.5s ease-in-out infinite;
+        }
+
+        @keyframes blink {
+            0%, 100% { border-left-color: #FF9800; }
+            50% { border-left-color: #FFE0B2; }
+        }
+
+        .item-card.incomplete .item-index {
+            background: #FFF3E0;
+            color: #E65100;
+        }
+
+        .item-header {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 10px;
+            flex-wrap: wrap;
+        }
+
+        .item-index {
+            width: 28px;
+            height: 28px;
+            background: var(--primary-light);
+            color: var(--primary-dark);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            font-size: 0.85rem;
+            flex-shrink: 0;
+        }
+
+        .item-title {
+            font-weight: 600;
+            font-size: 0.95rem;
+            color: var(--text);
+        }
+
+        .item-stars {
+            font-size: 1.1rem;
+            opacity: 0;
+            transition: opacity 0.2s;
+        }
+
+        .item-stars.visible {
+            opacity: 1;
+        }
+
+        .rule {
+            font-size: 0.8rem;
+            color: var(--text-secondary);
+            background: #F8F9FA;
+            padding: 10px 12px;
+            border-radius: 8px;
+            margin-bottom: 12px;
+            line-height: 1.7;
+        }
+
+        .score-buttons {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 6px;
+            justify-content: flex-start;
+        }
+
+        .score-btn {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 2px;
+            border: none;
+            background: transparent;
+            cursor: pointer;
+            padding: 6px 4px;
+            border-radius: 12px;
+            min-width: 36px;
+            transition: all var(--transition);
+        }
+
+        .score-btn .num {
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            border: 2px solid #E0E0E0;
+            background: #FAFAFA;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.85rem;
+            font-weight: 600;
+            transition: all var(--transition);
+        }
+
+        .score-btn:hover {
+            background: #F0F0F0;
+        }
+
+        .score-btn:hover .num {
+            border-color: var(--primary);
+            transform: scale(1.1);
+        }
+
+        .score-btn:focus {
+            outline: none;
+        }
+
+        .score-btn:focus .num {
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(33,150,243,0.2);
+        }
+
+        .score-btn.active {
+            background: var(--primary-light);
+        }
+
+        .score-btn.active .num {
+            background: var(--primary);
+            border-color: var(--primary);
+            color: #fff;
+            transform: scale(1.1);
+        }
+
+        .score-btn.active .emoji {
+            transform: scale(1.2);
+        }
+
+        .score-btn.low .num { border-color: #FFCDD2; background: #FFEBEE; }
+        .score-btn.mid .num { border-color: #FFE0B2; background: #FFF3E0; }
+        .score-btn.high .num { border-color: #C8E6C9; background: #E8F5E9; }
+
+        .score-btn.active.low { background: #FFEBEE; }
+        .score-btn.active.mid { background: #FFF3E0; }
+        .score-btn.active.high { background: #E8F5E9; }
+
+        .score-btn.active.low .num { background: #EF5350; border-color: #EF5350; color: #fff; }
+        .score-btn.active.mid .num { background: #FFA726; border-color: #FFA726; color: #fff; }
+        .score-btn.active.high .num { background: #66BB6A; border-color: #66BB6A; color: #fff; }
+
+        .score-desc {
+            font-size: 0.85rem;
+            color: var(--primary-dark);
+            background: var(--primary-light);
+            padding: 8px 12px;
+            border-radius: 6px;
+            margin-top: 10px;
+            min-height: 36px;
+            display: flex;
+            align-items: center;
+            line-height: 1.4;
+        }
+
+        .result-box {
+            margin-top: 24px;
+            padding: 24px;
+            background: var(--card-bg);
+            border-radius: var(--radius);
+            box-shadow: var(--shadow);
+            text-align: center;
+        }
+
+        .total-score {
+            font-size: 2.2rem;
+            font-weight: 700;
+            color: var(--primary-dark);
+            margin-bottom: 4px;
+        }
+
+        .total-score span {
+            font-size: 1rem;
+            color: var(--text-secondary);
+            font-weight: 400;
+        }
+
+        .level-badge {
+            display: inline-block;
+            font-size: 1.2rem;
+            font-weight: 600;
+            padding: 6px 20px;
+            border-radius: 20px;
+            margin: 12px 0;
+            transition: all 0.3s ease;
+        }
+
+        .level-badge.level-top { background: linear-gradient(135deg, #4CAF50, #2E7D32); color: #fff; }
+        .level-badge.level-good { background: linear-gradient(135deg, #8BC34A, #558B2F); color: #fff; }
+        .level-badge.level-normal { background: linear-gradient(135deg, #FFC107, #F57F17); color: #fff; }
+        .level-badge.level-bad { background: linear-gradient(135deg, #FF7043, #D84315); color: #fff; }
+        .level-badge.level-worst { background: linear-gradient(135deg, #EF5350, #C62828); color: #fff; }
+        .level-badge.level-default { background: #E0E0E0; color: #757575; }
+
+        .progress-bar {
+            height: 8px;
+            background: #E0E0E0;
+            border-radius: 4px;
+            margin: 16px 0;
+            overflow: hidden;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, var(--primary), var(--primary-dark));
+            border-radius: 4px;
+            transition: width 0.4s ease;
+            width: 0%;
+        }
+
+        .rank-desc {
+            text-align: left;
+            font-size: 0.85rem;
+            color: var(--text-secondary);
+            line-height: 1.8;
+            padding: 12px;
+            background: #F8F9FA;
+            border-radius: 8px;
+            margin-top: 16px;
+        }
+
+        .rank-desc div {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .rank-dot {
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            flex-shrink: 0;
+        }
+
+        .reset-btn {
+            margin-top: 16px;
+            padding: 10px 28px;
+            background: var(--primary);
+            color: #fff;
+            border: none;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            cursor: pointer;
+            transition: all var(--transition);
+        }
+
+        .reset-btn:hover {
+            background: var(--primary-dark);
+            transform: scale(1.05);
+        }
+
+        @media (max-width: 480px) {
+            .score-btn {
+                min-width: 32px;
+                padding: 4px 2px;
+            }
+            .score-btn .num {
+                width: 28px;
+                height: 28px;
+                font-size: 0.8rem;
+            }
+            .score-btn .emoji {
+                font-size: 0.9rem;
+            }
+            .item-card { padding: 14px; }
+            .result-box { padding: 18px; }
+            .total-score { font-size: 1.8rem; }
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+        }
+        .pulse { animation: pulse 0.3s ease; }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>🎯 七维综合决策系统</h1>
+        <p>点击 0-10 分为每个维度打分，系统自动计算综合评估</p>
+    </header>
+
+    <main>
+        <div class="item-card" data-index="0">
+            <div class="item-header">
+                <span class="item-index">1</span>
+                <span class="item-title">经济收益</span>
+                <span class="item-stars" id="stars-0"></span>
+            </div>
+            <div class="rule">短期收入、长期增值、成本损耗、机会成本</div>
+            <div class="score-buttons"></div>
+            <div class="score-desc" id="desc-0"></div>
+        </div>
+
+        <div class="item-card" data-index="1">
+            <div class="item-header">
+                <span class="item-index">2</span>
+                <span class="item-title">时间成本</span>
+                <span class="item-stars" id="stars-1"></span>
+            </div>
+            <div class="rule">耗时、占用精力、周期长短、复利时间</div>
+            <div class="score-buttons"></div>
+            <div class="score-desc" id="desc-1"></div>
+        </div>
+
+        <div class="item-card" data-index="2">
+            <div class="item-header">
+                <span class="item-index">3</span>
+                <span class="item-title">风险等级</span>
+                <span class="item-stars" id="stars-2"></span>
+            </div>
+            <div class="rule">亏损概率、翻车代价、不可控变数、容错空间</div>
+            <div class="score-buttons"></div>
+            <div class="score-desc" id="desc-2"></div>
+        </div>
+
+        <div class="item-card" data-index="3">
+            <div class="item-header">
+                <span class="item-index">4</span>
+                <span class="item-title">情绪体验</span>
+                <span class="item-stars" id="stars-3"></span>
+            </div>
+            <div class="rule">舒适度、内耗程度、压力大小、精神消耗</div>
+            <div class="score-buttons"></div>
+            <div class="score-desc" id="desc-3"></div>
+        </div>
+
+        <div class="item-card" data-index="4">
+            <div class="item-header">
+                <span class="item-index">5</span>
+                <span class="item-title">成长价值</span>
+                <span class="item-stars" id="stars-4"></span>
+            </div>
+            <div class="rule">能力提升、圈层升级、经验积累、未来溢价</div>
+            <div class="score-buttons"></div>
+            <div class="score-desc" id="desc-4"></div>
+        </div>
+
+        <div class="item-card" data-index="5">
+            <div class="item-header">
+                <span class="item-index">6</span>
+                <span class="item-title">稳定程度</span>
+                <span class="item-stars" id="stars-5"></span>
+            </div>
+            <div class="rule">确定性、可复制性、波动大小、抗风险能力</div>
+            <div class="score-buttons"></div>
+            <div class="score-desc" id="desc-5"></div>
+        </div>
+
+        <div class="item-card" data-index="6">
+            <div class="item-header">
+                <span class="item-index">7</span>
+                <span class="item-title">自由控制权</span>
+                <span class="item-stars" id="stars-6"></span>
+            </div>
+            <div class="rule">自主空间、被约束程度、可进退余地</div>
+            <div class="score-buttons"></div>
+            <div class="score-desc" id="desc-6"></div>
+        </div>
+
+        <div class="result-box">
+            <div class="total-score"><span id="totalScore">0</span> <span>/ 70</span></div>
+            <div class="progress-bar"><div class="progress-fill" id="progressFill"></div></div>
+            <div class="level-badge level-default" id="levelBadge">请逐项打分</div>
+            <div class="rank-desc">
+                <div><span class="rank-dot" style="background:#4CAF50"></span>60～70分：A级决策，建议执行</div>
+                <div><span class="rank-dot" style="background:#8BC34A"></span>45～59分：B级决策，可考虑执行</div>
+                <div><span class="rank-dot" style="background:#FFC107"></span>30～44分：C级决策，谨慎评估</div>
+                <div><span class="rank-dot" style="background:#FF7043"></span>15～29分：D级决策，不建议执行</div>
+                <div><span class="rank-dot" style="background:#EF5350"></span>7～14分：E级决策，建议放弃</div>
+            </div>
+            <button class="reset-btn" id="resetBtn">🔄 重置评分</button>
+        </div>
+    </main>
+
+    <script>
+        const scores = [-1, -1, -1, -1, -1, -1, -1];
+        const cardList = document.querySelectorAll('.item-card');
+        const levelMap = [
+            { min: 60, text: 'A级决策，建议执行', class: 'level-top' },
+            { min: 45, text: 'B级决策，可考虑执行', class: 'level-good' },
+            { min: 30, text: 'C级决策，谨慎评估', class: 'level-normal' },
+            { min: 15, text: 'D级决策，不建议执行', class: 'level-bad' },
+            { min: 0, text: 'E级决策，建议放弃', class: 'level-worst' }
+        ];
+
+        const scoreDescriptions = [
+            {
+                0: '极差：亏本耗成本，错失更好选择',
+                1: '很差：收益极低，代价高昂',
+                2: '较差：收益微薄，成本偏高，浪费机会',
+                3: '差：明显亏损，机会成本大',
+                4: '偏低：收益不足，风险较大',
+                5: '中等：收支平衡小有收益，无大亏无大赚',
+                6: '尚可：小有盈余，可以接受',
+                7: '良好：收益稳定，值得考虑',
+                8: '很好：收益丰厚，成本低机会损耗小',
+                9: '极好：收益极高，几乎无损耗',
+                10: '完美：收益拉满，长期增值无损耗'
+            },
+            {
+                0: '极差：极度耗时占满精力，周期无底洞',
+                1: '很差：耗时极多，精力消耗大',
+                2: '较差：耗时耗力周期长，无时间红利',
+                3: '差：明显耗时，精力消耗大',
+                4: '偏低：耗时较多，复利价值低',
+                5: '中等：正常耗时耗精力，无复利也不浪费',
+                6: '尚可：耗时适中，有一定回报',
+                7: '良好：耗时较少，精力损耗小',
+                8: '很好：少量时间精力，周期适中有复利',
+                9: '极好：耗时极少，精力充沛有复利',
+                10: '完美：耗时极少不费精力，周期短有复利红利'
+            },
+            {
+                0: '极差：极易亏损，翻车代价惨重无容错',
+                1: '很差：风险极高，损失不可避免',
+                2: '较差：亏损概率大，翻车代价高、容错低',
+                3: '差：风险较大，容易翻车',
+                4: '偏低：有一定风险，需要谨慎',
+                5: '中等：有正常小风险，代价可控有容错',
+                6: '尚可：风险较低，可控可承受',
+                7: '良好：风险低，出问题代价小可兜底',
+                8: '很好：几乎无风险，有兜底方案',
+                9: '极好：风险极低，稳定性强',
+                10: '完美：几乎无亏损、无翻车、变数极少、容错极高'
+            },
+            {
+                0: '极差：极度煎熬，重度内耗身心焦虑',
+                1: '很差：精神消耗严重，压力巨大',
+                2: '较差：压抑别扭，内耗重压力大精神累',
+                3: '差：情绪负面，明显精神消耗',
+                4: '偏低：有一定精神压力',
+                5: '中等：平淡无喜无悲，轻微压力少量内耗',
+                6: '尚可：心情平稳，略有正向体验',
+                7: '良好：心情顺畅，几乎无内耗压力很小',
+                8: '很好：体验愉悦，精神状态好',
+                9: '极好：极度舒适，精神饱满',
+                10: '完美：极度舒适、无内耗无压力、无精神消耗'
+            },
+            {
+                0: '极差：消耗自我倒退，毫无成长还贬值',
+                1: '很差：明显消耗，能力下降',
+                2: '较差：学不到东西原地踏步，浪费成长机会',
+                3: '差：成长有限，甚至倒退',
+                4: '偏低：成长价值不足',
+                5: '中等：小有成长，普通经验无明显溢价',
+                6: '尚可：有基本成长，积累有限',
+                7: '良好：明显提升能力，拓展圈层有长期价值',
+                8: '很好：能力提升显著，圈层升级',
+                9: '极好：能力大涨，圈层跃升',
+                10: '完美：能力大涨、圈层跃升、经验硬核、未来溢价拉满'
+            },
+            {
+                0: '极差：完全不确定，不可复制一碰就垮',
+                1: '很差：极不稳定，风险随时爆发',
+                2: '较差：不稳定波动大，难复制扛不住变故',
+                3: '差：波动明显，稳定性差',
+                4: '偏低：确定性不足，容易受影响',
+                5: '中等：中等稳定，偶尔波动勉强可复制',
+                6: '尚可：较为稳定，有一定可复制性',
+                7: '良好：很稳定可复制，波动小抗风险强',
+                8: '很好：稳定可靠，风险低',
+                9: '极好：确定性高，可复制性强',
+                10: '完美：确定性极强、可复制、无波动、抗风险拉满'
+            },
+            {
+                0: '极差：身不由己被捆绑，毫无退路',
+                1: '很差：高度受控，选择空间极小',
+                2: '较差：被动受制约束多，进退两难',
+                3: '差：约束较多，灵活度低',
+                4: '偏低：自主空间有限',
+                5: '中等：半自主有常规约束，进退有一定余地',
+                6: '尚可：有一定自主权，约束较少',
+                7: '良好：自主权高约束少，进退灵活',
+                8: '很好：高度自主，约束极少',
+                9: '极好：几乎完全自主',
+                10: '完美：完全自主，无约束，随时可进可退'
+            }
+        ];
+
+        const emojiMap = ['💀', '☆', '☆☆', '☆☆☆', '☆☆☆☆', '⭐', '⭐⭐', '⭐⭐⭐', '⭐⭐⭐⭐', '☀️', '👑'];
+        const scoreDescLabels = { 0: '极差', 1: '很差', 2: '较差', 3: '差', 4: '偏低', 5: '中等', 6: '尚可', 7: '良好', 8: '很好', 9: '极好', 10: '完美' };
+
+        const getScoreClass = (val) => {
+            if (val <= 3) return 'low';
+            if (val <= 6) return 'mid';
+            return 'high';
+        };
+
+        cardList.forEach((card, idx) => {
+            const wrap = card.querySelector('.score-buttons');
+            for (let i = 0; i <= 10; i++) {
+                const btn = document.createElement('button');
+                btn.type = 'button';
+                btn.className = `score-btn ${getScoreClass(i)}`;
+                btn.dataset.val = i;
+                btn.setAttribute('aria-label', `评分 ${i} 分（${scoreDescLabels[i]}）`);
+                btn.innerHTML = `<span class="num">${i}</span>`;
+                btn.addEventListener('mouseenter', () => {
+                    const descEl = document.getElementById(`desc-${idx}`);
+                    const starsEl = document.getElementById(`stars-${idx}`);
+                    if (scores[idx] >= 0) {
+                        return;
+                    }
+                    descEl.textContent = scoreDescriptions[idx][i];
+                    starsEl.textContent = emojiMap[i];
+                    starsEl.classList.add('visible');
+                });
+                btn.addEventListener('mouseleave', () => {
+                    const starsEl = document.getElementById(`stars-${idx}`);
+                    const descEl = document.getElementById(`desc-${idx}`);
+                    if (scores[idx] >= 0) {
+                        return;
+                    }
+                    descEl.textContent = '';
+                    starsEl.textContent = '';
+                    starsEl.classList.remove('visible');
+                });
+                btn.addEventListener('click', () => {
+                    const starsEl = document.getElementById(`stars-${idx}`);
+                    const descEl = document.getElementById(`desc-${idx}`);
+                    if (scores[idx] === i) {
+                        btn.classList.remove('active');
+                        scores[idx] = -1;
+                        descEl.textContent = '';
+                        starsEl.textContent = '';
+                        starsEl.classList.remove('visible');
+                    } else {
+                        wrap.querySelectorAll('.score-btn').forEach(b => b.classList.remove('active'));
+                        btn.classList.add('active');
+                        scores[idx] = i;
+                        descEl.textContent = scoreDescriptions[idx][i];
+                        starsEl.textContent = emojiMap[i];
+                        starsEl.classList.add('visible');
+                        if (i !== 0) {
+                            btn.classList.add('pulse');
+                            setTimeout(() => btn.classList.remove('pulse'), 300);
+                        }
+                    }
+                    calcResult();
+                });
+                wrap.appendChild(btn);
+            }
+        });
+
+        function calcResult() {
+            const sum = scores.reduce((a, b) => a + Math.max(0, b), 0);
+            const completedCount = scores.filter(s => s >= 0).length;
+            const isComplete = completedCount === 7;
+
+            document.getElementById('totalScore').textContent = isComplete ? sum : '?';
+            document.getElementById('progressFill').style.width = `${(completedCount / 7) * 100}%`;
+
+            cardList.forEach((card, idx) => {
+                card.classList.toggle('completed', scores[idx] >= 0);
+                card.classList.toggle('incomplete', scores[idx] < 0);
+            });
+
+            const levelBadge = document.getElementById('levelBadge');
+            if (isComplete) {
+                const matched = levelMap.find(l => sum >= l.min);
+                levelBadge.textContent = matched ? matched.text : '请逐项打分';
+                levelBadge.className = `level-badge ${matched ? matched.class : 'level-default'}`;
+            } else {
+                levelBadge.textContent = `已完成 ${completedCount}/7 项`;
+                levelBadge.className = 'level-badge level-default';
+            }
+        }
+
+        document.getElementById('resetBtn').addEventListener('click', () => {
+            scores.fill(-1);
+            cardList.forEach(card => {
+                card.classList.remove('completed', 'incomplete');
+                card.querySelectorAll('.score-btn').forEach(b => b.classList.remove('active'));
+            });
+            document.querySelectorAll('.score-desc').forEach(el => el.textContent = '');
+            document.querySelectorAll('.item-stars').forEach(el => {
+                el.textContent = '';
+                el.classList.remove('visible');
+            });
+            calcResult();
+        });
+    </script>
+</body>
+</html>

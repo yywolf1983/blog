@@ -8,6 +8,7 @@
 - **[XXXXX安全服务方案.docx](viewer.html?file=tech/operation/doc/XXXXX安全服务方案.docx)**
 - **[devops.pptx](viewer.html?file=tech/operation/doc/devops.pptx)**
 - **[git 分支.png](viewer.html?file=tech/operation/doc/git 分支.png)**
+- **[git_sort.md](viewer.html?file=tech/operation/doc/git_sort.md)**
 - **[k8s_cluster.png](viewer.html?file=tech/operation/doc/k8s_cluster.png)**
 - **[svn缺陷.jpg](viewer.html?file=tech/operation/doc/svn缺陷.jpg)**
 - **[tcpip.tcpformat.png](viewer.html?file=tech/operation/doc/tcpip.tcpformat.png)**

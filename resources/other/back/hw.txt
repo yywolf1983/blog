@@ -47,6 +47,7 @@ package:com.android.calendar //日历，土味太浓，删了
 package:com.huawei.vassistant //语音助手，防窃听，不多说
 package:com.android.gallery3d //图库（系统相册），功能挺好，强绑华为云空间令人不爽，卸了
 package:com.huawei.himovie //华为视频，本文一开头的罪魁祸首出现了，干掉你！
+package:com.huawei.ohos.famanager  服务中心必须干掉
 
 adb shell pm uninstall --user 10  隐私模式
 
