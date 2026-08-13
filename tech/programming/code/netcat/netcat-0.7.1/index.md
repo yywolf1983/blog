@@ -10,4 +10,3 @@
 - **[lib/](viewer.html?file=tech/programming/code/netcat/netcat-0.7.1/lib/index.md)**
 - **[ncConfig.h.in](viewer.html?file=tech/programming/code/netcat/netcat-0.7.1/ncConfig.h.in)**
 - **[src/](viewer.html?file=tech/programming/code/netcat/netcat-0.7.1/src/index.md)**
-- **[tags](viewer.html?file=tech/programming/code/netcat/netcat-0.7.1/tags)**
