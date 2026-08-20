@@ -2,6 +2,7 @@
 
 ## 文件列表
 
+- **[.venv/](viewer.html?file=tech/other/.venv/index.md)**
 - **[android.md](viewer.html?file=tech/other/android.md)**
 - **[cryptsetup.md](viewer.html?file=tech/other/cryptsetup.md)**
 - **[eth/](viewer.html?file=tech/other/eth/index.md)**
@@ -10,6 +11,7 @@
 - **[go.md](viewer.html?file=tech/other/go.md)**
 - **[ipfs.md](viewer.html?file=tech/other/ipfs.md)**
 - **[letsencrypt免费证书.md](viewer.html?file=tech/other/letsencrypt免费证书.md)**
+- **[linux_base.md](viewer.html?file=tech/other/linux_base.md)**
 - **[linux_color.md](viewer.html?file=tech/other/linux_color.md)**
 - **[mac_base.md](viewer.html?file=tech/other/mac_base.md)**
 - **[mac自动启动.md](viewer.html?file=tech/other/mac自动启动.md)**
