@@ -17,6 +17,13 @@ pass
 nvim
 kalker
 
+quien  dig 简化版本
+serie  git log工具
+https://github.com/Veirt/weathr  有趣的天气软件
+pwndbg  另一种gdb
+
+NTrace-core  網絡嗅探
+
 gnome-session-flashback
 
 vlc
