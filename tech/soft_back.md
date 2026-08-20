@@ -46,6 +46,8 @@ Winhance  一款win优化工具
 zerobrew  代替 brew
 VSCodium  代替 vscode
 
+Coreutils  win 下使用linux基础命令
+
 Multipass  ubuntu虚拟软件
 ```
 
