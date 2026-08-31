@@ -121,12 +121,8 @@ function readThemeColors() {
     };
 }
 
-// 黄道上某点的坐标（progress: 0~1，0 为顶部）
+// 黄道上某点的坐标（progress: 0~1，0 为顶部）—— 始终按正圆计算
 function pointOnOrbit(cx, cy, rx, ry, layoutType, progress) {
-    if (layoutType === 'landscapeSemiCircle') {
-        const a = (progress * (24 / 23) * 180 - 90) * (Math.PI / 180);
-        return { x: cx + rx * Math.cos(a), y: cy - ry * Math.abs(Math.sin(a)) };
-    }
     const a = (progress * 360 - 90) * (Math.PI / 180);
     return { x: cx + rx * Math.cos(a), y: cy + ry * Math.sin(a) };
 }
@@ -403,12 +399,11 @@ function drawSmartConnections(centerX, centerY, layoutType, ellipseParams, curre
     
     const { radiusX, radiusY } = ellipseParams;
     const theme = themeColors;
-    const isSemi = layoutType === 'landscapeSemiCircle';
     
     // 黄道轨道：外层柔光 + 主线
     ctx.beginPath();
     strokeOrbitArc(ctx, centerX, centerY, radiusX, radiusY, layoutType, 0, 1);
-    ctx.strokeStyle = toRgba(theme.accentSoft, isSemi ? 0.18 : 0.22);
+    ctx.strokeStyle = toRgba(theme.accentSoft, 0.22);
     ctx.lineWidth = 9;
     ctx.lineCap = 'round';
     ctx.stroke();
@@ -455,14 +450,14 @@ function drawSmartConnections(centerX, centerY, layoutType, ellipseParams, curre
     }
     
     // 黄道 24 等分刻度（画在轨道外侧，四立为长刻度）
-    const tickCount = isSemi ? 12 : 24;
+    const tickCount = 24;
     const tickGap = 2.5;
     const tickLen = Math.min(9, Math.max(5, (m.edge - 6) * 0.5));
     const majorLen = Math.min(tickLen * 1.5, m.edge - tickGap - 2);
     
     for (let i = 0; i < tickCount; i++) {
-        const p = isSemi ? (i / (tickCount - 1)) * (23 / 24) : i / tickCount;
-        const major = !isSemi && i % 6 === 0;
+        const p = i / tickCount;
+        const major = i % 6 === 0;
         const len = major ? majorLen : tickLen;
         
         const a = pointOnOrbit(centerX, centerY, radiusX + tickGap, radiusY + tickGap, layoutType, p);
@@ -477,25 +472,23 @@ function drawSmartConnections(centerX, centerY, layoutType, ellipseParams, curre
     }
     
     // 四立方位度数标记（边缘空间充足时才绘制，避免小屏溢出）
-    if (!isSemi) {
-        const labelOffset = tickGap + majorLen + 10;
-        const labelFont = Math.max(9, Math.min(13, m.R * 0.033));
-        if (m.edge - labelOffset >= labelFont * 0.6) {
-            for (let i = 0; i < 24; i += 6) {
-                const degree = (i * 15) % 360;
-                const p = i / 24;
-                const label = pointOnOrbit(
-                    centerX, centerY,
-                    radiusX + labelOffset, radiusY + labelOffset,
-                    layoutType, p
-                );
-                
-                ctx.font = `${labelFont}px "PingFang SC", sans-serif`;
-                ctx.fillStyle = theme.inkFaint;
-                ctx.textAlign = 'center';
-                ctx.textBaseline = 'middle';
-                ctx.fillText(`${degree}°`, label.x, label.y);
-            }
+    const labelOffset = tickGap + majorLen + 8;
+    const labelFont = Math.max(9, Math.min(13, m.R * 0.033));
+    if (m.edge - labelOffset >= labelFont * 0.6) {
+        for (let i = 0; i < 24; i += 6) {
+            const degree = (i * 15) % 360;
+            const p = i / 24;
+            const label = pointOnOrbit(
+                centerX, centerY,
+                radiusX + labelOffset, radiusY + labelOffset,
+                layoutType, p
+            );
+            
+            ctx.font = `${labelFont}px "PingFang SC", sans-serif`;
+            ctx.fillStyle = theme.inkFaint;
+            ctx.textAlign = 'center';
+            ctx.textBaseline = 'middle';
+            ctx.fillText(`${degree}°`, label.x, label.y);
         }
     }
     
@@ -615,12 +608,9 @@ function invalidateLayoutMetrics() {
 // 节点尺寸
 function calcNodeSize(layoutType, width, R) {
     let base;
-    if (layoutType === 'fullCircle') base = width >= 1440 ? 150 : 130;
-    else if (layoutType === 'wideEllipse') base = 105;
-    else if (layoutType === 'landscapeSemiCircle') base = 80;
-    else if (layoutType === 'verticalEllipse') base = 70;
-    else if (layoutType === 'compactCircle') base = 55;
-    else base = 48;
+    if (layoutType === 'large') base = width >= 1440 ? 150 : 130;
+    else if (layoutType === 'medium') base = 105;
+    else base = 100;
     
     return Math.min(base, R * 0.36);
 }
@@ -628,13 +618,9 @@ function calcNodeSize(layoutType, width, R) {
 // 枢纽尺寸：受节点内缘约束，避免与节点重叠
 function calcHubSize(layoutType, width, R, rMin, nodeSize) {
     let baseSize;
-    if (width >= 1440 && layoutType === 'fullCircle') baseSize = 380;
-    else if (layoutType === 'fullCircle') baseSize = 340;
-    else if (layoutType === 'wideEllipse') baseSize = 300;
-    else if (layoutType === 'landscapeSemiCircle') baseSize = 260;
-    else if (layoutType === 'verticalEllipse') baseSize = 240;
-    else if (layoutType === 'compactCircle') baseSize = 200;
-    else baseSize = 180;
+    if (layoutType === 'large') baseSize = width >= 1440 ? 380 : 360;
+    else if (layoutType === 'medium') baseSize = 340;
+    else baseSize = 260;
     
     const size = R * 2;
     const maxByTrack = 2 * (rMin - nodeSize - 12);
@@ -655,28 +641,26 @@ function getLayoutMetrics() {
     
     const nodeSize = calcNodeSize(layoutType, width, R);
     
-    // 黄道外圈：贴近容器边缘，仅留安全边（外侧还要放刻度）
+    // 黄道外圈：始终为正圆，半径取容器短边，仅留安全边（外侧还要放刻度）
     const edge = Math.max(16, R * 0.09);
+    const radius = Math.max(50, Math.min(centerX, centerY) - edge);
+    const radiusX = radius;
+    const radiusY = radius;
     
-    let radiusX, radiusY;
-    if (layoutType === 'fullCircle' || layoutType === 'compactCircle') {
-        radiusX = Math.max(50, R - edge);
-        radiusY = radiusX;
-    } else {
-        radiusX = Math.max(50, centerX - edge);
-        radiusY = Math.max(50, centerY - edge);
-    }
-    
-    const hubSize = calcHubSize(layoutType, width, R, Math.min(radiusX, radiusY), nodeSize);
+    const hubSize = calcHubSize(layoutType, width, R, radius, nodeSize);
     
     // 节点内切于黄道内侧（留 5px 缝隙，使轨道线可见）
     const inset = nodeSize / 2 + 5;
-    const nodeRadiusX = Math.max(24, radiusX - inset);
-    const nodeRadiusY = Math.max(24, radiusY - inset);
+    const nodeRadius = Math.max(24, radius - inset);
+    const nodeRadiusX = nodeRadius;
+    const nodeRadiusY = nodeRadius;
+    
+    // 极小屏：节点只保留节气名，枢纽同步精简
+    const minimal = nodeSize < 78;
     
     layoutMetricsCache = {
         width, height, centerX, centerY, R, layoutType, edge,
-        nodeSize, hubSize,
+        nodeSize, hubSize, minimal,
         radiusX, radiusY,
         nodeRadiusX, nodeRadiusY
     };
@@ -713,7 +697,7 @@ function renderCentralHub(currentInfo) {
     hub.style.width = `${hubSize}px`;
     hub.style.height = `${hubSize}px`;
     // 内容较少时按比例放大字号，避免小枢纽文字过疏
-    hub.style.setProperty('--s', `${hubSize < 200 ? hubSize * 1.35 : hubSize}px`);
+    hub.style.setProperty('--s', `${hubSize < 200 ? hubSize * 1.5 : hubSize}px`);
     
     // 太阳球体（纯 CSS 绘制，替代 emoji）
     const sunOrb = `
@@ -722,7 +706,8 @@ function renderCentralHub(currentInfo) {
             <span class="orb-core"></span>
         </div>`;
     
-    // 按枢纽尺寸分级展示信息
+    // 按枢纽尺寸分级展示信息（极小屏时同步精简）
+    const minimal = getLayoutMetrics().minimal;
     let contentHtml = '';
     if (hubSize >= 260) {
         contentHtml = `
@@ -736,7 +721,7 @@ function renderCentralHub(currentInfo) {
             <div class="hub-divider"></div>
             <div class="date-info">${dateStr}</div>
         `;
-    } else if (hubSize >= 200) {
+    } else if (hubSize >= 200 && !minimal) {
         contentHtml = `
             ${sunOrb}
             <div class="title">二十四节气</div>
@@ -746,12 +731,17 @@ function renderCentralHub(currentInfo) {
             <div class="current-hou">${houxian[currentInfo.hou]} · ${currentDayChar}</div>
             <div class="date-info">${dateStr}</div>
         `;
+    } else if (hubSize >= 145) {
+        // 极小屏：只保留节气名与黄道度数
+        contentHtml = `
+            ${sunOrb}
+            <div class="current-term">${currentTermData.name}</div>
+            <div class="ecliptic-info">黄道 ${currentDegree}°</div>
+        `;
     } else {
         contentHtml = `
             ${sunOrb}
             <div class="current-term">${currentTermData.name}</div>
-            <div class="ecliptic-info">${currentDegree}°</div>
-            <div class="current-hou">${houxian[currentInfo.hou]}</div>
         `;
     }
     
@@ -759,24 +749,15 @@ function renderCentralHub(currentInfo) {
     container.appendChild(hub);
 }
 
-// 判断设备类型和获取最佳布局
+// 按容器短边判断尺寸档位
+// 注意：黄道几何恒为正圆，此处仅决定节点与枢纽的大小档位，与形状无关
 function getLayoutType() {
     const containerSize = getContainerSize();
-    const width = containerSize.width;
-    const height = containerSize.height;
-    const aspectRatio = width / height;
+    const shortSide = Math.min(containerSize.width, containerSize.height);
     
-    if (width >= 1024 && aspectRatio >= 1) {
-        return 'fullCircle'; // 大屏幕横屏：完整圆形
-    } else if (width >= 768) {
-        return 'wideEllipse'; // 中等屏幕：宽椭圆
-    } else if (aspectRatio > 1.2) {
-        return 'landscapeSemiCircle'; // 小屏横屏：半圆
-    } else if (aspectRatio < 0.8) {
-        return 'verticalEllipse'; // 竖屏：垂直椭圆
-    } else {
-        return 'compactCircle'; // 方形屏：紧凑圆形
-    }
+    if (shortSide >= 900) return 'large';   // 大屏
+    if (shortSide >= 560) return 'medium';  // 中等屏
+    return 'small';                         // 小屏
 }
 
 // 获取节点大小
@@ -784,40 +765,24 @@ function getNodeSize(layoutType) {
     return getLayoutMetrics().nodeSize;
 }
 
-// 获取椭圆参数（黄道外圈）
+// 获取黄道参数（始终为正圆）
 function getEllipseParams(layoutType, centerX, centerY) {
     const m = getLayoutMetrics();
     return { radiusX: m.radiusX, radiusY: m.radiusY };
 }
 
-// 获取节点位置 - 智能布局（节点内切于黄道内侧，更靠近内圈）
+// 获取节点位置（始终沿正圆等分排布，节点内切于黄道内侧）
 function getNodePosition(index, total, layoutType, centerX, centerY, ellipseParams) {
     const m = getLayoutMetrics();
-    const radiusX = m.nodeRadiusX;
-    const radiusY = m.nodeRadiusY;
+    const radius = m.nodeRadiusX;
     
-    let x, y;
+    // 从顶部开始顺时针等分
+    const angle = (index * 360 / total - 90) * (Math.PI / 180);
     
-    switch(layoutType) {
-        case 'landscapeSemiCircle':
-            // 横屏模式：仅显示右半圆
-            const halfAngle = (index * 180 / (total - 1) - 90) * (Math.PI / 180);
-            x = centerX + radiusX * Math.cos(halfAngle);
-            y = centerY - radiusY * Math.abs(Math.sin(halfAngle));
-            break;
-            
-        case 'verticalEllipse':
-        case 'wideEllipse':
-        case 'fullCircle':
-        case 'compactCircle':
-        default:
-            // 椭圆或圆形布局（从顶部开始顺时针）
-            const angle = (index * 360 / total - 90) * (Math.PI / 180);
-            x = centerX + radiusX * Math.cos(angle);
-            y = centerY + radiusY * Math.sin(angle);
-    }
-    
-    return { x, y };
+    return {
+        x: centerX + radius * Math.cos(angle),
+        y: centerY + radius * Math.sin(angle)
+    };
 }
 
 // 动画循环
@@ -898,8 +863,10 @@ function renderNodes(currentInfo) {
         node.style.top = `${y}px`;
         node.style.animationDelay = `${index * 0.05}s`;
         
-        // 小节点精简显示（隐藏物候文字与候内文字）
+        // 按可用空间分级精简：极小屏只保留节气名，小屏隐藏物候与候内文字
         if (nodeSize < 78) {
+            node.classList.add('node-minimal');
+        } else if (nodeSize < 100) {
             node.classList.add('node-sm');
         }
         

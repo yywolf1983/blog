@@ -260,6 +260,7 @@ body::after {
 #central-hub .title {
     font-family: var(--font-serif);
     font-size: calc(var(--s) * 0.058);
+    line-height: 1.4;
     font-weight: 600;
     color: var(--ink-soft);
     letter-spacing: 0.34em;
@@ -287,6 +288,7 @@ body::after {
 
 #central-hub .ecliptic-info {
     font-size: calc(var(--s) * 0.05);
+    line-height: 1.3;
     color: var(--ink-soft);
     font-weight: 600;
     margin-top: calc(var(--s) * 0.018);
@@ -300,6 +302,7 @@ body::after {
 #central-hub .current-hou {
     font-family: var(--font-serif);
     font-size: calc(var(--s) * 0.055);
+    line-height: 1.3;
     color: var(--ink);
     font-weight: 600;
     margin-top: calc(var(--s) * 0.018);
@@ -309,6 +312,7 @@ body::after {
 #central-hub .current-phenomenon {
     font-family: var(--font-serif);
     font-size: calc(var(--s) * 0.065);
+    line-height: 1.3;
     color: var(--accent-deep);
     font-weight: 600;
     margin-top: calc(var(--s) * 0.01);
@@ -317,6 +321,7 @@ body::after {
 
 #central-hub .date-info {
     font-size: calc(var(--s) * 0.045);
+    line-height: 1.3;
     color: var(--ink-soft);
     letter-spacing: 0.05em;
     opacity: 0.9;
@@ -378,13 +383,23 @@ body::after {
     opacity: 0.85;
 }
 
-/* 小节点：精简内容 */
+/* 小节点：隐藏物候文字，候点仅留圆点 */
 .node.node-sm .term-phenomenon {
     display: none;
 }
 
 .node.node-sm .hou-dot {
     font-size: 0;
+}
+
+/* 极小屏：只保留节气名 */
+.node.node-minimal .term-phenomenon,
+.node.node-minimal .hou-indicator {
+    display: none;
+}
+
+.node.node-minimal .term-name {
+    font-size: calc(var(--n) * 0.28);
 }
 
 /* 当前节气 */
