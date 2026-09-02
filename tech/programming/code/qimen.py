@@ -27,8 +27,11 @@ logger = Logger()
 class QiMenDunJia:
     def __init__(self, year_ganzhi, month_ganzhi, day_ganzhi, hour_ganzhi, 
              jieqi=None, yinyang=None, ju=None, method='zhebu',
-             year=None, month=None, day=None, hour=None, minute=None):
-        """初始化奇门遁甲排盘"""
+             year=None, month=None, day=None, hour=None, minute=None,
+             day_in_jieqi=1):
+        """初始化奇门遁甲排盘
+        day_in_jieqi: 节气内第几天（1基，用于三元上/中/下元判定）
+        """
         self.ganzhi_input = {
             'year': year_ganzhi,
             'month': month_ganzhi, 
@@ -45,6 +48,7 @@ class QiMenDunJia:
         self.day = day
         self.hour = hour
         self.minute = minute or 0
+        self.day_in_jieqi = day_in_jieqi
             
         # 60甲子序列
         self.liujiazi = [
@@ -214,7 +218,7 @@ class QiMenDunJia:
         # 如果有节气，自动推断阴阳遁和用局
         if self.jieqi:
             yinyang = self.get_yinyang_from_jieqi(self.jieqi)
-            ju = self.get_ju_from_jieqi(self.jieqi)
+            ju = self.get_ju_from_jieqi(self.jieqi, self.day_in_jieqi)
             return yinyang, ju
         
         # 尝试从日期自动推断节气
@@ -223,7 +227,7 @@ class QiMenDunJia:
             if inferred_jieqi:
                 self.jieqi = inferred_jieqi
                 yinyang = self.get_yinyang_from_jieqi(self.jieqi)
-                ju = self.get_ju_from_jieqi(self.jieqi)
+                ju = self.get_ju_from_jieqi(self.jieqi, self.day_in_jieqi)
                 return yinyang, ju
         
         # 无法自动确定
@@ -269,38 +273,82 @@ class QiMenDunJia:
                     return jq_name
         
         return None
+
+    def get_day_in_jieqi(self, year, month, day, jieqi_name):
+        """计算当前日期距离所处节气开始有多少天（1基）"""
+        if not jieqi_name:
+            return 1
+        input_date = datetime.date(year, month, day)
+        for jq_month, jq_day, jq_name in self.jieqi_dates:
+            if jq_name == jieqi_name:
+                try:
+                    jq_date = datetime.date(year, jq_month, jq_day)
+                except ValueError:
+                    continue
+                # 如果日期在节气之前，说明是上一年的节气
+                if input_date < jq_date:
+                    try:
+                        jq_date = datetime.date(year - 1, jq_month, jq_day)
+                    except ValueError:
+                        continue
+                diff = (input_date - jq_date).days + 1
+                return max(1, min(diff, 15))
+        return 1
     
-    def get_ju_from_jieqi(self, jieqi_name):
-        """根据节气确定用局 - 修复版"""
-        # 传统奇门用局表（阳遁）
-        jieqi_ju_yang = {
-            "冬至": 1, "小寒": 2, "大寒": 3, "立春": 8, "雨水": 9, "惊蛰": 1,
-            "春分": 3, "清明": 4, "谷雨": 5, "立夏": 4, "小满": 5, "芒种": 6
-        }
-        
-        # 阴遁用局表
-        jieqi_ju_yin = {
-            "夏至": 9, "小暑": 8, "大暑": 7, "立秋": 2, "处暑": 1, "白露": 9,
-            "秋分": 7, "寒露": 6, "霜降": 5, "立冬": 6, "小雪": 5, "大雪": 4
-        }
-        
-        # 确定当前节气属于阳遁还是阴遁
-        yang_dun_jieqi = ["冬至", "小寒", "大寒", "立春", "雨水", "惊蛰", 
-                        "春分", "清明", "谷雨", "立夏", "小满", "芒种"]
-        
-        if jieqi_name in yang_dun_jieqi:
-            return jieqi_ju_yang.get(jieqi_name, 1)
-        else:
-            return jieqi_ju_yin.get(jieqi_name, 1)
+    def get_ju_from_jieqi(self, jieqi_name, day_in_jieqi=1):
+        """根据节气 + 节气内第几天 确定用局（三元上/中/下元）
+        移植自Java版 getJuShuByJieqi + getYuanIndex
+        day_in_jieqi: 节气内第几天（1基，1..15）
+        """
+        def get_yuan_index(dij):
+            if dij <= 5: return 0   # 上元
+            if dij <= 10: return 1  # 中元
+            return 2                # 下元
+
+        # 阳遁三元局数表：[节气索引][上元, 中元, 下元]
+        yang_dun_order = ["冬至","小寒","大寒","立春","雨水","惊蛰",
+                         "春分","清明","谷雨","立夏","小满","芒种"]
+        yang_dun_ju = [
+            [1,7,4],[2,8,5],[3,9,6],[8,5,2],[9,6,3],[1,7,4],
+            [3,9,6],[4,1,7],[5,2,8],[4,1,7],[5,2,8],[6,3,9]
+        ]
+        # 阴遁三元局数表
+        yin_dun_order = ["夏至","小暑","大暑","立秋","处暑","白露",
+                        "秋分","寒露","霜降","立冬","小雪","大雪"]
+        yin_dun_ju = [
+            [9,3,6],[8,2,5],[7,1,4],[2,5,8],[1,4,7],[9,3,6],
+            [7,1,4],[6,9,3],[5,8,2],[6,9,3],[5,8,2],[4,7,1]
+        ]
+
+        yuan = get_yuan_index(day_in_jieqi)
+        if jieqi_name in yang_dun_order:
+            idx = yang_dun_order.index(jieqi_name)
+            return yang_dun_ju[idx][yuan]
+        elif jieqi_name in yin_dun_order:
+            idx = yin_dun_order.index(jieqi_name)
+            return yin_dun_ju[idx][yuan]
+        return 1
     
     def pai_dipan(self, ju, yinyang):
-        """排地盘：阳遁阴遁地盘固定
-        传统规则：戊一宫、己二宫、庚三宫、辛四宫、壬五宫（寄坤二）、癸六宫、丁七宫、丙八宫、乙九宫
-        无论阳遁阴遁，地盘天干顺序固定不变
+        """排地盘三奇六仪（标准算法，移植自Java版 arrangeDiPanTianGanStandard）
+        阳遁：从局数宫开始，顺排 戊己庚辛壬癸丁丙乙
+        阴遁：从局数宫开始，逆排 戊乙丙丁癸壬辛庚己
+        宫位0-8对应：坎一、坤二、震三、巽四、中五、乾六、兑七、艮八、离九
         """
-        # 地盘天干固定顺序（宫位0-8对应坎一到离九宫）
-        # 戊一宫、己二宫、庚三宫、辛四宫、壬五宫（寄坤二）、癸六宫、丁七宫、丙八宫、乙九宫
-        return ["戊", "己", "庚", "辛", "壬", "癸", "丁", "丙", "乙"]
+        yang_order = ["戊", "己", "庚", "辛", "壬", "癸", "丁", "丙", "乙"]
+        yin_order  = ["戊", "乙", "丙", "丁", "癸", "壬", "辛", "庚", "己"]
+        result = [""] * 9
+
+        if yinyang == '阳':
+            start_pos = ju - 1
+            for i in range(9):
+                result[(start_pos + i) % 9] = yang_order[i]
+        else:
+            start_pos = ju - 1
+            for i in range(9):
+                result[(start_pos - i + 9) % 9] = yin_order[i]
+
+        return result
 
     def get_xunshou_simple(self, shi_gan, shi_zhi):
         """根据时干支计算旬首
@@ -338,40 +386,27 @@ class QiMenDunJia:
         }
         return xunshou_zhishi_map.get(xunshou, "休")
 
-    def pai_tianpan(self, shi_gan, yinyang):
-        """排天盘：值符随时干，天盘按阴阳遁方向排布
-        传统规则：
-        - 天盘天干顺序：戊己庚辛壬癸丁丙乙（与地盘相同）
-        - 值符落宫（时干所在宫）放置时干
-        - 其余天干按阴阳遁方向依次排布
-        - 阳遁：顺时针排布；阴遁：逆时针排布
+    def pai_tianpan(self, xunshou_gan, zhifu_pos, yinyang):
+        """排天盘三奇六仪（移植自Java版 arrangeTianPanTianGanStandard）
+        天盘随地盘整体旋转，使'旬首六仪'（值符星原本携带之干）落值符宫。
         """
-        tianpan = [""] * 9
-        
-        if not shi_gan or not hasattr(self, 'dipan'):
-            return [""] * 9
-        
-        # 天盘天干顺序（与地盘相同）
         tianpan_order = ["戊", "己", "庚", "辛", "壬", "癸", "丁", "丙", "乙"]
-        
-        # 值符落宫位置（时干所在宫）
-        zhifu_pos = self.zhifu_pos
-        
-        # 找到时干在天盘顺序中的位置
-        shi_gan_index = tianpan_order.index(shi_gan) if shi_gan in tianpan_order else 0
-        
-        # 根据阴阳遁方向排布天盘
+        tianpan = [""] * 9
+
+        # 旬首六仪在天盘顺序中的位置
+        start_idx = 0
+        for i in range(9):
+            if tianpan_order[i] == xunshou_gan:
+                start_idx = i
+                break
+
         if yinyang == '阳':
-            # 阳遁：顺时针排布
             for i in range(9):
-                pos = (zhifu_pos + i) % 9
-                tianpan[pos] = tianpan_order[(shi_gan_index + i) % 9]
+                tianpan[(zhifu_pos + i) % 9] = tianpan_order[(start_idx + i) % 9]
         else:
-            # 阴遁：逆时针排布
             for i in range(9):
-                pos = (zhifu_pos - i) % 9
-                tianpan[pos] = tianpan_order[(shi_gan_index + i) % 9]
-        
+                tianpan[(zhifu_pos - i + 9) % 9] = tianpan_order[(start_idx + i) % 9]
+
         return tianpan
     
     def pai_pan(self):
@@ -407,15 +442,15 @@ class QiMenDunJia:
         self.bamen = self.pai_bamen(self.yinyang)
         logger.debug(f"八门: {self.bamen}")
         
-        # 6. 排天盘（值符随时干）
-        self.tianpan = self.pai_tianpan(self.ganzhi_info['hour_gan'], self.yinyang)
+        # 6. 排天盘（旬首六仪落值符宫）
+        self.tianpan = self.pai_tianpan(self.xunshou_gan, self.zhifu_pos, self.yinyang)
         logger.debug(f"天盘: {self.tianpan}")
         
         # 7. 排八神（值符落宫起）
         self.bashen = self.pai_bashen(self.yinyang)
         
-        # 8. 判断旺衰
-        self.wangshuai = self.get_wangshuai(self.ganzhi_info['day_gan'])
+        # 8. 判断旺衰（以节气月令五行为标准）
+        self.wangshuai = self.get_wangshuai(self.jieqi)
         
         # 填充盘局数据
         for i in range(9):
@@ -540,99 +575,97 @@ class QiMenDunJia:
         return jiuxing
     
     def pai_bashen(self, yinyang):
-        """排八神：值符落宫起，按八神顺序排布
-        传统规则：
-        - 八神顺序：值符、螣蛇、太阴、六合、白虎、玄武、九地、九天
-        - 从值符落宫开始排布
-        - 阳遁顺时针排列，阴遁逆时针排列
-        - 八神不入中五宫
+        """排八神（移植自Java版 arrangeEightGodsStandard）
+        阳遁八神顺序：值符→螣蛇→太阴→六合→白虎→玄武→九地→九天
+        阴遁八神顺序：值符→九天→九地→玄武→白虎→六合→太阴→螣蛇（逆转）
+        从值符落宫开始排布，不入中五宫。
         """
-        bashen_order = ["值符", "螣蛇", "太阴", "六合", "白虎", "玄武", "九地", "九天"]
+        yang_shen_order = ["值符", "螣蛇", "太阴", "六合", "白虎", "玄武", "九地", "九天"]
+        yin_shen_order  = ["值符", "九天", "九地", "玄武", "白虎", "六合", "太阴", "螣蛇"]
+        bashen_order = yang_shen_order if yinyang == '阳' else yin_shen_order
         bashen = [""] * 9
-        
-        # 值符落宫位置
+
         start_pos = getattr(self, 'zhifu_pos', 0)
-        
-        # 阳遁顺时针，阴遁逆时针
+
         if yinyang == '阳':
-            direction = 1
+            current_idx = 0
+            pos = start_pos
+            while current_idx < 8:
+                if pos != 4:
+                    bashen[pos] = bashen_order[current_idx]
+                    current_idx += 1
+                pos = (pos + 1) % 9
         else:
-            direction = -1
-        
-        # 从值符位置开始排八神
-        assigned = 0
-        for offset in range(9):
-            pos = (start_pos + offset * direction) % 9
-            
-            if pos == 4:  # 跳过中五宫
-                continue
-            
-            bashen[pos] = bashen_order[assigned]
-            assigned += 1
-            
-            if assigned >= 8:
-                break
-        
+            current_idx = 0
+            pos = start_pos
+            while current_idx < 8:
+                if pos != 4:
+                    bashen[pos] = bashen_order[current_idx]
+                    current_idx += 1
+                pos = (pos - 1 + 9) % 9
+
         return bashen
 
-    def get_wangshuai(self, ri_gan):
-        """判断旺衰 - 根据日干五行与宫位五行生克
-        传统规则：
-        - 旺：宫位五行与日干五行相同
-        - 相：宫位五行生日干五行
-        - 休：日干五行生宫位五行
-        - 囚：宫位五行克日干五行
-        - 死：日干五行克宫位五行
+    def get_wangshuai(self, jieqi=None):
+        """判断旺衰（移植自Java版 calculateWangCui）
+        以节气月令五行为时令，宫位五行为用神。
+        旺=宫同月令、相=月令生宫、休=宫生月令、囚=月令克宫、死=宫克月令
         """
-        if not ri_gan:
-            return [""] * 9
-        
-        # 天干五行
-        tiangan_wuxing = {
-            "甲": "木", "乙": "木", "丙": "火", "丁": "火", "戊": "土",
-            "己": "土", "庚": "金", "辛": "金", "壬": "水", "癸": "水"
-        }
-        
-        # 九宫五行（洛书九宫对应）
-        # 坎一宫水、坤二宫土、震三宫木、巽四宫木、中五宫土、乾六宫金、兑七宫金、艮八宫土、离九宫火
+        def get_yue_ling_wuxing(jq):
+            if jq is None: return "木"
+            mapping = {
+                "立春": "木", "雨水": "木",     # 寅月
+                "惊蛰": "木", "春分": "木",     # 卯月
+                "清明": "土", "谷雨": "土",     # 辰月
+                "立夏": "火", "小满": "火",     # 巳月
+                "芒种": "火", "夏至": "火",     # 午月
+                "小暑": "土", "大暑": "土",     # 未月
+                "立秋": "金", "处暑": "金",     # 申月
+                "白露": "金", "秋分": "金",     # 酉月
+                "寒露": "土", "霜降": "土",     # 戌月
+                "立冬": "水", "小雪": "水",     # 亥月
+                "大雪": "水", "冬至": "水",     # 子月
+                "小寒": "土", "大寒": "土",     # 丑月
+            }
+            return mapping.get(jq, "木")
+
+        def is_sheng(a, b):
+            """a 生 b?"""
+            pairs = [("木","火"),("火","土"),("土","金"),("金","水"),("水","木")]
+            return (a,b) in pairs
+
+        def is_ke(a, b):
+            """a 克 b?"""
+            pairs = [("木","土"),("土","水"),("水","火"),("火","金"),("金","木")]
+            return (a,b) in pairs
+
+        # 九宫五行（宫序：坎坤震巽中乾兑艮离）
         gong_wuxing = ["水", "土", "木", "木", "土", "金", "金", "土", "火"]
-        
-        # 五行相生：木生火、火生土、土生金、金生水、水生木
-        # 五行相克：木克土、土克水、水克火、火克金、金克木
-        
-        ri_wuxing = tiangan_wuxing.get(ri_gan, "土")
+        ling_wuxing = get_yue_ling_wuxing(jieqi)
         wangshuai = []
-        
-        # 五行生克映射
-        sheng_relation = {"木": "火", "火": "土", "土": "金", "金": "水", "水": "木"}  # 我生者
-        ke_relation = {"木": "土", "土": "水", "水": "火", "火": "金", "金": "木"}  # 我克者
-        
-        for i in range(9):
-            gong_wx = gong_wuxing[i]
-            
-            if gong_wx == ri_wuxing:
-                status = "旺"      # 同我者旺
-            elif sheng_relation.get(ri_wuxing) == gong_wx:
-                status = "相"      # 我生者相（泄气）
-            elif sheng_relation.get(gong_wx) == ri_wuxing:
-                status = "休"      # 生我者休（得生）
-            elif ke_relation.get(ri_wuxing) == gong_wx:
-                status = "死"      # 我克者死（耗力）
-            elif ke_relation.get(gong_wx) == ri_wuxing:
-                status = "囚"      # 克我者囚（受制）
+
+        for gong_wx in gong_wuxing:
+            if gong_wx == ling_wuxing:
+                status = "旺"      # 同者旺
+            elif is_sheng(ling_wuxing, gong_wx):
+                status = "相"      # 时令生用神
+            elif is_sheng(gong_wx, ling_wuxing):
+                status = "休"      # 用神生育令
+            elif is_ke(ling_wuxing, gong_wx):
+                status = "囚"      # 时令克用神
             else:
-                status = ""
-                
+                status = "死"      # 用神克时令
             wangshuai.append(status)
-        
+
         return wangshuai
     
     def determine_zhifu_zhishi(self, shi_gan=None, shi_zhi=None):
-        """确定值符值使及其落宫位置 - 传统奇门遁甲规则
+        """确定值符值使及其落宫位置（移植自Java版 getXunShouInfoStandard + getZhiShiPalace）
         核心逻辑：
-        1. 旬首定值符：根据时柱确定旬首，再确定值符星和值使门
-        2. 值符随时干：值符星落到时干所在的宫位
-        3. 值使落宫：从旬首宫位（六甲遁在戊己庚辛壬癸下）开始顺/逆数到时辰
+        1. 旬首六仪在地盘的位置 = 旬首宫（动态，随地盘变化）
+        2. 值符星 = 旬首宫的地盘九星；值使门 = 旬首宫的地盘八门（中宫寄坤）
+        3. 值符随时干落宫（时干为甲时取旬首六仪所在宫）
+        4. 值使落宫 = 旬首宫 + (时支 − 旬首地支) 的差值（阳顺阴逆）
         """
         if not hasattr(self, 'ganzhi_info'):
             self.ganzhi_info = self.parse_ganzhi(self.ganzhi_input)
@@ -640,55 +673,50 @@ class QiMenDunJia:
         shi_gan = shi_gan or self.ganzhi_info.get('hour_gan', '甲')
         shi_zhi = shi_zhi or self.ganzhi_info.get('hour_zhi', '子')
 
+        # 地盘九星（宫序：坎坤震巽中乾兑艮离）
+        di_pan_stars = ["天蓬", "天芮", "天冲", "天辅", "天禽", "天心", "天柱", "天任", "天英"]
+        # 地盘八门（中宫寄坤二宫）
+        di_pan_doors = ["休", "死", "伤", "杜", "", "开", "惊", "生", "景"]
+        # 六甲旬首遁于六仪
+        xunshou_gan_map = {"甲子": "戊", "甲戌": "己", "甲申": "庚",
+                           "甲午": "辛", "甲辰": "壬", "甲寅": "癸"}
+
         # 1. 根据时干支确定旬首
         xunshou = self.get_xunshou_simple(shi_gan, shi_zhi)
+        self.xunshou = xunshou
 
-        # 2. 根据旬首确定值符（九星）
-        xunshou_zhifu_map = {
-            "甲子": "天蓬", "甲戌": "天芮", "甲申": "天冲",
-            "甲午": "天辅", "甲辰": "天禽", "甲寅": "天心"
-        }
-        self.zhifu = xunshou_zhifu_map.get(xunshou, "天蓬")
-
-        # 3. 根据旬首确定值使（八门）
-        xunshou_zhishi_map = {
-            "甲子": "休", "甲戌": "生", "甲申": "伤",
-            "甲午": "杜", "甲辰": "景", "甲寅": "死"
-        }
-        self.zhishi = xunshou_zhishi_map.get(xunshou, "休")
-
-        # 4. 值符随时干：找到时干在地盘的位置，值符就落在该宫
-        # 地盘是固定的：坎1戊、坤2己、震3庚、巽4辛、中5壬（寄坤2）、乾6癸、兑7丁、艮8丙、离9乙
-        # 九宫索引：坎0 坤1 震2 巽3 中4 乾5 兑6 艮7 离8
+        # 2. 旬首六仪在地盘中的位置（动态，随地盘随局数变化）
+        xunshou_gan = xunshou_gan_map.get(xunshou, "戊")
+        self.xunshou_gan = xunshou_gan
         try:
-            self.zhifu_pos = self.dipan.index(shi_gan)
+            xunshou_palace = self.dipan.index(xunshou_gan)
+        except ValueError:
+            xunshou_palace = 0
+
+        # 3. 值符星 = 旬首宫的地盘九星；值使门 = 旬首宫的地盘八门（中宫寄坤二）
+        self.zhifu = di_pan_stars[xunshou_palace]
+        zhishi_door = di_pan_doors[xunshou_palace]
+        if not zhishi_door:
+            zhishi_door = di_pan_doors[1]  # 中宫寄坤二
+        self.zhishi = zhishi_door
+
+        # 4. 值符随时干落宫：时干为甲时取旬首六仪所在宫
+        zhi_fu_gan = xunshou_gan if shi_gan == "甲" else shi_gan
+        try:
+            self.zhifu_pos = self.dipan.index(zhi_fu_gan)
         except ValueError:
             self.zhifu_pos = 0
 
-        # 5. 值使落宫：从旬首天干所在宫位开始，按时辰数顺/逆数
-        # 六甲遁在戊己庚辛壬癸之下：甲子→戊(坎一)、甲戌→己(坤二)、甲申→庚(震三)
-        #                           甲午→辛(巽四)、甲辰→壬(中五)、甲寅→癸(乾六)
-        xunshou_gong_map = {
-            "甲子": 0,  # 戊在坎一宫
-            "甲戌": 1,  # 己在坤二宫
-            "甲申": 2,  # 庚在震三宫
-            "甲午": 3,  # 辛在巽四宫
-            "甲辰": 4,  # 壬在中五宫
-            "甲寅": 5   # 癸在乾六宫
-        }
-        xunshou_base_pos = xunshou_gong_map.get(xunshou, 0)
-        
-        # 计算时辰数（子=1, 丑=2, ..., 亥=12）
-        shi_zhi_index = self.dizhi.index(shi_zhi)
-        shi_cheng = (shi_zhi_index + 1) % 12
-        if shi_cheng == 0:
-            shi_cheng = 12
-        
-        # 值使落宫：阳遁顺时针数，阴遁逆时针数
+        # 5. 值使落宫：阳遁从旬首宫 + (时支 − 旬首地支) 顺数，阴遁逆数
+        xunshou_zhi = xunshou[1]  # 旬首地支
+        zhi_idx = self.dizhi.index(shi_zhi)
+        shou_zhi_idx = self.dizhi.index(xunshou_zhi)
+        steps = (zhi_idx - shou_zhi_idx + 12) % 12  # 0..11
+
         if self.yinyang == '阳':
-            self.zhishi_pos = (xunshou_base_pos + shi_cheng - 1) % 9
+            self.zhishi_pos = (xunshou_palace + steps) % 9
         else:
-            self.zhishi_pos = (xunshou_base_pos - shi_cheng + 1) % 9
+            self.zhishi_pos = (xunshou_palace - steps + 9) % 9
     
     def print_jiugong_layout(self):
         """修正九宫打印顺序（洛书标准顺序：坎1、坤2、震3、巽4、中5、乾6、兑7、艮8、离9）"""
@@ -1117,6 +1145,9 @@ def main():
     # 自动推断节气
     qmdj_temp = QiMenDunJia(year_ganzhi, month_ganzhi, day_ganzhi, hour_ganzhi)
     inferred_jieqi = qmdj_temp.get_jieqi_from_date(year, month, day)
+    day_in_jieqi = qmdj_temp.get_day_in_jieqi(year, month, day, inferred_jieqi)
+    
+    logger.debug(f"节气: {inferred_jieqi}, 节气内第{day_in_jieqi}天")
     
     try:
         qmdj = QiMenDunJia(
@@ -1130,7 +1161,8 @@ def main():
             day=day,
             hour=hour,
             minute=minute,
-            method=method
+            method=method,
+            day_in_jieqi=day_in_jieqi
         )
         
         qmdj.pai_pan()
