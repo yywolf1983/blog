@@ -4,3 +4,21 @@
 
 curl -X POST -H "X-API-Key:i6t2LPrigDS2kyk3FbcffUZ5LQSz4zAi" 
 "http://127.0.0.1:8384/rest/system/reset?folder=bvyz1-q7u1g&sub=apk/.DS_Store" 
+
+```
+**/.venv
+
+(?d).DS_Store  
+**.DS_Store
+```
+
+```
+// 忽略所有层级下的 .git 目录及全部内容
+**/.git
+
+// git附属文件
+**/.gitignore
+
+/build_output
+/build
+```
