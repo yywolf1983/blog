@@ -432,31 +432,43 @@ body::after {
     100% { transform: scale(1.18); opacity: 0; }
 }
 
-/* 已过去的节气 */
+/* 已过去的节气：灰旧、低存在感，一眼可与“未来”区分 */
 .node.past-term {
-    background: linear-gradient(158deg, rgba(244, 239, 231, 0.78) 0%, rgba(228, 220, 207, 0.68) 100%);
-    border-color: rgba(255, 255, 255, 0.55);
-    box-shadow: 0 3px 10px rgba(92, 62, 30, 0.08);
-    opacity: 0.7;
-    filter: saturate(0.5);
+    background: linear-gradient(158deg, rgba(224, 217, 203, 0.62) 0%, rgba(207, 198, 182, 0.5) 100%);
+    border-color: rgba(146, 132, 110, 0.3);
+    box-shadow: 0 2px 6px rgba(92, 62, 30, 0.06);
+    opacity: 0.6;
+    filter: grayscale(0.72) brightness(0.96);
 }
 
 .node.past-term:hover {
-    opacity: 1;
-    filter: saturate(1);
+    opacity: 0.92;
+    filter: grayscale(0.25);
+    box-shadow:
+        0 8px 18px var(--shadow-soft),
+        inset 0 1px 0 rgba(255, 255, 255, 0.8);
 }
 
 .node.past-term .term-name {
-    color: var(--ink-soft);
+    color: #8d8272;
 }
 
-/* 未来的节气 */
+.node.past-term .term-phenomenon {
+    color: #a29a8c;
+    opacity: 0.95;
+}
+
+/* 未来的节气：白净明亮、带一丝天光蓝，示意“尚未到来” */
 .node.future-term {
-    background: linear-gradient(158deg, rgba(255, 255, 255, 0.88) 0%, rgba(243, 246, 248, 0.72) 100%);
+    background: linear-gradient(158deg, rgba(255, 255, 255, 0.98) 0%, rgba(213, 227, 246, 0.55) 100%);
+    border-color: rgba(128, 156, 196, 0.4);
+    box-shadow:
+        0 6px 16px var(--shadow-soft),
+        0 0 0 1px rgba(128, 156, 196, 0.12);
 }
 
 .node.future-term .term-name {
-    color: #6a86a5;
+    color: #45689b;
 }
 
 /* 候指示器 */
@@ -705,15 +717,30 @@ body::after {
     }
 
     .node.past-term {
-        background: linear-gradient(158deg, rgba(255, 255, 255, 0.05) 0%, rgba(255, 255, 255, 0.02) 100%);
+        background: linear-gradient(158deg, rgba(255, 255, 255, 0.028) 0%, rgba(0, 0, 0, 0.14) 100%);
+        border-color: rgba(255, 255, 255, 0.06);
+        box-shadow: none;
+        opacity: 0.55;
+        filter: grayscale(0.85);
+    }
+
+    .node.past-term:hover {
+        opacity: 0.85;
+        filter: grayscale(0.4);
+    }
+
+    .node.past-term .term-name {
+        color: #756c5e;
     }
 
     .node.future-term {
-        background: linear-gradient(158deg, rgba(255, 255, 255, 0.07) 0%, rgba(255, 255, 255, 0.02) 100%);
+        background: linear-gradient(158deg, rgba(171, 198, 233, 0.16) 0%, rgba(171, 198, 233, 0.05) 100%);
+        border-color: rgba(171, 198, 233, 0.28);
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.18);
     }
 
     .node.future-term .term-name {
-        color: #9fb6d1;
+        color: #b7cdea;
     }
 
     .tooltip-inner {
