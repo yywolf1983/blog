@@ -1,7 +1,6 @@
-
 ## 古琴指法表
 
-<img src="/dao/images/古琴指法表.jpg" />
+<img src="/culture/taoism/images/古琴指法表.jpg" />
 
 
 ```

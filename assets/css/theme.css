@@ -3,42 +3,46 @@
 /* 颜色变量定义 */
 :root {
   /* 主色调系统 - 沉稳专业版 */
-  --color-primary: #2C3E50; /* 深夜蓝 - 主色（沉稳的基调） */
-  --color-secondary: #D5DBDB; /* 浅灰 - 辅助色（呼吸的空间） */
-  --color-accent: #E67E22; /* 深橙色 - 强调色（鲜亮的焦点） */
+  --color-primary: #2C3E50; /* 深夜蓝 - 主色 */
+  --color-secondary: #D5DBDB; /* 浅灰 - 辅助色 */
+  --color-accent: #E67E22; /* 深橙色 - 强调色 */
   --color-accent-secondary: #F39C12; /* 旭日橙 - 第二强调色 */
   --color-neutral: #7F8C8D; /* 深灰色 - 中性色 */
-  --color-text: #ECF0F1; /* 云雾白 - 正文色 */
-  --color-text-light: #FFFFFF; /* 纯白 - 浅色文字 */
+
+  /* 文字 */
+  --color-text: #ECF0F1; /* 云雾白 - 正文 */
+  --color-text-light: #FFFFFF;
   --color-text-muted: #BDC3C7; /* 中灰色 - 次要文字 */
-  
+
   /* 功能区域颜色 */
   --color-bg: #34495E; /* 深蓝灰 - 页面背景 */
   --color-nav: #2C3E50; /* 深夜蓝 - 导航栏 */
   --color-sidebar: #2C3E50; /* 深夜蓝 - 侧边栏 */
-  --color-heading: #ECF0F1; /* 云雾白 - 标题 */
+  --color-surface: #2C3E50; /* 卡片表面（与导航一致） */
+  --color-surface-alt: rgba(255, 255, 255, 0.06); /* 悬停/代码底 */
+  --color-heading: #ECF0F1; /* 标题 */
   --color-link: #E67E22; /* 深橙色 - 链接 */
   --color-border: #5D6D7E; /* 中灰色 - 边框 */
-  --color-code: #2C3E50; /* 深夜蓝 - 代码块 */
-  --color-code-background: #2C3E50; /* 深夜蓝 - 代码背景 */
-  --color-quote: #2C3E50; /* 深夜蓝 - 引用块 */
+  --color-code: #2C3E50; /* 代码块 */
+  --color-code-background: #2C3E50;
+  --color-quote: #2C3E50; /* 引用块 */
   --color-background: #34495E; /* 页面背景 */
   --color-background-secondary: #2C3E50; /* 次要背景 */
   --color-text-secondary: #BDC3C7; /* 次要文本 */
-  
+
   /* 板块专属颜色 */
-  --color-tech: #E67E22; /* 深橙色 - 技术板块 */
-  --color-culture: #F39C12; /* 旭日橙 - 文化板块 */
-  --color-medicine: #3498DB; /* 蓝色 - 医学板块 */
-  --color-chess: #9B59B6; /* 紫色 - 棋类板块 */
-  --color-music: #E74C3C; /* 红色 - 音乐板块 */
-  
+  --color-tech: #E67E22;
+  --color-culture: #F39C12;
+  --color-medicine: #3498DB;
+  --color-chess: #9B59B6;
+  --color-music: #E74C3C;
+
   /* 阴影效果 */
   --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.1);
   --shadow-md: 0 4px 6px rgba(0, 0, 0, 0.1);
   --shadow-lg: 0 10px 15px rgba(0, 0, 0, 0.1);
   --shadow-xl: 0 20px 25px rgba(0, 0, 0, 0.1);
-  
+
   /* 间距系统 */
   --spacing-xs: 0.25rem;
   --spacing-sm: 0.5rem;
@@ -48,7 +52,7 @@
   --spacing-2xl: 3rem;
   --spacing-3xl: 4rem;
   --spacing-4xl: 5rem;
-  
+
   /* 圆角系统 */
   --radius-sm: 0.25rem;
   --radius-md: 0.375rem;
@@ -56,6 +60,9 @@
   --radius-xl: 0.75rem;
   --radius-2xl: 1rem;
 }
+
+/* 基础字号放大 6%，全站比例不变（加大文字） */
+html { font-size: 1.0625rem; }
 
 /* 全局样式 */
 body {
@@ -372,8 +379,8 @@ a::after {
 
 a:hover {
   transform: translateY(-1px);
-  text-shadow: 0 0 5px rgba(54, 207, 251, 0.5);
-  box-shadow: 0 2px 8px rgba(54, 207, 251, 0.3);
+  text-shadow: 0 0 5px rgba(230, 126, 34, 0.5);
+  box-shadow: 0 2px 8px rgba(230, 126, 34, 0.3);
 }
 
 a:hover::after {
@@ -551,7 +558,7 @@ ol li::before {
   display: inline-block;
   width: 1.5em;
   margin-left: -1.5em;
-  background-color: rgba(22, 93, 255, 0.1);
+  background-color: rgba(230, 126, 34, 0.1);
   padding: 0.125em 0.375em;
   border-radius: var(--radius-sm);
   text-align: center;
@@ -618,7 +625,7 @@ th {
 }
 
  tr:hover td {
-  background-color: rgba(22, 93, 255, 0.05);
+  background-color: rgba(230, 126, 34, 0.05);
 }
 
 /* 响应式表格 */
@@ -872,7 +879,7 @@ hr.wide {
   display: flex;
   align-items: center;
   justify-content: center;
-  background-color: rgba(22, 93, 255, 0.1);
+  background-color: rgba(230, 126, 34, 0.1);
   border-radius: var(--radius-xl);
   border: 1px solid var(--color-border);
   box-shadow: var(--shadow-sm);
@@ -940,8 +947,8 @@ hr.wide {
 .category-item:hover {
   border-color: var(--color-primary);
   transform: translateY(-2px);
-  box-shadow: 0 4px 12px rgba(54, 207, 251, 0.4);
-  text-shadow: 0 0 8px rgba(54, 207, 251, 0.6);
+  box-shadow: 0 4px 12px rgba(230, 126, 34, 0.4);
+  text-shadow: 0 0 8px rgba(230, 126, 34, 0.6);
 }
 
 .category-item:active {
@@ -1188,7 +1195,7 @@ hr.wide {
 
 /* 加载动画 */
 @keyframes loading-glow {
-  from { color: var(--color-accent); text-shadow: 0 0 20px rgba(54, 207, 251, 0.4); }
+  from { color: var(--color-accent); text-shadow: 0 0 20px rgba(230, 126, 34, 0.4); }
   to { color: var(--color-accent-secondary); text-shadow: 0 0 30px rgba(114, 46, 209, 0.6); }
 }
 

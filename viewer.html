@@ -28,6 +28,252 @@
   <script src="assets/vendor/marked/9.1.2/marked.min.js"></script>
   <script src="assets/vendor/js-yaml/4.1.0/js-yaml.min.js"></script>
   <script src="assets/vendor/mathjax/3/es5/tex-svg-full.js" id="MathJax-script"></script>
+  <style>
+    /* ===== viewer 页面样式（与首页同宽 + 玻璃顶栏 + 卡片正文） ===== */
+    html, body { margin: 0 !important; padding: 0 !important; }
+
+    /* 容器与首页同宽（1180px 居中），保证详情与首页宽度一致 */
+    .container {
+      max-width: 1180px !important;
+      margin: 0 auto !important;
+      padding: var(--spacing-2xl) var(--spacing-lg) var(--spacing-xl) !important;
+    }
+
+    /* 玻璃顶栏（与首页 Hero 一致的卡片风格） */
+    .container .header {
+      margin: 0 0 var(--spacing-lg) !important;
+      padding: var(--spacing-md) var(--spacing-lg) !important;
+      background: rgba(44, 62, 80, 0.85) !important;
+      backdrop-filter: blur(12px) !important;
+      -webkit-backdrop-filter: blur(12px) !important;
+      border: 1px solid var(--color-border) !important;
+      border-radius: var(--radius-xl) !important;
+      box-shadow: var(--shadow-md) !important;
+      display: flex !important;
+      align-items: center !important;
+      gap: var(--spacing-sm) !important;
+    }
+    .container .header h1 {
+      margin: 0 !important;
+      font-size: 1.2rem !important;
+      font-weight: 700 !important;
+      color: var(--color-text-light) !important;
+      text-shadow: none !important;
+    }
+
+    /* 面包屑：轻量 */
+    .container .breadcrumb {
+      margin: var(--spacing-xs) 0 var(--spacing-lg) 0 !important;
+      padding: 6px var(--spacing-md) !important;
+      background: transparent !important;
+      border: none !important;
+      box-shadow: none !important;
+      border-radius: 0 !important;
+      font-size: 0.9rem !important;
+    }
+
+    /* 内容容器：无卡片边框（避免与正文卡片双重边距） */
+    .container .content {
+      margin: 0 !important;
+      padding: 0 !important;
+      border: none !important;
+      box-shadow: none !important;
+      border-radius: 0 !important;
+      background: transparent !important;
+      max-width: none !important;
+    }
+    .container .content::before { display: none !important; }
+    .container .content #contentArea { margin: 0 !important; padding: 0 !important; }
+
+    /* 正文卡片：边框 + 内距（与首页卡片风格一致） */
+    #contentArea .markdown-body {
+      padding: var(--spacing-xl) var(--spacing-2xl) !important;
+      margin: 0 !important;
+      border: 1px solid var(--color-border) !important;
+      box-shadow: var(--shadow-md) !important;
+      border-radius: var(--radius-lg) !important;
+      background: var(--color-surface) !important;
+      max-width: 100% !important;
+    }
+    #contentArea .markdown-body > :first-child { margin-top: 0 !important; }
+
+    /* ===== 正文排版放大与美化 ===== */
+    #contentArea .markdown-body {
+      font-size: 1.15rem !important;
+      line-height: 1.85 !important;
+      letter-spacing: 0.015em !important;
+      color: var(--color-text) !important;
+    }
+    #contentArea .markdown-body > * { max-width: 100% !important; }
+
+    /* 标题 */
+    #contentArea .markdown-body h1,
+    #contentArea .markdown-body h2,
+    #contentArea .markdown-body h3,
+    #contentArea .markdown-body h4,
+    #contentArea .markdown-body h5,
+    #contentArea .markdown-body h6 {
+      color: var(--color-heading) !important;
+      font-weight: 700 !important;
+      line-height: 1.3 !important;
+      margin-top: 1.6em !important;
+      margin-bottom: 0.7em !important;
+    }
+    #contentArea .markdown-body h1 { font-size: 2em !important; padding-bottom: 0.3em !important; border-bottom: 2px solid var(--color-border) !important; }
+    #contentArea .markdown-body h2 { font-size: 1.6em !important; padding-bottom: 0.25em !important; border-bottom: 1px solid var(--color-border) !important; }
+    #contentArea .markdown-body h3 { font-size: 1.35em !important; }
+    #contentArea .markdown-body h4 { font-size: 1.18em !important; }
+    #contentArea .markdown-body h5 { font-size: 1.04em !important; }
+    #contentArea .markdown-body h6 { font-size: 0.94em !important; color: var(--color-text-muted) !important; text-transform: uppercase !important; letter-spacing: 0.05em !important; }
+
+    /* 段落与强调 */
+    #contentArea .markdown-body p { margin: 0 0 1.1em !important; line-height: 1.85 !important; }
+    #contentArea .markdown-body strong { color: var(--color-heading) !important; font-weight: 700 !important; }
+    #contentArea .markdown-body em { color: var(--color-text-muted) !important; }
+    #contentArea .markdown-body mark { background: rgba(230, 126, 34, 0.28) !important; color: var(--color-text-light) !important; padding: 0 0.25em !important; border-radius: var(--radius-sm) !important; }
+
+    /* 链接（统一橙色强调） */
+    #contentArea .markdown-body a {
+      color: var(--color-accent) !important;
+      text-decoration: none !important;
+      border-bottom: 1px solid rgba(230, 126, 34, 0.4) !important;
+      transition: border-color .2s, color .2s !important;
+    }
+    #contentArea .markdown-body a:hover { color: var(--color-accent-secondary) !important; border-bottom-color: var(--color-accent-secondary) !important; }
+
+    /* 列表 */
+    #contentArea .markdown-body ul,
+    #contentArea .markdown-body ol { margin: 0 0 1.1em !important; padding-left: 1.6em !important; }
+    #contentArea .markdown-body li { margin: 0.35em 0 !important; line-height: 1.85 !important; }
+    #contentArea .markdown-body li::marker { color: var(--color-accent) !important; }
+    #contentArea .markdown-body li.task-list-item { list-style: none !important; }
+    #contentArea .markdown-body input[type="checkbox"] { margin-right: 0.5em !important; transform: translateY(1px); }
+
+    /* 引用块 */
+    #contentArea .markdown-body blockquote {
+      margin: 0 0 1.2em !important;
+      padding: 0.9em 1.3em !important;
+      border-left: 4px solid var(--color-accent) !important;
+      background: var(--color-surface-alt, rgba(255, 255, 255, 0.05)) !important;
+      border-radius: 0 var(--radius-md) var(--radius-md) 0 !important;
+      color: var(--color-text-muted) !important;
+    }
+    #contentArea .markdown-body blockquote p { margin: 0 !important; }
+
+    /* 内联代码 */
+    #contentArea .markdown-body code {
+      font-family: 'SFMono-Regular', Consolas, 'Liberation Mono', Menlo, monospace !important;
+      font-size: 0.9em !important;
+      background: var(--color-surface-alt, rgba(255, 255, 255, 0.1)) !important;
+      padding: 0.2em 0.45em !important;
+      border-radius: var(--radius-sm) !important;
+      color: #e6a8ff !important;
+      border: 1px solid var(--color-border) !important;
+    }
+
+    /* 代码块（顶部渐变线） */
+    #contentArea .markdown-body pre {
+      position: relative !important;
+      margin: 0 0 1.2em !important;
+      padding: 1.3em 1.3em 1.1em !important;
+      background: #1e2a3a !important;
+      border: 1px solid var(--color-border) !important;
+      border-radius: var(--radius-md) !important;
+      overflow-x: auto !important;
+      line-height: 1.6 !important;
+    }
+    #contentArea .markdown-body pre::before {
+      content: '' !important;
+      position: absolute !important;
+      top: 0 !important; left: 0 !important; right: 0 !important;
+      height: 3px !important;
+      background: linear-gradient(90deg, var(--color-accent), var(--color-accent-secondary)) !important;
+      border-radius: var(--radius-md) var(--radius-md) 0 0 !important;
+    }
+    #contentArea .markdown-body pre code { background: transparent !important; padding: 0 !important; border: none !important; color: inherit !important; font-size: 0.9em !important; }
+
+    /* 表格 */
+    #contentArea .markdown-body table {
+      width: 100% !important;
+      border-collapse: collapse !important;
+      margin: 0 0 1.2em !important;
+      font-size: 0.95em !important;
+      border-radius: var(--radius-md) !important;
+      overflow: hidden !important;
+      border: 1px solid var(--color-border) !important;
+    }
+    #contentArea .markdown-body th,
+    #contentArea .markdown-body td { border: 1px solid var(--color-border) !important; padding: 0.65em 0.95em !important; }
+    #contentArea .markdown-body th { background: var(--color-surface-alt, rgba(255, 255, 255, 0.06)) !important; font-weight: 700 !important; color: var(--color-heading) !important; }
+    #contentArea .markdown-body tbody tr:nth-child(even) { background: rgba(255, 255, 255, 0.03) !important; }
+
+    /* 定义列表 */
+    #contentArea .markdown-body dl { margin: 0 0 1.2em !important; }
+    #contentArea .markdown-body dt { font-weight: 700 !important; color: var(--color-heading) !important; margin-top: 0.6em !important; }
+    #contentArea .markdown-body dd { margin: 0 0 0.4em !important; color: var(--color-text-muted) !important; }
+
+    /* 键盘按键 */
+    #contentArea .markdown-body kbd {
+      font-family: 'SFMono-Regular', Consolas, monospace !important;
+      font-size: 0.85em !important;
+      background: var(--color-surface-alt, rgba(255, 255, 255, 0.1)) !important;
+      border: 1px solid var(--color-border) !important;
+      border-bottom-width: 2px !important;
+      border-radius: var(--radius-sm) !important;
+      padding: 0.1em 0.5em !important;
+      color: var(--color-text) !important;
+    }
+
+    /* 图片 */
+    #contentArea .markdown-body img {
+      max-width: 100% !important;
+      border-radius: var(--radius-md) !important;
+      box-shadow: var(--shadow-sm) !important;
+      margin: 0.6em 0 !important;
+      display: block !important;
+    }
+
+    /* 分隔线 */
+    #contentArea .markdown-body hr { border: none !important; border-top: 1px solid var(--color-border) !important; margin: 1.8em 0 !important; }
+
+    /* 脚注/上标链接 */
+    #contentArea .markdown-body sup a { color: var(--color-accent) !important; }
+
+    /* 移动端 */
+    @media (max-width: 768px) {
+      .container { padding: var(--spacing-lg) var(--spacing-md) !important; }
+      #contentArea .markdown-body { padding: var(--spacing-lg) var(--spacing-md) !important; }
+    }
+    /* ===== 返回顶部浮动按钮 ===== */
+    #backToTop {
+      position: fixed;
+      right: 24px;
+      bottom: 24px;
+      width: 48px;
+      height: 48px;
+      border: none;
+      border-radius: 50%;
+      background: linear-gradient(135deg, var(--color-accent), var(--color-accent-secondary));
+      color: #fff;
+      font-size: 18px;
+      cursor: pointer;
+      box-shadow: var(--shadow-lg);
+      opacity: 0;
+      visibility: hidden;
+      transform: translateY(16px) scale(0.9);
+      transition: opacity 0.3s ease, transform 0.3s ease, visibility 0.3s, box-shadow 0.3s ease;
+      z-index: 1000;
+    }
+    #backToTop.show {
+      opacity: 1;
+      visibility: visible;
+      transform: translateY(0) scale(1);
+    }
+    #backToTop:hover {
+      transform: translateY(-3px) scale(1.05);
+      box-shadow: var(--shadow-xl);
+    }
+  </style>
 </head>
 <body>
   <div class="container">
@@ -332,6 +578,32 @@
         renderFile(rawFile);
       })();
     })();
+
+    // 返回顶部浮动按钮：滚动超过阈值时显示，点击平滑回到顶部
+    // 注意：按钮元素在脚本之后，需等 DOM 解析完成再绑定
+    (function () {
+      const init = function () {
+        const btn = document.getElementById('backToTop');
+        if (!btn) return;
+        const onScroll = function () {
+          if (window.scrollY > 400) btn.classList.add('show');
+          else btn.classList.remove('show');
+        };
+        window.addEventListener('scroll', onScroll, { passive: true });
+        onScroll();
+        btn.addEventListener('click', function () {
+          window.scrollTo({ top: 0, behavior: 'smooth' });
+        });
+      };
+      if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', init);
+      } else {
+        init();
+      }
+    })();
   </script>
+  <button id="backToTop" aria-label="返回顶部" title="返回顶部">
+    <i class="fas fa-arrow-up"></i>
+  </button>
 </body>
 </html>
