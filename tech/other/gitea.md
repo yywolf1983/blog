@@ -1,3 +1,4 @@
+podman machine init --volume /Users/yy:/Users/yy --now
 
 
 cp gitea-dump-1786257249.zip gitea:/var/lib/gitea/
@@ -21,9 +22,9 @@ mv data/* /var/lib/gitea
 # restore the repositories itself
 # 注意这里要改到用户下
 
-mv repos/* /var/lib/gitea/git/repositories
-mv repos/* /var/lib/gitea/git/repositories/用户名
-# adjust file permissions
+mv repos/* /var/lib/gitea/git/repositories  
+mv repos/* /var/lib/gitea/git/repositories/用户名. 
+# adjust file permissions  
 
 chown -R git:git /etc/gitea/app.ini /var/lib/gitea
 

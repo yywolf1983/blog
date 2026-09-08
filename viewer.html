@@ -7,26 +7,7 @@
   <link rel="stylesheet" href="assets/vendor/font-awesome/6.4.0/css/all.min.css">
   <link rel="stylesheet" href="assets/css/theme.css">
   <link rel="stylesheet" href="assets/css/md.css">
-</head>
-<body>
-  <div class="container">
-    <div class="header">
-      <h1><i class="fas fa-file-alt"></i> File Viewer</h1>
-    </div>
-    
-    <div class="breadcrumb" id="breadcrumb">
-      <a href="index.html">首页</a>
-    </div>
-    
-    <div class="content">
-      <div id="contentArea">
-        <div class="loading">
-          <i class="fas fa-spinner fa-spin"></i> 加载中...
-        </div>
-      </div>
-    </div>
-  </div>
-  
+  <link rel="stylesheet" href="assets/css/viewer-md.css">
   <script>
     window.MathJax = {
       tex: {
@@ -44,186 +25,313 @@
       }
     };
   </script>
-  <link rel="stylesheet" href="assets/css/viewer-md.css">
   <script src="assets/vendor/marked/9.1.2/marked.min.js"></script>
+  <script src="assets/vendor/js-yaml/4.1.0/js-yaml.min.js"></script>
   <script src="assets/vendor/mathjax/3/es5/tex-svg-full.js" id="MathJax-script"></script>
-  <script>
-    const urlParams = new URLSearchParams(window.location.search);
-    const file = urlParams.get('file');
-    
-    if (!file) {
-      document.getElementById('contentArea').innerHTML = `
-        <div class="error">
-          <i class="fas fa-exclamation-circle"></i>
-          <p>未指定文件参数</p>
-          <p>请使用 ?file=路径/文件名 的格式访问</p>
+</head>
+<body>
+  <div class="container">
+    <div class="header">
+      <h1><i class="fas fa-file-alt"></i> File Viewer</h1>
+    </div>
+
+    <div class="breadcrumb" id="breadcrumb">
+      <a href="index.html">首页</a>
+    </div>
+
+    <div class="content">
+      <div id="contentArea">
+        <div class="loading">
+          <i class="fas fa-spinner fa-spin"></i> 加载中...
         </div>
-      `;
-    } else {
-      // 检测文件类型
-      const fileExtension = file.split('.').pop().toLowerCase();
+      </div>
+    </div>
+  </div>
+
+  <script>
+    (function () {
+      // 站点文件树配置（位于根目录，仅作为数据源，不对外展示）
+      const CONFIG_FILE = 'filetree.yaml';
+      const params = new URLSearchParams(window.location.search);
+      const rawFile = params.get('file');
       const contentArea = document.getElementById('contentArea');
-      
-      // 更新面包屑
-      const pathParts = file.split('/');
-      let breadcrumbHTML = '<a href="index.html">首页</a>';
-      pathParts.forEach((part, index) => {
-        if (index < pathParts.length - 1) {
-          breadcrumbHTML += `<span>/</span><a href="viewer.html?file=${pathParts.slice(0, index + 1).join('/')}/index.md">${part}</a>`;
-        } else {
-          breadcrumbHTML += `<span>/</span><span>${part}</span>`;
-        }
-      });
-      document.getElementById('breadcrumb').innerHTML = breadcrumbHTML;
-      document.title = pathParts[pathParts.length - 1] + ' - YY\'s Blog';
-      
-      // 处理不同类型的文件
-      if (['md', 'markdown'].includes(fileExtension)) {
-        // 处理Markdown文件
-        fetch(file)
-          .then(response => {
-            if (!response.ok) {
-              throw new Error('文件不存在');
-            }
-            return response.text();
-          })
-          .then(markdown => {
-            // 自定义 slugify：保留中英文与数字，去除其余符号并转小写
-            function slugify(text) {
-              return String(text)
-                .trim()
-                .replace(/[`*_~]/g, '')
-                .replace(/[^\w一-龥]/g, '')
-                .toLowerCase();
-            }
-            // 给标题生成稳定 id（中文标题也能正确锚定）
-            const renderer = new marked.Renderer();
-            renderer.heading = function(text, level, raw) {
-              const id = slugify(raw || text);
-              return `<h${level} id="${id}">${text}</h${level}>\n`;
-            };
-            marked.setOptions({ renderer: renderer, headerIds: false, mangle: false });
+      const breadcrumbEl = document.getElementById('breadcrumb');
 
-            const html = marked.parse(markdown);
-            // 检测是否是index.md文件
-            const isReadme = file.includes('index.md');
-            const className = isReadme ? 'markdown-body readme-file' : 'markdown-body regular-md-file';
-            contentArea.innerHTML = `<div class="${className}">${html}</div>`;
+      let FILETREE = null;
 
-            // 统一页内锚点链接 href，使其与标题 id 完全匹配
-            // 注意：DOM 中 href 的中文会被 percent-encode，需先 decode 再 slugify
-            contentArea.querySelectorAll('a[href^="#"]').forEach(a => {
-              let hash = a.getAttribute('href').slice(1);
-              try { hash = decodeURIComponent(hash); } catch (e) {}
-              if (hash) a.setAttribute('href', '#' + slugify(hash));
-            });
-
-            // 平滑滚动 + 避免被固定头部遮挡
-            contentArea.querySelectorAll('a[href^="#"]').forEach(a => {
-              a.addEventListener('click', function(e) {
-                let id = this.getAttribute('href').slice(1);
-                try { id = decodeURIComponent(id); } catch (err) {}
-                const target = document.getElementById(id);
-                if (target) {
-                  e.preventDefault();
-                  target.scrollIntoView({ behavior: 'smooth', block: 'start' });
-                  history.replaceState(null, '', '#' + encodeURIComponent(id));
-                }
-              });
-            });
-
-            // 触发MathJax渲染
-            if (window.MathJax) {
-              if (MathJax.typeset) {
-                MathJax.typeset();
-              } else if (MathJax.typesetPromise) {
-                MathJax.typesetPromise();
-              }
-            }
-          })
-          .catch(error => {
-            contentArea.innerHTML = `
-              <div class="error">
-                <i class="fas fa-exclamation-triangle"></i>
-                <p>加载失败: ${error.message}</p>
-                <p>文件: ${file}</p>
-              </div>
-            `;
-          });
-      } else if (['jpg', 'jpeg', 'png', 'gif', 'svg', 'bmp', 'webp'].includes(fileExtension)) {
-        // 处理图片文件
-        contentArea.innerHTML = `
-          <div class="image-viewer">
-            <img src="${file}" alt="${pathParts[pathParts.length - 1]}">
-            <p style="margin-top: 20px; color: #a0a0a0;">${pathParts[pathParts.length - 1]}</p>
-          </div>
-        `;
-      } else if (['html', 'htm'].includes(fileExtension)) {
-        // 处理HTML文件，使用iframe加载
-        contentArea.innerHTML = `
-          <div class="html-viewer">
-            <iframe id="htmlIframe" src="${file}" scrolling="no" style="width: 100%; border: none; border-radius: 8px; box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3); overflow: hidden;"></iframe>
-            <p style="margin-top: 15px; color: #a0a0a0;">${pathParts[pathParts.length - 1]}</p>
-          </div>
-        `;
-        // 动态调整iframe高度以适应内容
-        const iframe = document.getElementById('htmlIframe');
-        iframe.onload = function() {
-          try {
-            const contentHeight = iframe.contentWindow.document.body.scrollHeight;
-            iframe.style.height = contentHeight + 'px';
-          } catch (e) {
-            // 跨域安全限制，使用默认高度
-            iframe.style.height = '80vh';
-          }
-        };
-      } else if (['txt', 'text', 'log', 'md', 'markdown', 'css', 'js', 'json', 'xml', 'yml', 'yaml', 'ini', 'conf', 'sh', 'py', 'java', 'c', 'cpp', 'h', 'hpp', 'go', 'rs', 'php', 'rb', 'swift', 'kt', 'ts', 'jsx', 'tsx'].includes(fileExtension)) {
-        // 处理文本文件
-        fetch(file)
-          .then(response => {
-            if (!response.ok) {
-              throw new Error('文件不存在');
-            }
-            return response.text();
-          })
-          .then(text => {
-            contentArea.innerHTML = `
-              <div class="text-viewer">
-                <pre>${escapeHtml(text)}</pre>
-              </div>
-            `;
-          })
-          .catch(error => {
-            contentArea.innerHTML = `
-              <div class="error">
-                <i class="fas fa-exclamation-triangle"></i>
-                <p>加载失败: ${error.message}</p>
-                <p>文件: ${file}</p>
-              </div>
-            `;
-          });
-      } else {
-        // 处理二进制文件
-        contentArea.innerHTML = `
-          <div class="binary-file">
-            <div class="icon"><i class="fas fa-file-binary"></i></div>
-            <h3>${pathParts[pathParts.length - 1]}</h3>
-            <p style="margin: 20px 0; color: #a0a0a0;">这是一个二进制文件</p>
-            <a href="${file}" class="btn">下载</a>
-          </div>
-        `;
+      // 路径工具：按段编码，保留 /
+      function encPath(p) {
+        return String(p).split('/').map(encodeURIComponent).join('/');
       }
-    }
-    
-    // 转义HTML特殊字符
-    function escapeHtml(text) {
-      return text
-        .replace(/&/g, '&amp;')
-        .replace(/</g, '&lt;')
-        .replace(/>/g, '&gt;')
-        .replace(/"/g, '&quot;')
-        .replace(/'/g, '&#039;');
-    }
+      function normPath(p) {
+        return String(p == null ? '' : p).replace(/^\/+|\/+$/g, '');
+      }
+      function joinPath(base, name) {
+        return base ? base + '/' + name : name;
+      }
+
+      // 加载并解析文件树配置
+      async function loadFileTree() {
+        if (FILETREE) return FILETREE;
+        const res = await fetch(CONFIG_FILE, { cache: 'no-cache' });
+        if (!res.ok) throw new Error('无法加载文件树配置');
+        const text = await res.text();
+        FILETREE = window.jsyaml ? jsyaml.load(text) : JSON.parse(text);
+        return FILETREE;
+      }
+
+      // 判断当前请求是否为"目录浏览"，是则返回目录路径，否则返回 null
+      function resolveDirRequest(tree) {
+        const dirs = (tree && tree.dirs) || {};
+        // 未指定 file：浏览站点根目录
+        if (rawFile === null) return '';
+        const p = rawFile;
+        // 兼容旧链接：xxx/index.md 视为目录 xxx
+        if (p === 'index.md' || p.endsWith('/index.md')) {
+          return normPath(p.slice(0, p.length - 'index.md'.length));
+        }
+        // 以 / 结尾表示目录
+        if (p.endsWith('/')) return normPath(p);
+        const np = normPath(p);
+        // 无扩展名且配置中存在该目录
+        if (Object.prototype.hasOwnProperty.call(dirs, np)) return np;
+        return null;
+      }
+
+      // 设置面包屑（目录分级链接走目录浏览）
+      function setBreadcrumb(dirPath) {
+        let html = '<a href="index.html">首页</a>';
+        if (dirPath) {
+          const parts = dirPath.split('/');
+          let acc = '';
+          parts.forEach(function (part) {
+            acc = acc ? acc + '/' + part : part;
+            html += '<span>/</span><a href="viewer.html?file=' + encPath(acc) + '/">' + part + '</a>';
+          });
+        }
+        breadcrumbEl.innerHTML = html;
+      }
+
+      // 文件浏览时的面包屑（末级为文件名）
+      function setFileBreadcrumb(filePath) {
+        const parts = filePath.split('/');
+        let html = '<a href="index.html">首页</a>';
+        let acc = '';
+        parts.forEach(function (part, index) {
+          if (index < parts.length - 1) {
+            acc = acc ? acc + '/' + part : part;
+            html += '<span>/</span><a href="viewer.html?file=' + encPath(acc) + '/">' + part + '</a>';
+          } else {
+            html += '<span>/</span><span>' + part + '</span>';
+          }
+        });
+        breadcrumbEl.innerHTML = html;
+      }
+
+      // 自定义 slugify：保留中英文与数字，去除其余符号并转小写
+      function slugify(text) {
+        return String(text)
+          .trim()
+          .replace(/[`*_~]/g, '')
+          .replace(/[^\w一-龥]/g, '')
+          .toLowerCase();
+      }
+
+      // 渲染 Markdown（目录列表与普通文档共用）
+      function renderMarkdown(markdown, isDir) {
+        const renderer = new marked.Renderer();
+        renderer.heading = function (text, level, raw) {
+          const id = slugify(raw || text);
+          return '<h' + level + ' id="' + id + '">' + text + '</h' + level + '>\n';
+        };
+        marked.setOptions({ renderer: renderer, headerIds: false, mangle: false });
+
+        const html = marked.parse(markdown);
+        const className = isDir ? 'markdown-body readme-file' : 'markdown-body regular-md-file';
+        contentArea.innerHTML = '<div class="' + className + '">' + html + '</div>';
+
+        // 统一页内锚点链接 href，使其与标题 id 完全匹配（中文会被 percent-encode，需先 decode）
+        contentArea.querySelectorAll('a[href^="#"]').forEach(function (a) {
+          let hash = a.getAttribute('href').slice(1);
+          try { hash = decodeURIComponent(hash); } catch (e) {}
+          if (hash) a.setAttribute('href', '#' + slugify(hash));
+        });
+
+        contentArea.querySelectorAll('a[href^="#"]').forEach(function (a) {
+          a.addEventListener('click', function (e) {
+            let id = this.getAttribute('href').slice(1);
+            try { id = decodeURIComponent(id); } catch (err) {}
+            const target = document.getElementById(id);
+            if (target) {
+              e.preventDefault();
+              target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+              history.replaceState(null, '', '#' + encodeURIComponent(id));
+            }
+          });
+        });
+
+        if (window.MathJax) {
+          if (MathJax.typeset) {
+            MathJax.typeset();
+          } else if (MathJax.typesetPromise) {
+            MathJax.typesetPromise();
+          }
+        }
+      }
+
+      // 渲染目录列表（数据来自根配置文件，而非目录下的 index.md）
+      function renderDirectory(dirPath, tree) {
+        const node = tree.dirs[dirPath];
+        if (!node) return false;
+
+        const title = dirPath ? dirPath.split('/').pop() : (tree.root_title || '站点');
+        let md = '# ' + title + ' 目录\n\n';
+
+        if (!node.dirs.length && !node.files.length) {
+          md += '- （空目录）\n';
+        }
+
+        node.dirs.forEach(function (name) {
+          const p = joinPath(dirPath, name);
+          md += '- **[' + name + '/](viewer.html?file=' + encPath(p) + '/)**\n';
+        });
+        node.files.forEach(function (name) {
+          const p = joinPath(dirPath, name);
+          md += '- **[' + name + '](viewer.html?file=' + encPath(p) + ')**\n';
+        });
+
+        setBreadcrumb(dirPath);
+        document.title = title + ' - 目录浏览';
+        renderMarkdown(md, true);
+        return true;
+      }
+
+      function showError(title, detail) {
+        contentArea.innerHTML =
+          '<div class="error">' +
+          '<i class="fas fa-exclamation-triangle"></i>' +
+          '<p>' + title + '</p>' +
+          (detail ? '<p>' + detail + '</p>' : '') +
+          '<p><a href="index.html">返回首页</a></p>' +
+          '</div>';
+      }
+
+      // 配置文件不对外展示
+      function showConfigNotice() {
+        setBreadcrumb('');
+        document.title = '站点配置 - YY\'s Blog';
+        contentArea.innerHTML =
+          '<div class="error">' +
+          '<i class="fas fa-cog"></i>' +
+          '<p>该文件是站点配置文件，不提供预览</p>' +
+          '<p><a href="index.html">返回首页</a> · <a href="viewer.html">浏览全部文件</a></p>' +
+          '</div>';
+      }
+
+      // 按类型渲染具体文件
+      function renderFile(file) {
+        if (!file) {
+          showError('未指定文件参数', '请使用 ?file=路径/文件名 的格式访问，或直接浏览根目录');
+          return;
+        }
+
+        const fileExtension = file.split('.').pop().toLowerCase();
+        setFileBreadcrumb(file);
+        document.title = file.split('/').pop() + ' - YY\'s Blog';
+
+        if (['md', 'markdown'].includes(fileExtension)) {
+          fetch(file)
+            .then(function (response) {
+              if (!response.ok) throw new Error('文件不存在');
+              return response.text();
+            })
+            .then(function (markdown) {
+              renderMarkdown(markdown, false);
+            })
+            .catch(function (error) {
+              showError('加载失败: ' + error.message, '文件: ' + file);
+            });
+        } else if (['jpg', 'jpeg', 'png', 'gif', 'svg', 'bmp', 'webp'].includes(fileExtension)) {
+          contentArea.innerHTML =
+            '<div class="image-viewer">' +
+            '<img src="' + encPath(file) + '" alt="' + file.split('/').pop() + '">' +
+            '<p style="margin-top: 20px; color: #a0a0a0;">' + file.split('/').pop() + '</p>' +
+            '</div>';
+        } else if (['html', 'htm'].includes(fileExtension)) {
+          contentArea.innerHTML =
+            '<div class="html-viewer">' +
+            '<iframe id="htmlIframe" src="' + encPath(file) + '" scrolling="no" style="width: 100%; border: none; border-radius: 8px; box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3); overflow: hidden;"></iframe>' +
+            '<p style="margin-top: 15px; color: #a0a0a0;">' + file.split('/').pop() + '</p>' +
+            '</div>';
+          const iframe = document.getElementById('htmlIframe');
+          iframe.onload = function () {
+            try {
+              iframe.style.height = iframe.contentWindow.document.body.scrollHeight + 'px';
+            } catch (e) {
+              iframe.style.height = '80vh';
+            }
+          };
+        } else if (['txt', 'text', 'log', 'css', 'js', 'json', 'xml', 'yml', 'yaml', 'ini', 'conf', 'sh', 'py', 'java', 'c', 'cpp', 'h', 'hpp', 'go', 'rs', 'php', 'rb', 'swift', 'kt', 'ts', 'jsx', 'tsx'].includes(fileExtension)) {
+          fetch(file)
+            .then(function (response) {
+              if (!response.ok) throw new Error('文件不存在');
+              return response.text();
+            })
+            .then(function (text) {
+              contentArea.innerHTML =
+                '<div class="text-viewer"><pre>' + escapeHtml(text) + '</pre></div>';
+            })
+            .catch(function (error) {
+              showError('加载失败: ' + error.message, '文件: ' + file);
+            });
+        } else {
+          contentArea.innerHTML =
+            '<div class="binary-file">' +
+            '<div class="icon"><i class="fas fa-file-binary"></i></div>' +
+            '<h3>' + file.split('/').pop() + '</h3>' +
+            '<p style="margin: 20px 0; color: #a0a0a0;">这是一个二进制文件</p>' +
+            '<a href="' + encPath(file) + '" class="btn">下载</a>' +
+            '</div>';
+        }
+      }
+
+      function escapeHtml(text) {
+        return text
+          .replace(/&/g, '&amp;')
+          .replace(/</g, '&lt;')
+          .replace(/>/g, '&gt;')
+          .replace(/"/g, '&quot;')
+          .replace(/'/g, '&#039;');
+      }
+
+      // 主流程
+      (async function init() {
+        // 配置文件本身不展示
+        if (normPath(rawFile) === CONFIG_FILE) {
+          showConfigNotice();
+          return;
+        }
+
+        let tree = null;
+        try {
+          tree = await loadFileTree();
+        } catch (e) {
+          tree = null;
+        }
+
+        if (tree && tree.dirs) {
+          const dir = resolveDirRequest(tree);
+          if (dir !== null && renderDirectory(dir, tree)) return;
+        }
+
+        // 配置不可用或未命中目录时，按原逻辑渲染文件
+        if (rawFile === null) {
+          showError('无法加载站点配置', '请先运行 python3 generate_readme.py 生成 ' + CONFIG_FILE);
+          return;
+        }
+        renderFile(rawFile);
+      })();
+    })();
   </script>
 </body>
 </html>
