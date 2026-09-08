@@ -17,13 +17,13 @@
         <i class="fas fa-spinner fa-spin"></i> 加载中...
       </div>
     </div>
-    
+
     <div id="contentSections">
       <div class="loading">
         <i class="fas fa-spinner fa-spin"></i> 加载内容中...
       </div>
     </div>
-    
+
     <div class="footer" id="footer">
       <div class="loading">
         <i class="fas fa-spinner fa-spin"></i> 加载中...
@@ -33,40 +33,77 @@
   <!-- YAML解析库 -->
   <script src="assets/vendor/js-yaml/4.1.0/js-yaml.min.js"></script>
   <script>
-    // 加载并解析YAML文件
-    async function loadWebsiteConfig() {
-      try {
-        const response = await fetch('website.yaml');
-        if (!response.ok) {
-          throw new Error('无法加载配置文件');
-        }
-        const yamlText = await response.text();
-        return jsyaml.load(yamlText);
-      } catch (error) {
-        console.error('加载配置文件失败:', error);
-        return null;
-      }
+    const CONFIG_URL = 'website.yaml';
+    const CACHE_KEY = 'website.yaml.cache.v1';
+
+    // 生成 viewer 链接：站内相对路径走 viewer.html，绝对 URL（http/https、//、mailto 等）原样返回
+    function viewerUrl(link) {
+      if (!link) return 'viewer.html';
+      if (/^(https?:)?\/\//i.test(link) || /^(mailto:|tel:|#)/i.test(link)) return link;
+      return 'viewer.html?file=' + String(link).split('/').map(encodeURIComponent).join('/');
     }
-    
+
+    // 轻量同步哈希，用于判断配置内容是否变化（FNV-1a）
+    function hashString(str) {
+      let h = 0x811c9dc5;
+      for (let i = 0; i < str.length; i++) {
+        h ^= str.charCodeAt(i);
+        h = Math.imul(h, 0x01000193);
+      }
+      return (h >>> 0).toString(16);
+    }
+
+    // 加载并解析YAML文件：
+    //  - 浏览器 HTTP 缓存 + 服务器 304 校验减少重复传输
+    //  - sessionStorage 缓存解析结果，内容哈希一致时跳过解析
+    //  - 配置内容变化（哈希不同）自动重新解析，普通刷新即可生效
+    async function loadWebsiteConfig() {
+      for (let attempt = 0; attempt < 2; attempt++) {
+        try {
+          const response = await fetch(CONFIG_URL); // 默认缓存，依赖服务器 304
+          if (!response.ok) throw new Error('无法加载配置文件');
+          const yamlText = await response.text();
+          const hash = hashString(yamlText);
+          let cached = null;
+          try { cached = JSON.parse(sessionStorage.getItem(CACHE_KEY) || 'null'); } catch (e) {}
+          if (cached && cached.hash === hash) {
+            return cached.data; // 内容未变，直接复用缓存，跳过解析
+          }
+          const data = jsyaml.load(yamlText);
+          try { sessionStorage.setItem(CACHE_KEY, JSON.stringify({ hash, data })); } catch (e) {}
+          return data;
+        } catch (error) {
+          if (attempt === 1) {
+            console.error('加载配置文件失败:', error);
+            return null;
+          }
+          await new Promise(resolve => setTimeout(resolve, 400));
+        }
+      }
+      return null;
+    }
+
     // 生成页面内容
     function generatePageContent(config) {
-      // 更新网站标题
+      // 更新网站标题与描述
       document.title = config.name || '网站标题';
-      
+      const metaDesc = document.querySelector('meta[name="description"]');
+      if (metaDesc) metaDesc.setAttribute('content', config.description || '');
+
       // 更新头部
       const header = document.getElementById('header');
       let headerHTML = `
         <div class="header-top">
           <div class="logo-container">
       `;
-      
+
       // 添加logo
       if (config.logo) {
-        headerHTML += `<img src="${config.logo}" alt="${config.name || '网站logo'}" class="logo">`;
+        headerHTML += `<img src="${config.logo}" alt="${config.name || '网站logo'}" class="logo" loading="lazy">`;
       } else {
         headerHTML += `<div class="logo"><i class="fas fa-blog" style="font-size: 48px; color: var(--color-accent); padding: 16px;"></i></div>`;
       }
-      
+
       headerHTML += `
             <div class="header-info">
               <h1><i class="fas fa-blog" style="margin-right: 10px; color: var(--color-accent); text-shadow: 0 0 15px var(--color-accent);"></i> ${config.name || '网站标题'}</h1>
@@ -75,7 +112,7 @@
           </div>
         </div>
       `;
-      
+
       // 添加分类导航
       if (config.categories && config.categories.length > 0) {
         headerHTML += `
@@ -83,7 +120,7 @@
         `;
         config.categories.forEach(category => {
           headerHTML += `
-            <a href="viewer.html?file=${category.link}${category.link.endsWith('/') ? 'index.md' : ''}" class="category-item">
+            <a href="${viewerUrl(category.link)}" class="category-item">
               <i class="fas fa-${category.icon || 'folder'}"></i>
               ${category.title}
             </a>
@@ -93,21 +130,21 @@
           </div>
         `;
       }
-      
+
       header.innerHTML = headerHTML;
-      
+
       // 更新内容部分
       const contentSections = document.getElementById('contentSections');
       contentSections.innerHTML = '';
-      
+
       // 生成内容区块
       if (config.sections) {
         config.sections.forEach(section => {
           const sectionElement = document.createElement('div');
           sectionElement.className = 'content-section';
-          
+
           let sectionHTML = `<h2><i class="fas fa-layer-group" style="margin-right: 20px; color: var(--color-accent); text-shadow: 0 0 15px var(--color-accent);"></i>${section.title || '区块标题'}</h2>`;
-          
+
           if (section.content) {
             section.content.forEach(item => {
               if (item.type === 'paragraph') {
@@ -120,7 +157,7 @@
                 if (item.items) {
                   item.items.forEach(listItem => {
                     if (typeof listItem === 'object' && listItem.text && listItem.link) {
-                      sectionHTML += `<li><a href="viewer.html?file=${listItem.link}">${listItem.text}</a></li>`;
+                      sectionHTML += `<li><a href="${viewerUrl(listItem.link)}">${listItem.text}</a></li>`;
                     } else {
                       sectionHTML += `<li>${listItem || ''}</li>`;
                     }
@@ -140,15 +177,15 @@
                 card.innerHTML = `
                   <h3><i class="fas fa-file-alt" style="margin-right: 15px; color: var(--color-accent); text-shadow: 0 0 10px var(--color-accent);"></i>${item.title || '卡片标题'}</h3>
                   <p>${item.description || ''}</p>
-                  ${item.link ? `<a href="viewer.html?file=${item.link}">查看详情 <i class="fas fa-arrow-right"></i></a>` : ''}
+                  ${item.link ? `<a href="${viewerUrl(item.link)}">查看详情 <i class="fas fa-arrow-right"></i></a>` : ''}
                 `;
                 grid.appendChild(card);
               } else if (item.type === 'link') {
-                sectionHTML += `<p><a href="viewer.html?file=${item.link}" class="btn">${item.text || '链接'}</a></p>`;
+                sectionHTML += `<p><a href="${viewerUrl(item.link)}" class="btn">${item.text || '链接'}</a></p>`;
               }
             });
           }
-          
+
           sectionElement.innerHTML = sectionHTML;
           contentSections.appendChild(sectionElement);
         });
@@ -163,12 +200,12 @@
         `;
         contentSections.appendChild(defaultSection);
       }
-      
+
       // 更新页脚
       const footer = document.getElementById('footer');
       footer.innerHTML = `<p>${config.footer || '&copy; 2026 网站名称. All rights reserved.'}</p>`;
     }
-    
+
     // 初始化网站
     async function initWebsite() {
       const config = await loadWebsiteConfig();
@@ -177,6 +214,7 @@
         generatePageContent(config);
       } else {
         // 加载失败
+        document.title = '加载失败 - 网站';
         document.getElementById('header').innerHTML = `
           <h1 style="color: var(--color-accent);"><i class="fas fa-exclamation-circle"></i> 加载失败</h1>
           <p>无法加载配置文件，请检查文件是否存在。</p>
@@ -191,7 +229,7 @@
         document.getElementById('footer').innerHTML = '<p>&copy; 2026 网站名称. All rights reserved.</p>';
       }
     }
-    
+
     // 页面加载完成后初始化
     window.addEventListener('DOMContentLoaded', initWebsite);
   </script>
