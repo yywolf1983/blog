@@ -416,6 +416,32 @@
           });
         });
 
+        // 将 md 内部链接改写为通过 viewer 打开
+        // 覆盖：以 / 开头的站点绝对路径（如 /notes/abc.md）以及相对路径（./、../、xxx.md）
+        (function () {
+          const curFile = new URLSearchParams(location.search).get('file') || '';
+          const baseDir = curFile ? curFile.replace(/\/[^/]*$/, '').replace(/\/$/, '') : '';
+          contentArea.querySelectorAll('a[href]').forEach(function (a) {
+            const href = a.getAttribute('href');
+            if (!href) return;
+            if (/^(#|https?:|mailto:|javascript:|viewer\.html)/i.test(href)) return;
+            let target;
+            if (href.charAt(0) === '/') {
+              target = href.slice(1);
+            } else {
+              const parts = (baseDir ? baseDir + '/' : '') + href;
+              const stack = [];
+              parts.split('/').forEach(function (p) {
+                if (p === '' || p === '.') return;
+                if (p === '..') stack.pop();
+                else stack.push(p);
+              });
+              target = stack.join('/');
+            }
+            if (target) a.setAttribute('href', 'viewer.html?file=' + encPath(target));
+          });
+        })();
+
         if (window.MathJax) {
           if (MathJax.typeset) {
             MathJax.typeset();
