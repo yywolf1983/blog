@@ -3,32 +3,32 @@
 /* 颜色变量定义 */
 :root {
   /* 主色调系统 - 沉稳专业版 */
-  --color-primary: #2C3E50; /* 深夜蓝 - 主色 */
+  --color-primary: #1F2A37; /* 深夜蓝 - 主色（更沉稳） */
   --color-secondary: #D5DBDB; /* 浅灰 - 辅助色 */
-  --color-accent: #E67E22; /* 深橙色 - 强调色 */
-  --color-accent-secondary: #F39C12; /* 旭日橙 - 第二强调色 */
+  --color-accent: #D17C45; /* 暖赤陶橙 - 强调色（更暖更克制） */
+  --color-accent-secondary: #E0A362; /* 暖金 - 第二强调色 */
   --color-neutral: #7F8C8D; /* 深灰色 - 中性色 */
 
   /* 文字 */
-  --color-text: #ECF0F1; /* 云雾白 - 正文 */
+  --color-text: #EAF0F6; /* 提亮正文，对比更好 */
   --color-text-light: #FFFFFF;
-  --color-text-muted: #BDC3C7; /* 中灰色 - 次要文字 */
+  --color-text-muted: #A6B4C2; /* 柔和次要文字 */
 
   /* 功能区域颜色 */
-  --color-bg: #34495E; /* 深蓝灰 - 页面背景 */
-  --color-nav: #2C3E50; /* 深夜蓝 - 导航栏 */
-  --color-sidebar: #2C3E50; /* 深夜蓝 - 侧边栏 */
-  --color-surface: #2C3E50; /* 卡片表面（与导航一致） */
+  --color-bg: #2A3744; /* 深蓝灰 - 页面背景（沉稳现代） */
+  --color-nav: #25313D; /* 深夜蓝 - 导航栏 */
+  --color-sidebar: #25313D; /* 深夜蓝 - 侧边栏 */
+  --color-surface: #33424F; /* 卡片表面（比背景亮一档，突出层次） */
   --color-surface-alt: rgba(255, 255, 255, 0.06); /* 悬停/代码底 */
-  --color-heading: #ECF0F1; /* 标题 */
+  --color-heading: #F3F7FB; /* 标题（更亮） */
   --color-link: #E67E22; /* 深橙色 - 链接 */
-  --color-border: #5D6D7E; /* 中灰色 - 边框 */
-  --color-code: #2C3E50; /* 代码块 */
-  --color-code-background: #2C3E50;
-  --color-quote: #2C3E50; /* 引用块 */
-  --color-background: #34495E; /* 页面背景 */
-  --color-background-secondary: #2C3E50; /* 次要背景 */
-  --color-text-secondary: #BDC3C7; /* 次要文本 */
+  --color-border: #445666; /* 柔和边框（比背景亮，可见而不刺眼） */
+  --color-code: #1E2832; /* 代码块 */
+  --color-code-background: #1E2832;
+  --color-quote: #2E3B47; /* 引用块 */
+  --color-background: #2A3744; /* 页面背景 */
+  --color-background-secondary: #25313D; /* 次要背景 */
+  --color-text-secondary: #A6B4C2; /* 次要文本 */
 
   /* 板块专属颜色 */
   --color-tech: #E67E22;
