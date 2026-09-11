@@ -1,5 +1,6 @@
 ## 〇 无极 〇
 
+
 * 未名 世玄
 * 全真龙门派散修弟子
 * 不会code的IT从业者
@@ -55,11 +56,11 @@ KISS = Keep It Simple and Stupid
 无形无相 有形有相 执念而成
 --2014.12.11
 
-[遗嘱](/dao/遗嘱.md) 
+[遗嘱](/notes/遗嘱.md) 
 
 ## 鹤
 
-<img src="assets/鹤隐.jpg"  width="150px" ></img>
+<img src="/assets/鹤隐.jpg"  width="250px" ></img>
 
 ## mail
 
