@@ -21,6 +21,7 @@ quien  dig 简化版本
 serie  git log工具
 https://github.com/Veirt/weathr  有趣的天气软件
 pwndbg  另一种gdb
+chafa 一个命令行看图工具
 
 NTrace-core  網絡嗅探
 
