@@ -1,5 +1,5 @@
-btop
-alacritty 终端
+btop  
+alacritty 终端  
 flameshot 截图
 timeshift 快照
 git
@@ -7,15 +7,17 @@ Aria2 + AriaNg
 firefox
 foliate  阅读
 syncting
-deskflow 多机
+deskflow 多机鼠标
 conky
 fcitx5
 freerdp
+Remmina    远程
 zsh
 gpg
 pass
-nvim
+nvim    放弃
 kalker
+audacious  音乐播放
 
 quien  dig 简化版本
 serie  git log工具
@@ -35,10 +37,5 @@ libreoffice
 cargo install tokei
 
 
-# kalaer
-
-sudo wget -qO /usr/local/bin/kalker https://github.com/PaddiM8/kalker/releases/latest/download/kalker-linux
-sudo chmod +x /usr/local/bin/kalker
-
-alias kalker='kalker -i ~/.config/kalker/constants.kalker'
+numbat  数学计算
 
