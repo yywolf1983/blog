@@ -15,9 +15,31 @@ zsh
 gpg
 pass
 nvim
+kalker
+
+quien  dig 简化版本
+serie  git log工具
+https://github.com/Veirt/weathr  有趣的天气软件
+pwndbg  另一种gdb
+chafa 一个命令行看图工具
+
+NTrace-core  網絡嗅探
 
 gnome-session-flashback
 
 vlc
 dbeaver 
 libreoffice
+
+# 代码统计
+
+cargo install tokei
+
+
+# kalaer
+
+sudo wget -qO /usr/local/bin/kalker https://github.com/PaddiM8/kalker/releases/latest/download/kalker-linux
+sudo chmod +x /usr/local/bin/kalker
+
+alias kalker='kalker -i ~/.config/kalker/constants.kalker'
+

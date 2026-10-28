@@ -1,4 +1,3 @@
-
 ## 〇 无极 〇
 
 * 未名 世玄
@@ -13,7 +12,7 @@
     debian
     i3+tint2
     rofi
-    sakura
+    sakura 换成 alacritty
     vim
     cheat
     firefox

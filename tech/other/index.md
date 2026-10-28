@@ -2,12 +2,12 @@
 
 ## 文件列表
 
-- **[.venv/](viewer.html?file=tech/other/.venv/index.md)**
 - **[android.md](viewer.html?file=tech/other/android.md)**
 - **[cryptsetup.md](viewer.html?file=tech/other/cryptsetup.md)**
 - **[eth/](viewer.html?file=tech/other/eth/index.md)**
 - **[ffmpeg.md](viewer.html?file=tech/other/ffmpeg.md)**
 - **[frp.md](viewer.html?file=tech/other/frp.md)**
+- **[gitea.md](viewer.html?file=tech/other/gitea.md)**
 - **[go.md](viewer.html?file=tech/other/go.md)**
 - **[ipfs.md](viewer.html?file=tech/other/ipfs.md)**
 - **[letsencrypt免费证书.md](viewer.html?file=tech/other/letsencrypt免费证书.md)**
@@ -22,6 +22,7 @@
 - **[qemu.md](viewer.html?file=tech/other/qemu.md)**
 - **[scrcpy.md](viewer.html?file=tech/other/scrcpy.md)**
 - **[stress.md](viewer.html?file=tech/other/stress.md)**
+- **[syncthing故障处理.md](viewer.html?file=tech/other/syncthing故障处理.md)**
 - **[tails.md](viewer.html?file=tech/other/tails.md)**
 - **[tcpdump.md](viewer.html?file=tech/other/tcpdump.md)**
 - **[vbox.md](viewer.html?file=tech/other/vbox.md)**

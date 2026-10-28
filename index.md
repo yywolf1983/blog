@@ -2,7 +2,8 @@
 
 ## 文件列表
 
-- **[._.DS_Store](viewer.html?file=._.DS_Store)**
+- **[.venv/](viewer.html?file=.venv/index.md)**
+- **[.vscode/](viewer.html?file=.vscode/index.md)**
 - **[CNAME](viewer.html?file=CNAME)**
 - **[assets/](viewer.html?file=assets/index.md)**
 - **[culture/](viewer.html?file=culture/index.md)**
@@ -14,7 +15,6 @@
 - **[notes/](viewer.html?file=notes/index.md)**
 - **[other/](viewer.html?file=other/index.md)**
 - **[resources/](viewer.html?file=resources/index.md)**
-- **[skills/](viewer.html?file=skills/index.md)**
 - **[tech/](viewer.html?file=tech/index.md)**
 - **[viewer.html](viewer.html?file=viewer.html)**
 - **[website.yaml](viewer.html?file=website.yaml)**
