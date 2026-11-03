@@ -25,6 +25,8 @@ https://github.com/Veirt/weathr  有趣的天气软件
 pwndbg  另一种gdb
 chafa 一个命令行看图工具
 
+drawio  矢量绘图
+
 NTrace-core  網絡嗅探
 
 gnome-session-flashback
@@ -39,4 +41,6 @@ cargo install tokei
 
 
 numbat  数学计算
+
+sudo apt install fonts-wqy-microhei fonts-noto-cjk
 
